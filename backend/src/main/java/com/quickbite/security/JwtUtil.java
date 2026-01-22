@@ -16,10 +16,15 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-    private final String SECRET_KEY = "supersecretkeysupersecretkeysupersecretkey"; // Must be >= 256 bits
+    @org.springframework.beans.factory.annotation.Value("${application.security.jwt.secret-key}")
+    private String secretKey;
+
+    @org.springframework.beans.factory.annotation.Value("${application.security.jwt.expiration}")
+    private long jwtExpiration;
 
     private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+        byte[] keyBytes = io.jsonwebtoken.io.Decoders.BASE64.decode(secretKey);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String extractUsername(String token) {
@@ -44,7 +49,7 @@ public class JwtUtil {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

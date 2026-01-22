@@ -29,4 +29,26 @@ public class AuthenticationController {
             @RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(service.authenticate(request));
     }
+
+    @PostMapping("/verify-otp")
+    public ResponseEntity<String> verifyOtp(@RequestBody OtpRequest request) {
+        boolean isValid = service.verifyOtp(request.getEmail(), request.getOtp());
+        if (isValid) {
+            return ResponseEntity.ok("OTP Verified");
+        } else {
+            return ResponseEntity.status(401).body("Invalid OTP");
+        }
+    }
+
+    @PostMapping("/resend-otp")
+    public ResponseEntity<String> resendOtp(@org.springframework.web.bind.annotation.RequestParam String email) {
+        service.generateOtp(email);
+        return ResponseEntity.ok("OTP Sent");
+    }
+
+    @lombok.Data
+    static class OtpRequest {
+        private String email;
+        private String otp;
+    }
 }
