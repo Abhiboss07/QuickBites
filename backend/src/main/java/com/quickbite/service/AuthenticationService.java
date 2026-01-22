@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class AuthenticationService {
 
         private final UserRepository repository;
@@ -23,23 +22,32 @@ public class AuthenticationService {
         private final JwtUtil jwtUtil;
         private final AuthenticationManager authenticationManager;
 
+        public AuthenticationService(UserRepository repository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil,
+                        AuthenticationManager authenticationManager) {
+                this.repository = repository;
+                this.passwordEncoder = passwordEncoder;
+                this.jwtUtil = jwtUtil;
+                this.authenticationManager = authenticationManager;
+        }
+
         public AuthenticationResponse register(RegisterRequest request) {
                 var role = request.getRole() != null ? request.getRole() : Role.USER;
 
-                var user = User.builder()
-                                .fullName(request.getFullName())
-                                .email(request.getEmail())
-                                .password(passwordEncoder.encode(request.getPassword()))
-                                .phoneNumber(request.getPhoneNumber())
-                                .role(role)
-                                .build();
+                User user = new User();
+                user.setFullName(request.getFullName());
+                user.setEmail(request.getEmail());
+                user.setPassword(passwordEncoder.encode(request.getPassword()));
+                user.setPhoneNumber(request.getPhoneNumber());
+                user.setRole(role);
 
                 repository.save(user);
                 var jwtToken = jwtUtil.generateToken(user);
-                return AuthenticationResponse.builder()
-                                .token(jwtToken)
-                                .role(user.getRole().name())
-                                .build();
+
+                AuthenticationResponse response = new AuthenticationResponse();
+                response.setToken(jwtToken);
+                response.setRole(user.getRole().name());
+
+                return response;
         }
 
         public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -50,10 +58,12 @@ public class AuthenticationService {
                 var user = repository.findByEmail(request.getEmail())
                                 .orElseThrow();
                 var jwtToken = jwtUtil.generateToken(user);
-                return AuthenticationResponse.builder()
-                                .token(jwtToken)
-                                .role(user.getRole().name())
-                                .build();
+
+                AuthenticationResponse response = new AuthenticationResponse();
+                response.setToken(jwtToken);
+                response.setRole(user.getRole().name());
+
+                return response;
         }
 
         public void generateOtp(String email) {

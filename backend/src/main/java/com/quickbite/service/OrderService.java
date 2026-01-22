@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -22,6 +21,16 @@ public class OrderService {
     private final RestaurantRepository restaurantRepository;
     private final MenuItemRepository menuItemRepository;
     private final AddressRepository addressRepository;
+
+    public OrderService(OrderRepository orderRepository, UserRepository userRepository,
+            RestaurantRepository restaurantRepository, MenuItemRepository menuItemRepository,
+            AddressRepository addressRepository) {
+        this.orderRepository = orderRepository;
+        this.userRepository = userRepository;
+        this.restaurantRepository = restaurantRepository;
+        this.menuItemRepository = menuItemRepository;
+        this.addressRepository = addressRepository;
+    }
 
     @Transactional
     public Order placeOrder(String userEmail, OrderRequest request) {

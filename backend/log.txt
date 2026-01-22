@@ -1,0 +1,303 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:/C:/Users/abhic/.m2/wrapper/dists/apache-maven-3.9.11/03d7e36a140982eea48e22c1dcac01d8862b2550b2939e09a0809bbc5182a5bc/lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< com.quickbite:backend >------------------------
+[INFO] Building QuickBite Backend 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] The artifact mysql:mysql-connector-java:jar:8.0.33 has been relocated to com.mysql:mysql-connector-j:jar:8.0.33: MySQL Connector/J artifacts moved to reverse-DNS compliant Maven 2+ coordinates.
+[INFO] 
+[INFO] --- clean:3.3.2:clean (default-clean) @ backend ---
+[INFO] Deleting D:\QuickBite\backend\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ backend ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ backend ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 35 source files with javac [debug release 17] to target\classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/RestaurantService.java:[13,40] variable repository not initialized in the default constructor
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/model/User.java:[21,8] com.quickbite.model.User is not abstract and does not override abstract method getPassword() in org.springframework.security.core.userdetails.UserDetails
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[27,35] cannot find symbol
+  symbol:   method getRole()
+  location: variable request of type com.quickbite.dto.RegisterRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[27,63] cannot find symbol
+  symbol:   method getRole()
+  location: variable request of type com.quickbite.dto.RegisterRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[29,32] cannot find symbol
+  symbol:   method builder()
+  location: class com.quickbite.model.User
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[30,50] cannot find symbol
+  symbol:   method getFullName()
+  location: variable request of type com.quickbite.dto.RegisterRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[31,47] cannot find symbol
+  symbol:   method getEmail()
+  location: variable request of type com.quickbite.dto.RegisterRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[32,73] cannot find symbol
+  symbol:   method getPassword()
+  location: variable request of type com.quickbite.dto.RegisterRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[33,53] cannot find symbol
+  symbol:   method getPhoneNumber()
+  location: variable request of type com.quickbite.dto.RegisterRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[39,46] cannot find symbol
+  symbol:   method builder()
+  location: class com.quickbite.dto.AuthenticationResponse
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[48,56] cannot find symbol
+  symbol:   method getEmail()
+  location: variable request of type com.quickbite.dto.AuthenticationRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[49,56] cannot find symbol
+  symbol:   method getPassword()
+  location: variable request of type com.quickbite.dto.AuthenticationRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[50,58] cannot find symbol
+  symbol:   method getEmail()
+  location: variable request of type com.quickbite.dto.AuthenticationRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[53,46] cannot find symbol
+  symbol:   method builder()
+  location: class com.quickbite.dto.AuthenticationResponse
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[31,70] cannot find symbol
+  symbol:   method getRestaurantId()
+  location: variable request of type com.quickbite.dto.OrderRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[35,20] cannot find symbol
+  symbol:   method getAddressId()
+  location: variable request of type com.quickbite.dto.OrderRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[36,57] cannot find symbol
+  symbol:   method getAddressId()
+  location: variable request of type com.quickbite.dto.OrderRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[41,14] cannot find symbol
+  symbol:   method setCustomer(com.quickbite.model.User)
+  location: variable order of type com.quickbite.model.Order
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[42,14] cannot find symbol
+  symbol:   method setRestaurant(com.quickbite.model.Restaurant)
+  location: variable order of type com.quickbite.model.Order
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[43,14] cannot find symbol
+  symbol:   method setDeliveryAddress(com.quickbite.model.Address)
+  location: variable order of type com.quickbite.model.Order
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[44,14] cannot find symbol
+  symbol:   method setStatus(com.quickbite.model.OrderStatus)
+  location: variable order of type com.quickbite.model.Order
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[45,14] cannot find symbol
+  symbol:   method setCreatedAt(java.time.LocalDateTime)
+  location: variable order of type com.quickbite.model.Order
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[50,52] cannot find symbol
+  symbol:   method getItems()
+  location: variable request of type com.quickbite.dto.OrderRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[51,72] cannot find symbol
+  symbol:   method getMenuItemId()
+  location: variable itemRequest of type com.quickbite.dto.OrderItemRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[55,22] cannot find symbol
+  symbol:   method setOrder(com.quickbite.model.Order)
+  location: variable orderItem of type com.quickbite.model.OrderItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[56,22] cannot find symbol
+  symbol:   method setMenuItem(com.quickbite.model.MenuItem)
+  location: variable orderItem of type com.quickbite.model.OrderItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[57,46] cannot find symbol
+  symbol:   method getQuantity()
+  location: variable itemRequest of type com.quickbite.dto.OrderItemRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[58,40] cannot find symbol
+  symbol:   method getPrice()
+  location: variable menuItem of type com.quickbite.model.MenuItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[60,36] cannot find symbol
+  symbol:   method getPrice()
+  location: variable menuItem of type com.quickbite.model.MenuItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[60,61] cannot find symbol
+  symbol:   method getQuantity()
+  location: variable itemRequest of type com.quickbite.dto.OrderItemRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[64,14] cannot find symbol
+  symbol:   method setItems(java.util.List<com.quickbite.model.OrderItem>)
+  location: variable order of type com.quickbite.model.Order
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[65,14] cannot find symbol
+  symbol:   method setTotalAmount(double)
+  location: variable order of type com.quickbite.model.Order
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[73,53] cannot find symbol
+  symbol:   method getId()
+  location: variable user of type com.quickbite.model.User
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[87,14] cannot find symbol
+  symbol:   method setStatus(com.quickbite.model.OrderStatus)
+  location: variable order of type com.quickbite.model.Order
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/exception/GlobalExceptionHandler.java:[21,31] constructor ErrorResponse in class com.quickbite.exception.GlobalExceptionHandler.ErrorResponse cannot be applied to given types;
+  required: no arguments
+  found:    java.time.LocalDateTime,int,java.lang.String,java.lang.String,java.lang.String
+  reason: actual and formal argument lists differ in length
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/exception/GlobalExceptionHandler.java:[32,31] constructor ErrorResponse in class com.quickbite.exception.GlobalExceptionHandler.ErrorResponse cannot be applied to given types;
+  required: no arguments
+  found:    java.time.LocalDateTime,int,java.lang.String,java.lang.String,java.lang.String
+  reason: actual and formal argument lists differ in length
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/exception/GlobalExceptionHandler.java:[43,31] constructor ErrorResponse in class com.quickbite.exception.GlobalExceptionHandler.ErrorResponse cannot be applied to given types;
+  required: no arguments
+  found:    java.time.LocalDateTime,int,java.lang.String,java.lang.String,java.lang.String
+  reason: actual and formal argument lists differ in length
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/controller/ReviewController.java:[33,70] cannot find symbol
+  symbol:   method getRestaurantId()
+  location: variable request of type com.quickbite.controller.ReviewController.ReviewRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/controller/ReviewController.java:[37,15] cannot find symbol
+  symbol:   method setUser(com.quickbite.model.User)
+  location: variable review of type com.quickbite.model.Review
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/controller/ReviewController.java:[38,15] cannot find symbol
+  symbol:   method setRestaurant(com.quickbite.model.Restaurant)
+  location: variable review of type com.quickbite.model.Review
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/controller/ReviewController.java:[39,33] cannot find symbol
+  symbol:   method getRating()
+  location: variable request of type com.quickbite.controller.ReviewController.ReviewRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/controller/ReviewController.java:[40,34] cannot find symbol
+  symbol:   method getComment()
+  location: variable request of type com.quickbite.controller.ReviewController.ReviewRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/controller/AuthenticationController.java:[35,52] cannot find symbol
+  symbol:   method getEmail()
+  location: variable request of type com.quickbite.controller.AuthenticationController.OtpRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/controller/AuthenticationController.java:[35,72] cannot find symbol
+  symbol:   method getOtp()
+  location: variable request of type com.quickbite.controller.AuthenticationController.OtpRequest
+[INFO] 44 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.782 s
+[INFO] Finished at: 2026-01-22T16:31:22+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile (default-compile) on project backend: Compilation failure: Compilation failure: 
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/RestaurantService.java:[13,40] variable repository not initialized in the default constructor
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/model/User.java:[21,8] com.quickbite.model.User is not abstract and does not override abstract method getPassword() in org.springframework.security.core.userdetails.UserDetails
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[27,35] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable request of type com.quickbite.dto.RegisterRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[27,63] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable request of type com.quickbite.dto.RegisterRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[29,32] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.quickbite.model.User
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[30,50] cannot find symbol
+[ERROR]   symbol:   method getFullName()
+[ERROR]   location: variable request of type com.quickbite.dto.RegisterRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[31,47] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable request of type com.quickbite.dto.RegisterRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[32,73] cannot find symbol
+[ERROR]   symbol:   method getPassword()
+[ERROR]   location: variable request of type com.quickbite.dto.RegisterRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[33,53] cannot find symbol
+[ERROR]   symbol:   method getPhoneNumber()
+[ERROR]   location: variable request of type com.quickbite.dto.RegisterRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[39,46] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.quickbite.dto.AuthenticationResponse
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[48,56] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable request of type com.quickbite.dto.AuthenticationRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[49,56] cannot find symbol
+[ERROR]   symbol:   method getPassword()
+[ERROR]   location: variable request of type com.quickbite.dto.AuthenticationRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[50,58] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable request of type com.quickbite.dto.AuthenticationRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/AuthenticationService.java:[53,46] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.quickbite.dto.AuthenticationResponse
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[31,70] cannot find symbol
+[ERROR]   symbol:   method getRestaurantId()
+[ERROR]   location: variable request of type com.quickbite.dto.OrderRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[35,20] cannot find symbol
+[ERROR]   symbol:   method getAddressId()
+[ERROR]   location: variable request of type com.quickbite.dto.OrderRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[36,57] cannot find symbol
+[ERROR]   symbol:   method getAddressId()
+[ERROR]   location: variable request of type com.quickbite.dto.OrderRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[41,14] cannot find symbol
+[ERROR]   symbol:   method setCustomer(com.quickbite.model.User)
+[ERROR]   location: variable order of type com.quickbite.model.Order
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[42,14] cannot find symbol
+[ERROR]   symbol:   method setRestaurant(com.quickbite.model.Restaurant)
+[ERROR]   location: variable order of type com.quickbite.model.Order
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[43,14] cannot find symbol
+[ERROR]   symbol:   method setDeliveryAddress(com.quickbite.model.Address)
+[ERROR]   location: variable order of type com.quickbite.model.Order
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[44,14] cannot find symbol
+[ERROR]   symbol:   method setStatus(com.quickbite.model.OrderStatus)
+[ERROR]   location: variable order of type com.quickbite.model.Order
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[45,14] cannot find symbol
+[ERROR]   symbol:   method setCreatedAt(java.time.LocalDateTime)
+[ERROR]   location: variable order of type com.quickbite.model.Order
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[50,52] cannot find symbol
+[ERROR]   symbol:   method getItems()
+[ERROR]   location: variable request of type com.quickbite.dto.OrderRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[51,72] cannot find symbol
+[ERROR]   symbol:   method getMenuItemId()
+[ERROR]   location: variable itemRequest of type com.quickbite.dto.OrderItemRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[55,22] cannot find symbol
+[ERROR]   symbol:   method setOrder(com.quickbite.model.Order)
+[ERROR]   location: variable orderItem of type com.quickbite.model.OrderItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[56,22] cannot find symbol
+[ERROR]   symbol:   method setMenuItem(com.quickbite.model.MenuItem)
+[ERROR]   location: variable orderItem of type com.quickbite.model.OrderItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[57,46] cannot find symbol
+[ERROR]   symbol:   method getQuantity()
+[ERROR]   location: variable itemRequest of type com.quickbite.dto.OrderItemRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[58,40] cannot find symbol
+[ERROR]   symbol:   method getPrice()
+[ERROR]   location: variable menuItem of type com.quickbite.model.MenuItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[60,36] cannot find symbol
+[ERROR]   symbol:   method getPrice()
+[ERROR]   location: variable menuItem of type com.quickbite.model.MenuItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[60,61] cannot find symbol
+[ERROR]   symbol:   method getQuantity()
+[ERROR]   location: variable itemRequest of type com.quickbite.dto.OrderItemRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[64,14] cannot find symbol
+[ERROR]   symbol:   method setItems(java.util.List<com.quickbite.model.OrderItem>)
+[ERROR]   location: variable order of type com.quickbite.model.Order
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[65,14] cannot find symbol
+[ERROR]   symbol:   method setTotalAmount(double)
+[ERROR]   location: variable order of type com.quickbite.model.Order
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[73,53] cannot find symbol
+[ERROR]   symbol:   method getId()
+[ERROR]   location: variable user of type com.quickbite.model.User
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[87,14] cannot find symbol
+[ERROR]   symbol:   method setStatus(com.quickbite.model.OrderStatus)
+[ERROR]   location: variable order of type com.quickbite.model.Order
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/exception/GlobalExceptionHandler.java:[21,31] constructor ErrorResponse in class com.quickbite.exception.GlobalExceptionHandler.ErrorResponse cannot be applied to given types;
+[ERROR]   required: no arguments
+[ERROR]   found:    java.time.LocalDateTime,int,java.lang.String,java.lang.String,java.lang.String
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/exception/GlobalExceptionHandler.java:[32,31] constructor ErrorResponse in class com.quickbite.exception.GlobalExceptionHandler.ErrorResponse cannot be applied to given types;
+[ERROR]   required: no arguments
+[ERROR]   found:    java.time.LocalDateTime,int,java.lang.String,java.lang.String,java.lang.String
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/exception/GlobalExceptionHandler.java:[43,31] constructor ErrorResponse in class com.quickbite.exception.GlobalExceptionHandler.ErrorResponse cannot be applied to given types;
+[ERROR]   required: no arguments
+[ERROR]   found:    java.time.LocalDateTime,int,java.lang.String,java.lang.String,java.lang.String
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/controller/ReviewController.java:[33,70] cannot find symbol
+[ERROR]   symbol:   method getRestaurantId()
+[ERROR]   location: variable request of type com.quickbite.controller.ReviewController.ReviewRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/controller/ReviewController.java:[37,15] cannot find symbol
+[ERROR]   symbol:   method setUser(com.quickbite.model.User)
+[ERROR]   location: variable review of type com.quickbite.model.Review
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/controller/ReviewController.java:[38,15] cannot find symbol
+[ERROR]   symbol:   method setRestaurant(com.quickbite.model.Restaurant)
+[ERROR]   location: variable review of type com.quickbite.model.Review
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/controller/ReviewController.java:[39,33] cannot find symbol
+[ERROR]   symbol:   method getRating()
+[ERROR]   location: variable request of type com.quickbite.controller.ReviewController.ReviewRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/controller/ReviewController.java:[40,34] cannot find symbol
+[ERROR]   symbol:   method getComment()
+[ERROR]   location: variable request of type com.quickbite.controller.ReviewController.ReviewRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/controller/AuthenticationController.java:[35,52] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable request of type com.quickbite.controller.AuthenticationController.OtpRequest
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/controller/AuthenticationController.java:[35,72] cannot find symbol
+[ERROR]   symbol:   method getOtp()
+[ERROR]   location: variable request of type com.quickbite.controller.AuthenticationController.OtpRequest
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

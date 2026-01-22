@@ -17,12 +17,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/reviews")
-@RequiredArgsConstructor
 public class ReviewController {
 
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
     private final RestaurantRepository restaurantRepository;
+
+    public ReviewController(ReviewRepository reviewRepository, UserRepository userRepository,
+            RestaurantRepository restaurantRepository) {
+        this.reviewRepository = reviewRepository;
+        this.userRepository = userRepository;
+        this.restaurantRepository = restaurantRepository;
+    }
 
     @PostMapping
     public ResponseEntity<Review> addReview(@RequestBody ReviewRequest request) {
@@ -47,10 +53,33 @@ public class ReviewController {
         return ResponseEntity.ok(reviewRepository.findByRestaurantId(restaurantId));
     }
 
-    @Data
     static class ReviewRequest {
         private Long restaurantId;
         private Integer rating;
         private String comment;
+
+        public Long getRestaurantId() {
+            return restaurantId;
+        }
+
+        public void setRestaurantId(Long restaurantId) {
+            this.restaurantId = restaurantId;
+        }
+
+        public Integer getRating() {
+            return rating;
+        }
+
+        public void setRating(Integer rating) {
+            this.rating = rating;
+        }
+
+        public String getComment() {
+            return comment;
+        }
+
+        public void setComment(String comment) {
+            this.comment = comment;
+        }
     }
 }
