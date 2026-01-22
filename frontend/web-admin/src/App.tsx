@@ -4,6 +4,8 @@ import Dashboard from './pages/Dashboard';
 import Orders from './pages/Orders';
 import MenuManagement from './pages/MenuManagement';
 
+import Settings from './pages/Settings';
+import Customers from './pages/Customers';
 import Login from './pages/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -18,6 +20,8 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="orders" element={<Orders />} />
             <Route path="menu" element={<MenuManagement />} />
+            <Route path="customers" element={<Customers />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
         </Route>
 

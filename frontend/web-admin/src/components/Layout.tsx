@@ -1,9 +1,16 @@
 import React from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, ShoppingBag, UtensilsCrossed, Users, Settings, LogOut } from 'lucide-react';
 import './layout.css';
 
 const Layout = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem('adminToken');
+        navigate('/login');
+    };
+
     return (
         <div className="layout-container">
             <aside className="sidebar">
@@ -38,7 +45,7 @@ const Layout = () => {
                 </nav>
 
                 <div className="sidebar-footer">
-                    <button className="logout-btn">
+                    <button className="logout-btn" onClick={handleLogout}>
                         <LogOut size={20} />
                         <span>Logout</span>
                     </button>

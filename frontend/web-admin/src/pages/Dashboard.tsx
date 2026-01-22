@@ -59,7 +59,7 @@ const Dashboard = () => {
                 <div className="card recent-orders">
                     <div className="card-header">
                         <h3>Recent Orders</h3>
-                        <button className="btn-link">View All</button>
+                        <button className="btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}>View All</button>
                     </div>
                     <table className="table">
                         <thead>
