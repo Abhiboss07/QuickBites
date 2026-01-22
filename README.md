@@ -1,8 +1,3 @@
-Perfect — here’s a **polished, client-ready & GitHub-optimized README** for **QuickBites**.
-This version is **professional**, **impressive for recruiters/clients**, and still **friendly + modern**.
-
----
-
 ## 🍔 **QuickBites**
 
 ### Cartoon-Themed Food Delivery Application 🚀
