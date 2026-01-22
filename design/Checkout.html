@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QuickBites Checkout</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f42525",
+                        "background-light": "#f8f5f5",
+                        "background-dark": "#221010",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "1.5rem", "xl": "2rem", "2xl": "3rem", "full": "9999px" },
+                    boxShadow: {
+                        '3d': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        '3d-button': '0 6px 0 0 #15803d', // Dark green shadow for 3D effect
+                        '3d-button-active': '0 0 0 0 #15803d',
+                        'card': '0 4px 0 0 rgba(0,0,0,0.05)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 overflow-x-hidden antialiased selection:bg-primary/30">
+<div class="relative flex min-h-screen w-full flex-col group/design-root">
+<div class="sticky top-0 z-30 flex items-center bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-md p-4 justify-between">
+<button class="flex size-12 shrink-0 items-center justify-center rounded-full bg-white dark:bg-white/10 shadow-sm hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-slate-900 dark:text-white" style="font-size: 24px;">arrow_back</span>
+</button>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center pr-12">QuickBites Checkout</h2>
+</div>
+<div class="w-full px-4 pt-2 pb-6 flex justify-center">
+<div class="w-full max-w-sm relative">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10"></div>
+<div class="w-full aspect-[4/3] bg-center bg-contain bg-no-repeat z-10 animate-bounce-slow relative" data-alt="Cute 3D cartoon character packing a brown paper delivery bag with floating food items" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC08ORlKTeYAbiHfkffxRst1-LzZm3jEzCdZyub6-vZp1xz53Lq3U_zpQGREWlGEVdRH89r0_1kQ4VoPnHBatFVsJdT_n8pdxYJpo2Ql2FpZ6qUUoO-44QFCEM26tHaXF0vF3o_IFMVnQD3yRrlG5krVvJBPckSkPsedBSvN8qqgu8mAv9D8O3qd7F5vw9tK394QbbdKYNqjd5vX0eTDhM_t5jfwf33pIoydNuw7gPR1B23f-M7W5wX6ZW0zT-nHFe0T_sMQpCeMv4");'>
+<div class="absolute bottom-[20%] left-1/2 -translate-x-1/2 rotate-[-4deg] z-20">
+<div class="bg-white/95 backdrop-blur-[2px] dark:bg-slate-800/90 border-2 border-slate-100 dark:border-white/10 shadow-lg px-4 py-1.5 rounded-xl transform transition-transform hover:scale-105 cursor-default">
+<span class="text-primary font-black text-xl tracking-tighter drop-shadow-sm">QuickBites</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="px-6 pb-6 text-center">
+<h3 class="text-slate-900 dark:text-white tracking-tight text-3xl font-bold leading-tight">
+                Your QuickBites Order is almost ready!
+            </h3>
+<p class="text-slate-500 dark:text-slate-400 mt-2 text-base font-medium">Estimated arrival in 25 mins</p>
+</div>
+<div class="flex-1 px-4 pb-32 flex flex-col gap-5">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-4 bg-white dark:bg-white/5 p-4 rounded-xl shadow-card border border-slate-100 dark:border-white/5 transition-transform hover:scale-[1.01]">
+<div class="shrink-0 bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-20 shadow-sm" data-alt="Delicious 3D rendered Cheesy Monster Burger with melting cheese" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDZ8ir0VyapTFoGNs_qviFVwLXnGnXC2ktuTEMqjlf9y9UMVQnyv0hJNGFI00iFzSwFrbbzadIKnWywKdTJG-xgeb3KzXXvqmy8Z_lejZTyuJR0ycP86Rw5_WobLXjkNcB6JBf1_U6PnWUPBfEkgL4-mzlVIylzKFZzdq2mgb5uPlxG8-v--pbYI0Wm3dY7lpSmLFhVxkKl0Ep_RoBU7HtwbameoHTpL8oEyDFCxWb9e7RvUEeHDIboaIYuU5zhRDrpsUpqKvGYitM");'></div>
+<div class="flex flex-col justify-center flex-1 min-w-0">
+<p class="text-slate-900 dark:text-white text-lg font-bold leading-tight truncate">Cheesy Monster Burger</p>
+<p class="text-primary text-base font-bold mt-1">$12.99</p>
+</div>
+<div class="shrink-0 flex flex-col items-center gap-1 bg-background-light dark:bg-white/10 rounded-lg p-1">
+<button class="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm hover:bg-slate-50 dark:hover:bg-white/20 active:scale-90 transition-all">
+<span class="material-symbols-outlined text-sm font-bold">add</span>
+</button>
+<span class="text-sm font-bold w-full text-center py-0.5">1</span>
+<button class="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-white/10 text-slate-400 hover:text-slate-900 dark:text-white/50 dark:hover:text-white shadow-sm hover:bg-slate-50 dark:hover:bg-white/20 active:scale-90 transition-all">
+<span class="material-symbols-outlined text-sm font-bold">remove</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-white dark:bg-white/5 p-4 rounded-xl shadow-card border border-slate-100 dark:border-white/5 transition-transform hover:scale-[1.01]">
+<div class="shrink-0 bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-20 shadow-sm" data-alt="Floating golden french fries in a red carton 3D style" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCu24xUTWIYLTQb0Z1nkiGdOwXvmx4wPaociJ3PSpQ3XjjXkGfXhWm0FXQn542bUSW049wIMpl5NntA8X-d40chV0RelBCN2Z9j7uJr5wPcX65gcDpmT0XP9uQO6y-9blk1p7IJz1MyuSJzp8c3ryOIg4UP8SVtXZTQULgYdE6TUi1P04NGiygmfXju51I1TsPQN3J3u71XOBV8rqlMQInYDyt_uXrM4-E8Hz6L4fOwYK8njrtgc6h03e7UMH620lUDsbmZn1SoeWg");'></div>
+<div class="flex flex-col justify-center flex-1 min-w-0">
+<p class="text-slate-900 dark:text-white text-lg font-bold leading-tight truncate">Floating Fries</p>
+<p class="text-primary text-base font-bold mt-1">$4.50</p>
+</div>
+<div class="shrink-0 flex flex-col items-center gap-1 bg-background-light dark:bg-white/10 rounded-lg p-1">
+<button class="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm hover:bg-slate-50 dark:hover:bg-white/20 active:scale-90 transition-all">
+<span class="material-symbols-outlined text-sm font-bold">add</span>
+</button>
+<span class="text-sm font-bold w-full text-center py-0.5">1</span>
+<button class="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-white/10 text-slate-400 hover:text-slate-900 dark:text-white/50 dark:hover:text-white shadow-sm hover:bg-slate-50 dark:hover:bg-white/20 active:scale-90 transition-all">
+<span class="material-symbols-outlined text-sm font-bold">remove</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-white dark:bg-white/5 p-4 rounded-xl shadow-card border border-slate-100 dark:border-white/5 transition-transform hover:scale-[1.01]">
+<div class="shrink-0 bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-20 shadow-sm" data-alt="Purple bubbling potion soda bottle 3D style" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB_PhQZeEfpvGDlmaXaX4EfF6FCPrHhF-pyEYMWCSDDgWX1DrdV6dxUH0BJv3A6efSQXDHkRglimE840wswdDKRxJOwBrg_eSIthfP5cU-SUh3K11MWTuaEBlW_L6QEgwc_PTRsrhRTGEVthhSR1hndEWjyQu2cQPGizsPWeziF7KsNlEXRhmk31aPmAHaSwmj4I4v7B5nLqkoYzwEgqHcpWz4sZ43f_1olfYLZoOqemvgT-QsnBXSe4TecYz2ymnHEEGMBjVlxKOg");'></div>
+<div class="flex flex-col justify-center flex-1 min-w-0">
+<p class="text-slate-900 dark:text-white text-lg font-bold leading-tight truncate">Potion Soda</p>
+<p class="text-primary text-base font-bold mt-1">$2.50</p>
+</div>
+<div class="shrink-0 flex flex-col items-center gap-1 bg-background-light dark:bg-white/10 rounded-lg p-1">
+<button class="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm hover:bg-slate-50 dark:hover:bg-white/20 active:scale-90 transition-all">
+<span class="material-symbols-outlined text-sm font-bold">add</span>
+</button>
+<span class="text-sm font-bold w-full text-center py-0.5">1</span>
+<button class="size-8 flex items-center justify-center rounded-lg bg-white dark:bg-white/10 text-slate-400 hover:text-slate-900 dark:text-white/50 dark:hover:text-white shadow-sm hover:bg-slate-50 dark:hover:bg-white/20 active:scale-90 transition-all">
+<span class="material-symbols-outlined text-sm font-bold">remove</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-white/5 p-2 rounded-xl flex items-center gap-2 shadow-sm border border-slate-100 dark:border-white/5">
+<div class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 p-2 rounded-lg">
+<span class="material-symbols-outlined">local_activity</span>
+</div>
+<input class="flex-1 bg-transparent border-none text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-0 text-base font-medium" placeholder="Apply Magic Coupon" type="text"/>
+<button class="text-primary font-bold px-4 py-2 hover:bg-primary/5 rounded-lg transition-colors">Apply</button>
+</div>
+<div class="bg-white dark:bg-white/5 p-6 rounded-2xl shadow-card border border-slate-100 dark:border-white/5 flex flex-col gap-3">
+<div class="flex justify-between items-center text-slate-500 dark:text-slate-400 font-medium">
+<span>Subtotal</span>
+<span class="text-slate-900 dark:text-white font-bold">$19.99</span>
+</div>
+<div class="flex justify-between items-center text-slate-500 dark:text-slate-400 font-medium">
+<div class="flex items-center gap-1">
+<span>Delivery Fee</span>
+<span class="material-symbols-outlined text-sm">moped</span>
+</div>
+<span class="text-primary font-bold">$2.50</span>
+</div>
+<div class="flex justify-between items-center text-slate-500 dark:text-slate-400 font-medium pb-3 border-b border-dashed border-slate-200 dark:border-white/10">
+<span>Taxes</span>
+<span class="text-slate-900 dark:text-white font-bold">$1.50</span>
+</div>
+<div class="flex justify-between items-center text-xl font-bold text-slate-900 dark:text-white pt-1">
+<span>Grand Total</span>
+<span>$23.99</span>
+</div>
+</div>
+<div class="bg-white dark:bg-white/5 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-white/5 flex items-center justify-between">
+<div class="flex items-center gap-3 overflow-hidden">
+<div class="size-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shrink-0 text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined">home_pin</span>
+</div>
+<div class="flex flex-col truncate">
+<span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Delivering to</span>
+<span class="text-slate-900 dark:text-white font-bold truncate">Home • 123 Wizard Lane...</span>
+</div>
+</div>
+<button class="text-primary text-sm font-bold shrink-0">Change</button>
+</div>
+</div>
+<div class="fixed bottom-0 left-0 w-full bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-lg p-4 pb-8 z-40 border-t border-white/50 dark:border-white/5">
+<div class="flex items-center justify-between mb-4 px-2">
+<div class="flex items-center gap-2">
+<div class="bg-slate-200 dark:bg-slate-700 w-10 h-6 rounded flex items-center justify-center">
+<div class="size-2 rounded-full bg-red-500 mr-0.5"></div>
+<div class="size-2 rounded-full bg-yellow-500"></div>
+</div>
+<span class="text-slate-500 dark:text-slate-400 text-sm font-medium">Mastercard •••• 4242</span>
+</div>
+<span class="material-symbols-outlined text-slate-400">expand_less</span>
+</div>
+<button class="w-full group relative active:translate-y-1.5 transition-all duration-150">
+<div class="absolute inset-0 top-1.5 rounded-2xl bg-green-800 dark:bg-green-900"></div>
+<div class="relative bg-gradient-to-b from-green-400 to-green-600 rounded-2xl p-4 flex items-center justify-between shadow-inner border-t border-green-300">
+<span class="text-green-900/30 font-black text-3xl absolute left-4 select-none opacity-20">$$$</span>
+<div class="flex flex-col items-start ml-2 text-white drop-shadow-sm">
+<span class="text-xs font-medium opacity-90 uppercase tracking-wide">Total to pay</span>
+<span class="text-xl font-bold">$23.99</span>
+</div>
+<div class="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-xl px-6 py-2">
+<span class="text-white text-lg font-bold tracking-wide">Place Order</span>
+<span class="material-symbols-outlined text-white animate-pulse">arrow_forward</span>
+</div>
+</div>
+</button>
+</div>
+</div>
+
+</body></html>

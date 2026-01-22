@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QuickBites Home Feed</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700;800&amp;family=Chewy&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                "primary": "#f42525",
+                "primary-dark": "#d11010",
+                "background-light": "#fffaf5","background-dark": "#221010",
+                "crust": "#eecfa1",
+                "dough": "#fff8e7",
+                },
+                fontFamily: {
+                "display": ["Spline Sans", "sans-serif"],
+                "logo": ["Chewy", "cursive"]
+                },
+                borderRadius: {"DEFAULT": "1rem", "lg": "1.5rem", "xl": "2rem", "2xl": "2.5rem", "3xl": "3rem", "full": "9999px"},
+                boxShadow: {
+                    'soft': '0 10px 40px -10px rgba(244, 37, 37, 0.15)',
+                    'float': '0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01)',
+                    'inner-light': 'inset 0 2px 4px 0 rgba(255, 255, 255, 0.5)',
+                }
+            },
+            },
+        }
+    </script>
+<style>.hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased text-[#4a3b3b] dark:text-[#f0e6e6]">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden pb-28 max-w-md mx-auto shadow-2xl bg-background-light dark:bg-background-dark">
+<header class="flex flex-col gap-4 p-6 pt-8 sticky top-0 z-40 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm">
+<div class="flex items-center justify-between w-full">
+<div class="flex items-center gap-2">
+<div class="size-10 bg-primary rounded-xl rotate-3 flex items-center justify-center shadow-lg border-b-4 border-primary-dark">
+<span class="material-symbols-outlined text-white text-2xl font-bold">lunch_dining</span>
+</div>
+<h1 class="text-3xl font-logo text-primary drop-shadow-sm tracking-wide">
+                Quick<span class="text-[#2c1810] dark:text-white">Bites</span>
+</h1>
+</div>
+<button class="relative flex size-12 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-white dark:bg-[#3a1d1d] shadow-float border-2 border-transparent hover:border-primary/20 transition-all">
+<div class="w-full h-full bg-cover bg-center" data-alt="3D cartoon avatar of a happy boy with a cap" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAQVBnLWOYGb5g5Rfr3cZHirgQ5yuf-WYwEinX8rllqyNowwQNJkzbYg-cZrjtr41aQ4hf3jOleIIKJ-bDhGpZ5bdV-yNwFT2c2DES1rDoVHdBh9kbaGd9EmJn0DXL5vZb1h56CIrzCndxDhzujTaBMsAZc2JcRsOZGqB941d9yOLL_kce7OVHxLuz9DYGTrNq0Q2Z0gH8lPrpxNtH-zbUAReLp9Y-XaW05Jv81msbd-4K2or94JZhdk3ggjO75rIeIf1_psS7Y5a0");'></div>
+</button>
+</div>
+<div class="flex items-center gap-1.5 px-1">
+<div class="bg-orange-100 dark:bg-orange-900/30 p-1.5 rounded-full">
+<span class="material-symbols-outlined text-primary text-xl">location_on</span>
+</div>
+<div class="flex flex-col leading-none">
+<span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Delivering to</span>
+<div class="flex items-center gap-1 cursor-pointer group">
+<span class="text-[#2c1810] dark:text-white text-base font-extrabold group-hover:text-primary transition-colors">Toon Town</span>
+<span class="material-symbols-outlined text-sm text-[#2c1810] dark:text-white group-hover:text-primary transition-colors">expand_more</span>
+</div>
+</div>
+</div>
+</header>
+<div class="px-6 mb-2 sticky top-[138px] z-30">
+<div class="relative group w-full transition-transform active:scale-[0.98]">
+<div class="absolute inset-0 bg-gradient-to-b from-[#f3dcb8] to-[#e4b97d] rounded-full shadow-lg transform translate-y-1 rounded-bl-full rounded-br-full"></div>
+<div class="relative flex items-center w-full h-14 rounded-full bg-[#fffcf5] border-4 border-[#eecfa1] shadow-inner-light overflow-hidden">
+<div class="pl-4 pr-2 text-[#b08d55] flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">search</span>
+</div>
+<input class="flex w-full bg-transparent border-none focus:ring-0 text-[#5c4033] placeholder-[#d4b483] font-bold text-lg h-full px-2" placeholder="What are you craving?"/>
+<div class="pr-2">
+<div class="size-8 rounded-full bg-[#f42525] flex items-center justify-center shadow-md text-white">
+<span class="material-symbols-outlined text-lg">tune</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-6 pl-6 overflow-visible w-full">
+<div class="flex overflow-x-auto hide-scrollbar pb-8 pt-2 gap-4 pr-6 snap-x">
+<button class="flex flex-col items-center gap-2 min-w-[90px] group snap-start">
+<div class="w-[80px] h-[80px] bg-white dark:bg-[#3a1d1d] rounded-[2rem] shadow-float flex items-center justify-center transform transition-transform group-hover:-translate-y-2 group-active:scale-95 border-b-4 border-gray-100 dark:border-gray-800">
+<div class="w-14 h-14 bg-contain bg-center bg-no-repeat drop-shadow-lg" data-alt="3D glossy icon of a hamburger with lightning bolt shape" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCpGQiPlYOuwvTkkWFhiEdkpR4SgZdtWrupl8oTm-zV6ws-X6qakyPto2WK516OdHepWX9WlBkYaHeiyxgyyYCVJF0p87UCm9T2fRpfJJOkbm8bPVy89od4EZDnm9NjjPdlzX2ZlIUbdRGK2SIHZiONoFMvR7BDKDsL_ld3Lu-8L8jKoO8V49okHt8ybfkKAqOb9Jfrc_vKa23aCKhWy8M2rrEZnvQeyPrppdIdyjyFBka-5mLQHxStmLcvNJnDgwcYQnjjiM0si1g");'></div>
+</div>
+<span class="text-xs font-bold text-[#4a3b3b] dark:text-gray-300 text-center leading-tight">Superhero<br/>Snacks</span>
+</button>
+<button class="flex flex-col items-center gap-2 min-w-[90px] group snap-start">
+<div class="w-[80px] h-[80px] bg-white dark:bg-[#3a1d1d] rounded-[2rem] shadow-float flex items-center justify-center transform transition-transform group-hover:-translate-y-2 group-active:scale-95 border-b-4 border-gray-100 dark:border-gray-800">
+<div class="w-14 h-14 bg-contain bg-center bg-no-repeat drop-shadow-lg" data-alt="3D glossy icon of a pink cupcake with sparkles" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCnyH22u2pj0oae3Ckq-LR33Oy9wrT2kiQL4L7qall5gcdq257dzsbfZxduUMeZxjC5KOmipxjQBRoRaT0tWncMg7fw2ToWB6WWBiNMzZdbj-6crcRae0EvnnK7rSKH2zd7Znb2N9ObOstquViHeiXyQeh5F7v4fAaHR7UWPgEio1yW7EW7qIJyrkPKQSRyOuEmcc_dOzY74mWfcBQoHbc67iUmz56C6VuihpefBU4fXlRd-hOgMeVVtpAArKPHwU3NTMD-o_cs8p8");'></div>
+</div>
+<span class="text-xs font-bold text-[#4a3b3b] dark:text-gray-300 text-center leading-tight">Enchanted<br/>Eats</span>
+</button>
+<button class="flex flex-col items-center gap-2 min-w-[90px] group snap-start">
+<div class="w-[80px] h-[80px] bg-white dark:bg-[#3a1d1d] rounded-[2rem] shadow-float flex items-center justify-center transform transition-transform group-hover:-translate-y-2 group-active:scale-95 border-b-4 border-gray-100 dark:border-gray-800">
+<div class="w-14 h-14 bg-contain bg-center bg-no-repeat drop-shadow-lg" data-alt="3D glossy icon of a green monster donut" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD9OfuiwueUI7cj6UfRwcTKv-kd1IeLb8Us7ppPiZ5aIPoAFIvZw8MdMilbDzR8JIH7ZhmK-I6K5oOD0dWmmEZSMSpzzBmDPFWM8qOKHjRvgInxZe6CjxHYkpbR5WFeGTZs7fLQQFKFCkUhqxVYQX3oVk-IZbgDDhBcZAlO1HUh0zq2p3dH9XgZsClRdH8hohMiubxOWvw4kfzl30rNsE-oOjXpOsAPh05QlqQEM11wbvXIT0CDkD2OAihdQfipAthY4nn7LwY8ZV4");'></div>
+</div>
+<span class="text-xs font-bold text-[#4a3b3b] dark:text-gray-300 text-center leading-tight">Monster<br/>Munchies</span>
+</button>
+<button class="flex flex-col items-center gap-2 min-w-[90px] group snap-start">
+<div class="w-[80px] h-[80px] bg-white dark:bg-[#3a1d1d] rounded-[2rem] shadow-float flex items-center justify-center transform transition-transform group-hover:-translate-y-2 group-active:scale-95 border-b-4 border-gray-100 dark:border-gray-800">
+<div class="w-14 h-14 bg-contain bg-center bg-no-repeat drop-shadow-lg" data-alt="3D glossy icon of a taco" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD54VYTBgyITZ_qkjM3ZDSyOLDkQQJVd1N-y4wYh8YIvNCaCKx7bK4GQnts21IoMtAJPlUKim7W3RAZP_fCzhBw3553_MiDZZze8zvPVSkbx5qGEKUgLoycv_Nq7_XSpBL41xMZWe8fbvaSP6mtRLodIf_toHalLWp6974JHM5w8hdRBkE4G30ROzdMasY1Wyne3ZF_NjpJXUcL9lbISOSPD105fw9J4YZnk2D5yiBUQ41ZlpP7CFdZyOoWM8aJxHV4FoOPxVENLq0");'></div>
+</div>
+<span class="text-xs font-bold text-[#4a3b3b] dark:text-gray-300 text-center leading-tight">Fiesta<br/>Food</span>
+</button>
+<button class="flex flex-col items-center gap-2 min-w-[90px] group snap-start">
+<div class="w-[80px] h-[80px] bg-white dark:bg-[#3a1d1d] rounded-[2rem] shadow-float flex items-center justify-center transform transition-transform group-hover:-translate-y-2 group-active:scale-95 border-b-4 border-gray-100 dark:border-gray-800">
+<div class="w-14 h-14 bg-contain bg-center bg-no-repeat drop-shadow-lg" data-alt="3D glossy icon of a sushi roll" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAHAAY_qDXUpILWYhh17hk-m3kyb6bzzGoXtZ4gvM5L36nvqtfz8fu2czP-iG6h15YNVEtAkTHPvD8EjdydqO27wIbGrqFNmOwMqiCCw5InXSQVv61-7H4OmgFRYJeNLy1Tq8u2Tv-hhvlRmqdV5H-o5UBkAwvHzGVL5OrNpCF_ik0r_fsV1KoluxXuQZDtkfcfJBKQX-2PutmCXv069yOnNjVeE56ca6VtJ3emfphSaGdG0mvQuGDMRVdfG5hlS2FYGGksb6uFAJo");'></div>
+</div>
+<span class="text-xs font-bold text-[#4a3b3b] dark:text-gray-300 text-center leading-tight">Ocean<br/>Bites</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col gap-4 mb-4">
+<div class="px-6 flex items-end justify-between">
+<h2 class="text-[#2c1810] dark:text-white text-2xl font-black tracking-tight">Hot &amp; Fresh 🔥</h2>
+<a class="text-primary font-bold text-sm hover:underline" href="#">See all</a>
+</div>
+<div class="flex overflow-x-auto hide-scrollbar px-6 pb-12 pt-4 gap-6 snap-x">
+<div class="relative min-w-[280px] h-[320px] bg-white dark:bg-[#2c1616] rounded-3xl shadow-soft snap-center flex flex-col group cursor-pointer transition-transform hover:scale-[1.02]">
+<div class="absolute -top-12 left-0 right-0 h-48 flex items-center justify-center z-10 pointer-events-none">
+<div class="w-full h-full bg-contain bg-center bg-no-repeat drop-shadow-2xl filter" data-alt="3D cartoon pepperoni pizza floating with cheese pull" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCfOfimFVNZtiQMI4Fc7sWvqP316SdIw1BkEtu-qM5Bvp6Z9Kl2ULe4Zum2ArDzXc9Ae5xu8euOnabBZ-e2yZxs6wqn2fzyy6XUuOwirtCPss2KoY3_T_MleFXQVWcnUL2h7QpF9z4E5kf5SUInHTSS0uUqs7o49wytxm4Nlf6GD5J0O1_4MkevlSKhcqQi0neuJIVIu2KDFoKB62WgMBT3ph36CaimSpprEC81areK81My8Nkl0jWUmdDBBXWPm_SMVXYJEPBcAtg");'></div>
+</div>
+<div class="mt-36 p-5 flex flex-col flex-1">
+<div class="flex items-center justify-between mb-1">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wide">Free Delivery</span>
+<div class="flex items-center gap-1 bg-yellow-400/20 px-2 py-1 rounded-lg">
+<span class="material-symbols-outlined text-yellow-500 text-sm font-variation-settings-fill">star</span>
+<span class="text-yellow-700 font-bold text-xs">4.8</span>
+</div>
+</div>
+<h3 class="text-xl font-black text-[#2c1810] dark:text-white mb-1">Pizza Planet</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-4">Italian • 20-30 min</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-lg font-bold text-[#2c1810] dark:text-white">$12.99</span>
+<button class="bg-[#2c1810] dark:bg-white text-white dark:text-[#2c1810] rounded-full size-10 flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+<div class="relative min-w-[280px] h-[320px] bg-white dark:bg-[#2c1616] rounded-3xl shadow-soft snap-center flex flex-col group cursor-pointer transition-transform hover:scale-[1.02]">
+<div class="absolute -top-12 left-0 right-0 h-48 flex items-center justify-center z-10 pointer-events-none">
+<div class="w-full h-full bg-contain bg-center bg-no-repeat drop-shadow-2xl filter" data-alt="3D cartoon tacos on a plate floating" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBBd55d2BQJ50MsRYHCFuz6RrYB9svPHnYHS8rz9bcNueeQDOE8mj7DEQejt_2yQLTD8oi18cbNb-kqXwKigWo7lFNKnaY5fg95rIcaUHTNEyBNT74ZCni02w8p1CtKc-r1d33RFdLuYK5N6Pr7dk3KLfL31POwdryT0f5_CjJ8DNMyZDUDXbPXNUBuSmGVtMlAaTI33J2bbJ-Vpo-S9JpJEXL4fcBKdEoWpTo75dDydoIFBtzAaktf3_hO7WVAYBkc3J1gM7oCPfA");'></div>
+</div>
+<div class="mt-36 p-5 flex flex-col flex-1">
+<div class="flex items-center justify-between mb-1">
+<span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wide">20% Off</span>
+<div class="flex items-center gap-1 bg-yellow-400/20 px-2 py-1 rounded-lg">
+<span class="material-symbols-outlined text-yellow-500 text-sm font-variation-settings-fill">star</span>
+<span class="text-yellow-700 font-bold text-xs">4.5</span>
+</div>
+</div>
+<h3 class="text-xl font-black text-[#2c1810] dark:text-white mb-1">Taco Town</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-4">Mexican • 15-25 min</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-lg font-bold text-[#2c1810] dark:text-white">$8.50</span>
+<button class="bg-[#2c1810] dark:bg-white text-white dark:text-[#2c1810] rounded-full size-10 flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="px-6 pb-4">
+<h2 class="text-[#2c1810] dark:text-white text-2xl font-black tracking-tight">Nearby Favorites 🛵</h2>
+</div>
+<div class="px-6 flex flex-col gap-6">
+<div class="bg-white dark:bg-[#2c1616] p-4 rounded-3xl shadow-sm flex gap-4 items-center">
+<div class="size-24 bg-gray-50 dark:bg-black/20 rounded-2xl flex-shrink-0 relative overflow-visible">
+<div class="absolute -top-2 -left-2 w-28 h-28 bg-contain bg-center bg-no-repeat drop-shadow-lg" data-alt="3D cartoon cheeseburger icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAt_ELuRi1Wr1VT6uvXZMTQpJ7uDatDdwYTJvOGngXbi5zwc1K5rRYMP2L1XnioTkkroaRjJa8mg2IsCgGxVPzbFWpF8M-OmMsIv4mmtp64yb7dr9iOZV8AcWlUvbOksuK4wsGubYrG4DElLAgyUPxX6kJ44TInhBAswVy56AouWxFGx0h7Z9hLvppq1rcRjvIySXH-6TjcRIWJph4289zcoO94ez8W779TVQ12vKfsvzEkkrV79mrlr37_iev-DHXG3odAYg3QUBU");'></div>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="text-lg font-black text-[#2c1810] dark:text-white truncate">Burger Bop</h3>
+<div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 font-medium my-1">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">schedule</span> 15m</span>
+<span class="size-1 bg-gray-300 rounded-full"></span>
+<span class="flex items-center gap-1 text-yellow-600"><span class="material-symbols-outlined text-base font-variation-settings-fill">star</span> 4.9</span>
+</div>
+<div class="flex gap-2 mt-2">
+<span class="px-2 py-1 bg-red-50 text-red-500 text-[10px] font-bold uppercase rounded-md">Hot</span>
+<span class="px-2 py-1 bg-green-50 text-green-600 text-[10px] font-bold uppercase rounded-md">Healthy</span>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-[#2c1616] p-4 rounded-3xl shadow-sm flex gap-4 items-center">
+<div class="size-24 bg-gray-50 dark:bg-black/20 rounded-2xl flex-shrink-0 relative overflow-visible">
+<div class="absolute -top-2 -left-2 w-28 h-28 bg-contain bg-center bg-no-repeat drop-shadow-lg" data-alt="3D cartoon noodles bowl icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCrRC_c6HsQ5oMjdsgYtiPgApyTOlW09W5H5085rHhPcqCiMMmFrmL8PjhHnjcYVs07AKJeXIKrH8_8P2aZWNxftUIe05bPNakNke8VY51eGRhzHh5mPrb0xozLpdiXrgT19evbCzY2CNaStOeju6ZK07Gl2BDTL-yeespjKiMsuRqCo5BfMxyhFZwyHcraWSBaGGRpviisYt1LBejtoInlL5g7tY5vw0hUs7xDLqUwnYFRA-mtSvEYiAjDSxaxtIiRoVhTy0giucc");'></div>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="text-lg font-black text-[#2c1810] dark:text-white truncate">Noodle Nook</h3>
+<div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 font-medium my-1">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">schedule</span> 35m</span>
+<span class="size-1 bg-gray-300 rounded-full"></span>
+<span class="flex items-center gap-1 text-yellow-600"><span class="material-symbols-outlined text-base font-variation-settings-fill">star</span> 4.2</span>
+</div>
+<div class="flex gap-2 mt-2">
+<span class="px-2 py-1 bg-blue-50 text-blue-500 text-[10px] font-bold uppercase rounded-md">New</span>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-[#2c1616] p-4 rounded-3xl shadow-sm flex gap-4 items-center">
+<div class="size-24 bg-gray-50 dark:bg-black/20 rounded-2xl flex-shrink-0 relative overflow-visible">
+<div class="absolute -top-2 -left-2 w-28 h-28 bg-contain bg-center bg-no-repeat drop-shadow-lg" data-alt="3D cartoon donut box icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDv8LL7OAO_ojPiDrmWUy3ShU8fibW4xuA_Wkn5oU7BZbUpzOKZF3i-Dp6WyMdUIDWHBNgthTDiSnawLbNULvNYratO2EzY-iKpARpTDqNIhloba8HwTUaJNZNBjuLzHne7YNm8bpVamspIUD_gU6VP1gCD4vxzNttdwLNSg9ancz_LSOnS3cdhzewbV8cRwDbJZorWneEVVzSAaBwQL47CP3_4sUcmxapuQgJT86342t-iMkhLqJDsgVhw0OtvEOe4fbCjHzGMrSM");'></div>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="text-lg font-black text-[#2c1810] dark:text-white truncate">Glaze Craze</h3>
+<div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 font-medium my-1">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">schedule</span> 10m</span>
+<span class="size-1 bg-gray-300 rounded-full"></span>
+<span class="flex items-center gap-1 text-yellow-600"><span class="material-symbols-outlined text-base font-variation-settings-fill">star</span> 4.7</span>
+</div>
+<div class="flex gap-2 mt-2">
+<span class="px-2 py-1 bg-purple-50 text-purple-500 text-[10px] font-bold uppercase rounded-md">Sweet</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed bottom-6 left-0 right-0 flex justify-center z-50 pointer-events-none">
+<div class="pointer-events-auto bg-white/90 dark:bg-[#2c1616]/90 backdrop-blur-md border border-white/20 shadow-[0_8px_30px_rgb(0,0,0,0.12)] h-20 rounded-[2.5rem] px-8 flex items-center gap-12 relative max-w-[320px] w-full justify-between">
+<button class="flex flex-col items-center justify-center gap-1 text-primary">
+<span class="material-symbols-outlined text-3xl font-variation-settings-fill">home</span>
+<span class="size-1.5 bg-primary rounded-full"></span>
+</button>
+<div class="absolute -top-8 left-1/2 transform -translate-x-1/2">
+<button class="size-16 bg-gradient-to-br from-primary to-[#c41e1e] rounded-full shadow-[0_10px_20px_rgba(244,37,37,0.4)] flex items-center justify-center border-4 border-[#fffcf5] dark:border-[#221010] group active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-white text-3xl drop-shadow-md">shopping_basket</span>
+<span class="absolute top-3 right-3 size-3 bg-yellow-400 rounded-full border-2 border-primary"></span>
+</button>
+</div>
+<button class="flex flex-col items-center justify-center gap-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+<span class="material-symbols-outlined text-3xl">person</span>
+<span class="size-1.5 bg-transparent rounded-full"></span>
+</button>
+</div>
+</div>
+</div>
+</body></html>

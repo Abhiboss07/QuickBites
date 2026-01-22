@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QuickBites Live Tracking</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                "primary": "#f42525",
+                "background-light": "#f8f5f5",
+                "background-dark": "#221010",
+                },
+                fontFamily: {
+                "display": ["Spline Sans", "sans-serif"]
+                },
+                borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+            },
+            },
+        }
+    </script>
+<style>.dotted-path {
+            stroke-dasharray: 10, 10;
+            animation: dash 30s linear infinite;
+        }
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -1000;
+            }
+        }
+        .scooter-bounce {transform-origin: bottom center;
+        }::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+    </style>
+<style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#181111] dark:text-white overflow-hidden">
+<div class="relative flex h-screen w-full flex-col overflow-hidden">
+<div class="absolute inset-0 z-0 h-full w-full">
+<div class="h-full w-full bg-cover bg-center" data-alt="Stylized 3D cartoon map view of a city with rounded pastel buildings, soft lighting, and toy-like trees" data-location="Cartoon City" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuByYXtFOCHamBjIxS_XmYOkm5SgtElFz9Ozd9XxeE2Z2EH3qsKpwB8XcIT445kWkZfFW79CryvZuZmchnZ4IlEUTxZ0hik4l4q45QN2tPBLRf3qOw8oirvVXDU1uAR6fxmudS68C80f24tj9kbIYXxG4hMAuSld8EsHGwL1uV2Ep9UcU_Jwr-n4KfPXoMqKYGxJNT2TLMVUOynE0HWeO8aDVk39qWCgkdL5cfl5jp5f2Em5M4tHrw1gk0fLuxxegj1QUzUew9gPoYE");'>
+</div>
+<svg class="absolute inset-0 h-full w-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+<path class="opacity-40" d="M 50 100 Q 150 300 300 400 T 500 600" fill="none" stroke="#f42525" stroke-linecap="round" stroke-width="6"></path>
+<path class="dotted-path opacity-80" d="M 50 100 Q 150 300 300 400 T 500 600" fill="none" stroke="white" stroke-linecap="round" stroke-width="4"></path>
+</svg>
+<div class="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 z-10 scooter-bounce">
+<div class="relative flex flex-col items-center">
+<div class="mb-2 whitespace-nowrap rounded-full bg-white px-3 py-1 shadow-lg dark:bg-[#331a1a]">
+<span class="text-xs font-bold text-primary dark:text-red-400">Alex is here</span>
+</div>
+<div class="relative flex h-16 w-16 items-center justify-center rounded-full bg-primary shadow-[0_8px_16px_rgba(244,37,37,0.4)] border-4 border-white dark:border-[#331a1a]">
+<span class="material-symbols-outlined text-white" style="font-size: 32px;">sports_motorsports</span>
+<div class="absolute -right-1 -top-1 flex h-7 w-7 rotate-12 items-center justify-center rounded-full border-2 border-white bg-yellow-400 shadow-sm dark:border-[#331a1a]">
+<span class="text-[9px] font-black leading-none text-red-600">QB</span>
+</div>
+</div>
+<div class="mt-[-4px] h-3 w-10 rounded-[100%] bg-black/20 blur-sm"></div>
+</div>
+</div>
+<div class="absolute bottom-1/3 left-[20%] z-0">
+<div class="flex flex-col items-center">
+<div class="flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-lg dark:bg-[#331a1a]">
+<span class="material-symbols-outlined text-primary" style="font-size: 24px;">home_pin</span>
+</div>
+</div>
+</div>
+</div>
+<div class="relative z-10 flex w-full items-center justify-between p-4 pt-12">
+<button class="flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md transition-transform active:scale-95 dark:bg-[#331a1a] dark:text-white">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="flex flex-col items-center justify-center">
+<div class="flex items-center gap-1 drop-shadow-sm">
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">lunch_dining</span>
+<span class="text-xl font-bold italic tracking-tight text-primary">QuickBites</span>
+</div>
+<div class="mt-1 flex items-center gap-2 rounded-full bg-white/90 px-3 py-1 shadow-sm backdrop-blur-md dark:bg-[#331a1a]/90">
+<span class="material-symbols-outlined text-primary text-xs">timelapse</span>
+<span class="text-xs font-bold tracking-tight dark:text-white">Order #2841</span>
+</div>
+</div>
+<button class="flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md transition-transform active:scale-95 dark:bg-[#331a1a] dark:text-white">
+<span class="material-symbols-outlined">support_agent</span>
+</button>
+</div>
+<div class="flex-1"></div>
+<div class="relative z-20 flex w-full flex-col rounded-t-xl bg-background-light px-6 pb-8 pt-2 shadow-[0_-4px_20px_rgba(0,0,0,0.1)] dark:bg-background-dark">
+<div class="mx-auto mb-6 mt-2 h-1.5 w-12 rounded-full bg-gray-300 dark:bg-gray-600"></div>
+<div class="mb-8 flex items-start justify-between">
+<div>
+<h2 class="text-3xl font-bold tracking-tight text-[#181111] dark:text-white">
+                        12 <span class="text-lg font-medium text-gray-500 dark:text-gray-400">mins</span>
+</h2>
+<p class="text-lg font-medium text-primary">Arriving soon!</p>
+</div>
+<div class="text-right">
+<p class="text-sm text-gray-400 dark:text-gray-500">Estimated Arrival</p>
+<p class="text-lg font-bold text-[#181111] dark:text-white">7:42 PM</p>
+</div>
+</div>
+<div class="relative mb-8 flex w-full items-center justify-between px-2">
+<div class="absolute left-0 top-1/2 h-2 w-full -translate-y-1/2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+<div class="absolute left-0 top-1/2 h-2 w-1/2 -translate-y-1/2 rounded-full bg-primary/30"></div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md ring-4 ring-background-light dark:bg-[#331a1a] dark:ring-background-dark">
+<span class="material-symbols-outlined text-gray-400">skillet</span>
+</div>
+<span class="absolute -bottom-6 text-[10px] font-bold uppercase text-gray-400">Cooking</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="flex h-14 w-14 scale-110 items-center justify-center rounded-full bg-primary shadow-lg ring-4 ring-white dark:ring-background-dark">
+<span class="material-symbols-outlined text-white">moped</span>
+</div>
+<span class="absolute -bottom-6 text-[10px] font-bold uppercase text-primary">On Way</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="flex h-12 w-12 items-center justify-center rounded-full bg-gray-200 shadow-inner ring-4 ring-background-light dark:bg-gray-800 dark:ring-background-dark">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-600">home</span>
+</div>
+<span class="absolute -bottom-6 text-[10px] font-bold uppercase text-gray-400 dark:text-gray-600">Home</span>
+</div>
+</div>
+<div class="mt-4 flex items-center justify-between rounded-lg bg-white p-4 shadow-sm dark:bg-[#2a1515]">
+<div class="flex items-center gap-4">
+<div class="h-14 w-14 overflow-hidden rounded-full border-2 border-primary/20 bg-gray-100" data-alt="Close up portrait of cartoon 3D delivery driver character wearing a red helmet and smiling">
+<img alt="Driver Avatar" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2tzHei-tcZ-cdPPuvxe9kco3ThhkgzFvfwiZkuO8cSdEzxMp7fY119MU46KTYuk1hrsDhGiDc78V2oOfZNbE7nbJtoPGBmIRr3PiBbV1tMV-0XX68gJm_CqSRbJpqwU-DbNX6WXRXc--QhfQGd2qhNtFMQraWjsgvD-eey49Dc9qSOZ5-MLaJcVo46kgG42zMRNwHPdEKLUtm4CQZrc2imrYHWNrdb4STtxtPxUvg0MyMkftIZ-c4T8Y1IA_YkA2z_mwQloUcA8U"/>
+</div>
+<div class="flex flex-col justify-center">
+<h3 class="text-base font-bold leading-tight text-[#181111] dark:text-white">Alex (Driver)</h3>
+<div class="flex items-center gap-1">
+<span class="text-sm font-medium text-primary">4.8 ★</span>
+<span class="text-sm text-gray-400">• Red Scooter</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 text-green-600 transition-colors hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400">
+<span class="material-symbols-outlined" style="font-size: 20px;">call</span>
+</button>
+<button class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-blue-600 transition-colors hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-400">
+<span class="material-symbols-outlined" style="font-size: 20px;">chat_bubble</span>
+</button>
+</div>
+</div>
+<button class="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-4 text-base font-bold text-white shadow-lg shadow-red-500/30 transition-transform active:scale-[0.98]">
+<span>View Order Details</span>
+<span class="material-symbols-outlined" style="font-size: 20px;">arrow_forward</span>
+</button>
+</div>
+</div>
+
+</body></html>
