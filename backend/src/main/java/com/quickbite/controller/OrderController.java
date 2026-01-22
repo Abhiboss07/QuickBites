@@ -4,20 +4,21 @@ import com.quickbite.dto.OrderRequest;
 import com.quickbite.model.Order;
 import com.quickbite.model.OrderStatus;
 import com.quickbite.service.OrderService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
-@RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService service;
+
+    public OrderController(OrderService service) {
+        this.service = service;
+    }
 
     @PostMapping
     public ResponseEntity<Order> placeOrder(@RequestBody OrderRequest request) {

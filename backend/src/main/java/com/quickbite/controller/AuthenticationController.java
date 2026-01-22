@@ -4,7 +4,7 @@ import com.quickbite.dto.AuthenticationRequest;
 import com.quickbite.dto.AuthenticationResponse;
 import com.quickbite.dto.RegisterRequest;
 import com.quickbite.service.AuthenticationService;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

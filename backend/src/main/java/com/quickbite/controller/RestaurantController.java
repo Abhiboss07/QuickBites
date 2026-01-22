@@ -2,17 +2,19 @@ package com.quickbite.controller;
 
 import com.quickbite.model.Restaurant;
 import com.quickbite.service.RestaurantService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/restaurants")
-@RequiredArgsConstructor
 public class RestaurantController {
 
     private final RestaurantService service;
+
+    public RestaurantController(RestaurantService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public ResponseEntity<List<Restaurant>> getAllRestaurants() {

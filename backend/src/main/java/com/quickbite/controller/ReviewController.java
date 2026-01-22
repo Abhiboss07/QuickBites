@@ -6,8 +6,7 @@ import com.quickbite.model.User;
 import com.quickbite.repository.RestaurantRepository;
 import com.quickbite.repository.ReviewRepository;
 import com.quickbite.repository.UserRepository;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
