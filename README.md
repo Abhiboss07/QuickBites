@@ -7,14 +7,6 @@ This version is **professional**, **impressive for recruiters/clients**, and sti
 
 ### Cartoon-Themed Food Delivery Application 🚀
 
-![Image](https://cdn.dribbble.com/userupload/45221244/file/28720eb3c7d5979a622c22969beec31a.png?resize=752x\&vertical=center)
-
-![Image](https://cdn.dribbble.com/userupload/25431966/file/original-f058e18a6788a3f80e1fe71dd4fdc267.gif)
-
-![Image](https://cdn.dribbble.com/userupload/15671616/file/original-33c7735c8100fc23bf6eb5f7b3d5e069.png?crop=0x0-3201x2401\&format=webp\&resize=400x300\&vertical=center)
-
-![Image](https://mir-s3-cdn-cf.behance.net/project_modules/hd/cfc43a55921801.56099ea9dc231.jpg)
-
 > **QuickBites** is a **production-ready food delivery platform** inspired by modern apps like Zomato & Swiggy, enhanced with a **cartoon-style UI**, smooth animations, and a **scalable Java backend**.
 > Built for **real users, real businesses, and real growth**.
 
