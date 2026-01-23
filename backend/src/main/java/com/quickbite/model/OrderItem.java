@@ -1,8 +1,9 @@
 package com.quickbite.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
+@Entity
+@Table(name = "order_items")
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -10,7 +11,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+    private OrderEntity order;
 
     @ManyToOne
     @JoinColumn(name = "menu_item_id")
@@ -23,6 +24,14 @@ public class OrderItem {
     public OrderItem() {
     }
 
+    public OrderItem(Long id, OrderEntity order, MenuItem menuItem, Integer quantity, Double price) {
+        this.id = id;
+        this.order = order;
+        this.menuItem = menuItem;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
     public Long getId() {
         return id;
     }
@@ -31,11 +40,11 @@ public class OrderItem {
         this.id = id;
     }
 
-    public Order getOrder() {
+    public OrderEntity getOrder() {
         return order;
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(OrderEntity order) {
         this.order = order;
     }
 

@@ -1,8 +1,9 @@
 package com.quickbite.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
+@Entity
+@Table(name = "addresses")
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

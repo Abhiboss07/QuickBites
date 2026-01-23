@@ -1,6 +1,7 @@
 D:\QuickBite\backend\src\main\java\com\quickbite\repository\OrderRepository.java
 D:\QuickBite\backend\src\main\java\com\quickbite\controller\AuthenticationController.java
 D:\QuickBite\backend\src\main\java\com\quickbite\dto\OrderItemRequest.java
+D:\QuickBite\backend\src\main\java\com\quickbite\model\OrderEntity.java
 D:\QuickBite\backend\src\main\java\com\quickbite\dto\AuthenticationRequest.java
 D:\QuickBite\backend\src\main\java\com\quickbite\security\JwtUtil.java
 D:\QuickBite\backend\src\main\java\com\quickbite\service\RestaurantService.java
@@ -19,7 +20,6 @@ D:\QuickBite\backend\src\main\java\com\quickbite\repository\AddressRepository.ja
 D:\QuickBite\backend\src\main\java\com\quickbite\config\CorsConfig.java
 D:\QuickBite\backend\src\main\java\com\quickbite\controller\ReviewController.java
 D:\QuickBite\backend\src\main\java\com\quickbite\dto\AuthenticationResponse.java
-D:\QuickBite\backend\src\main\java\com\quickbite\model\Order.java
 D:\QuickBite\backend\src\main\java\com\quickbite\controller\RestaurantController.java
 D:\QuickBite\backend\src\main\java\com\quickbite\repository\RestaurantRepository.java
 D:\QuickBite\backend\src\main\java\com\quickbite\model\Address.java

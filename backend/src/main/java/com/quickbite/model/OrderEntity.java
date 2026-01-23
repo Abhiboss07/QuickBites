@@ -1,11 +1,12 @@
 package com.quickbite.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Order {
+@Entity
+@Table(name = "orders")
+public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -46,7 +47,7 @@ public class Order {
             status = OrderStatus.PENDING;
     }
 
-    public Order() {
+    public OrderEntity() {
     }
 
     public Long getId() {

@@ -1,7 +1,7 @@
 package com.quickbite.controller;
 
 import com.quickbite.dto.OrderRequest;
-import com.quickbite.model.Order;
+import com.quickbite.model.OrderEntity;
 import com.quickbite.model.OrderStatus;
 import com.quickbite.service.OrderService;
 import org.springframework.http.ResponseEntity;
@@ -21,26 +21,26 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Order> placeOrder(@RequestBody OrderRequest request) {
+    public ResponseEntity<OrderEntity> placeOrder(@RequestBody OrderRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         return ResponseEntity.ok(service.placeOrder(email, request));
     }
 
     @GetMapping("/my-orders")
-    public ResponseEntity<List<Order>> getMyOrders() {
+    public ResponseEntity<List<OrderEntity>> getMyOrders() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         return ResponseEntity.ok(service.getUserOrders(email));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
+    public ResponseEntity<OrderEntity> getOrderById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getOrderById(id));
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Order> updateStatus(@PathVariable Long id, @RequestParam OrderStatus status) {
+    public ResponseEntity<OrderEntity> updateStatus(@PathVariable Long id, @RequestParam OrderStatus status) {
         // In real app, check if user is restaurant owner or admin
         return ResponseEntity.ok(service.updateOrderStatus(id, status));
     }

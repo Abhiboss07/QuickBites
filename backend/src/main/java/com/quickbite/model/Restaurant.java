@@ -1,9 +1,10 @@
 package com.quickbite.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import java.util.List;
 
+@Entity
+@Table(name = "restaurants")
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

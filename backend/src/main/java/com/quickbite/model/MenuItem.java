@@ -1,8 +1,9 @@
 package com.quickbite.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
+@Entity
+@Table(name = "menu_items")
 public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

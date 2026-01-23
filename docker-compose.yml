@@ -5,8 +5,8 @@ services:
     image: mysql:8.0
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: quickbitedb
+      MYSQL_ROOT_PASSWORD: Abhi@123
+      MYSQL_DATABASE: quickbite
     ports:
       - "3306:3306"
     volumes:

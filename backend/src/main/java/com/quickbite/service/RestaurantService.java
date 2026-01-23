@@ -2,7 +2,6 @@ package com.quickbite.service;
 
 import com.quickbite.model.Restaurant;
 import com.quickbite.repository.RestaurantRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 

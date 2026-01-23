@@ -4,6 +4,7 @@ com\quickbite\controller\ReviewController.class
 com\quickbite\repository\ReviewRepository.class
 com\quickbite\model\MenuItem.class
 com\quickbite\model\Restaurant.class
+com\quickbite\model\OrderEntity.class
 com\quickbite\controller\OrderController.class
 com\quickbite\model\Payment.class
 com\quickbite\model\OrderStatus.class
@@ -21,7 +22,6 @@ com\quickbite\model\Address.class
 com\quickbite\repository\AddressRepository.class
 com\quickbite\model\Role.class
 com\quickbite\dto\OrderRequest.class
-com\quickbite\model\Order.class
 com\quickbite\security\JwtUtil.class
 com\quickbite\service\RestaurantService.class
 com\quickbite\config\SecurityConfig.class

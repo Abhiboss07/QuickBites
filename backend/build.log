@@ -1,0 +1,115 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< com.quickbite:backend >------------------------
+[INFO] Building QuickBite Backend 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] The artifact mysql:mysql-connector-java:jar:8.0.33 has been relocated to com.mysql:mysql-connector-j:jar:8.0.33: MySQL Connector/J artifacts moved to reverse-DNS compliant Maven 2+ coordinates.
+[INFO] 
+[INFO] --- clean:3.3.2:clean (default-clean) @ backend ---
+[INFO] Deleting D:\QuickBite\backend\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ backend ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ backend ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 35 source files with javac [debug release 17] to target\classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[49,14] cannot find symbol
+  symbol:   method setCustomer(com.quickbite.model.User)
+  location: variable order of type com.quickbite.model.OrderEntity
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[50,14] cannot find symbol
+  symbol:   method setRestaurant(com.quickbite.model.Restaurant)
+  location: variable order of type com.quickbite.model.OrderEntity
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[51,14] cannot find symbol
+  symbol:   method setDeliveryAddress(com.quickbite.model.Address)
+  location: variable order of type com.quickbite.model.OrderEntity
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[52,14] cannot find symbol
+  symbol:   method setStatus(com.quickbite.model.OrderStatus)
+  location: variable order of type com.quickbite.model.OrderEntity
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[53,14] cannot find symbol
+  symbol:   method setCreatedAt(java.time.LocalDateTime)
+  location: variable order of type com.quickbite.model.OrderEntity
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[65,22] cannot find symbol
+  symbol:   method setOrder(com.quickbite.model.OrderEntity)
+  location: variable orderItem of type com.quickbite.model.OrderItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[66,22] cannot find symbol
+  symbol:   method setMenuItem(com.quickbite.model.MenuItem)
+  location: variable orderItem of type com.quickbite.model.OrderItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[67,22] cannot find symbol
+  symbol:   method setQuantity(java.lang.Integer)
+  location: variable orderItem of type com.quickbite.model.OrderItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[68,40] cannot find symbol
+  symbol:   method getPrice()
+  location: variable menuItem of type com.quickbite.model.MenuItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[70,36] cannot find symbol
+  symbol:   method getPrice()
+  location: variable menuItem of type com.quickbite.model.MenuItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[74,14] cannot find symbol
+  symbol:   method setItems(java.util.List<com.quickbite.model.OrderItem>)
+  location: variable order of type com.quickbite.model.OrderEntity
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[75,14] cannot find symbol
+  symbol:   method setTotalAmount(double)
+  location: variable order of type com.quickbite.model.OrderEntity
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[97,14] cannot find symbol
+  symbol:   method setStatus(com.quickbite.model.OrderStatus)
+  location: variable order of type com.quickbite.model.OrderEntity
+[INFO] 13 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.026 s
+[INFO] Finished at: 2026-01-23T15:40:51+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile (default-compile) on project backend: Compilation failure: Compilation failure: 
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[49,14] cannot find symbol
+[ERROR]   symbol:   method setCustomer(com.quickbite.model.User)
+[ERROR]   location: variable order of type com.quickbite.model.OrderEntity
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[50,14] cannot find symbol
+[ERROR]   symbol:   method setRestaurant(com.quickbite.model.Restaurant)
+[ERROR]   location: variable order of type com.quickbite.model.OrderEntity
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[51,14] cannot find symbol
+[ERROR]   symbol:   method setDeliveryAddress(com.quickbite.model.Address)
+[ERROR]   location: variable order of type com.quickbite.model.OrderEntity
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[52,14] cannot find symbol
+[ERROR]   symbol:   method setStatus(com.quickbite.model.OrderStatus)
+[ERROR]   location: variable order of type com.quickbite.model.OrderEntity
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[53,14] cannot find symbol
+[ERROR]   symbol:   method setCreatedAt(java.time.LocalDateTime)
+[ERROR]   location: variable order of type com.quickbite.model.OrderEntity
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[65,22] cannot find symbol
+[ERROR]   symbol:   method setOrder(com.quickbite.model.OrderEntity)
+[ERROR]   location: variable orderItem of type com.quickbite.model.OrderItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[66,22] cannot find symbol
+[ERROR]   symbol:   method setMenuItem(com.quickbite.model.MenuItem)
+[ERROR]   location: variable orderItem of type com.quickbite.model.OrderItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[67,22] cannot find symbol
+[ERROR]   symbol:   method setQuantity(java.lang.Integer)
+[ERROR]   location: variable orderItem of type com.quickbite.model.OrderItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[68,40] cannot find symbol
+[ERROR]   symbol:   method getPrice()
+[ERROR]   location: variable menuItem of type com.quickbite.model.MenuItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[70,36] cannot find symbol
+[ERROR]   symbol:   method getPrice()
+[ERROR]   location: variable menuItem of type com.quickbite.model.MenuItem
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[74,14] cannot find symbol
+[ERROR]   symbol:   method setItems(java.util.List<com.quickbite.model.OrderItem>)
+[ERROR]   location: variable order of type com.quickbite.model.OrderEntity
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[75,14] cannot find symbol
+[ERROR]   symbol:   method setTotalAmount(double)
+[ERROR]   location: variable order of type com.quickbite.model.OrderEntity
+[ERROR] /D:/QuickBite/backend/src/main/java/com/quickbite/service/OrderService.java:[97,14] cannot find symbol
+[ERROR]   symbol:   method setStatus(com.quickbite.model.OrderStatus)
+[ERROR]   location: variable order of type com.quickbite.model.OrderEntity
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

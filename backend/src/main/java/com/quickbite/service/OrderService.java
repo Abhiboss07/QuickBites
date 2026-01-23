@@ -4,7 +4,6 @@ import com.quickbite.dto.OrderItemRequest;
 import com.quickbite.dto.OrderRequest;
 import com.quickbite.model.*;
 import com.quickbite.repository.*;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +32,7 @@ public class OrderService {
     }
 
     @Transactional
-    public Order placeOrder(String userEmail, OrderRequest request) {
+    public OrderEntity placeOrder(String userEmail, OrderRequest request) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
@@ -46,7 +45,7 @@ public class OrderService {
                     .orElseThrow(() -> new RuntimeException("Address not found"));
         }
 
-        Order order = new Order();
+        OrderEntity order = new OrderEntity();
         order.setCustomer(user);
         order.setRestaurant(restaurant);
         order.setDeliveryAddress(address);
@@ -56,12 +55,14 @@ public class OrderService {
         List<OrderItem> orderItems = new ArrayList<>();
         double totalAmount = 0.0;
 
+        // Iterate through items, creating OrderItem and associating strictly with this
+        // OrderEntity
         for (OrderItemRequest itemRequest : request.getItems()) {
             MenuItem menuItem = menuItemRepository.findById(itemRequest.getMenuItemId())
                     .orElseThrow(() -> new RuntimeException("Menu Item not found"));
 
             OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
+            orderItem.setOrder(order); // Link to the new OrderEntity
             orderItem.setMenuItem(menuItem);
             orderItem.setQuantity(itemRequest.getQuantity());
             orderItem.setPrice(menuItem.getPrice());
@@ -76,23 +77,23 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public List<Order> getUserOrders(String userEmail) {
+    public List<OrderEntity> getUserOrders(String userEmail) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return orderRepository.findByCustomerId(user.getId());
     }
 
-    public Order getOrderById(Long orderId) {
+    public OrderEntity getOrderById(Long orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
     }
 
-    public List<Order> getRestaurantOrders(Long restaurantId) {
+    public List<OrderEntity> getRestaurantOrders(Long restaurantId) {
         return orderRepository.findByRestaurantId(restaurantId);
     }
 
-    public Order updateOrderStatus(Long orderId, OrderStatus status) {
-        Order order = getOrderById(orderId);
+    public OrderEntity updateOrderStatus(Long orderId, OrderStatus status) {
+        OrderEntity order = getOrderById(orderId);
         order.setStatus(status);
         return orderRepository.save(order);
     }
