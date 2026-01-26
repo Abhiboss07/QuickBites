@@ -39,6 +39,7 @@ D:\QuickBite\backend\src\main\java\com\quickbite\model\User.java
 D:\QuickBite\backend\src\main\java\com\quickbite\model\Role.java
 D:\QuickBite\backend\src\main\java\com\quickbite\exception\GlobalExceptionHandler.java
 D:\QuickBite\backend\src\main\java\com\quickbite\config\CorsConfig.java
+D:\QuickBite\backend\src\main\java\com\quickbite\model\Order.java
 D:\QuickBite\backend\src\main\java\com\quickbite\repository\RestaurantRepository.java
 D:\QuickBite\backend\src\main\java\com\quickbite\controller\CategoryController.java
 D:\QuickBite\backend\src\main\java\com\quickbite\model\Review.java

@@ -1,100 +1,90 @@
 package com.quickbite.service;
 
-import com.quickbite.dto.OrderItemRequest;
-import com.quickbite.dto.OrderRequest;
 import com.quickbite.model.*;
 import com.quickbite.repository.*;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final UserRepository userRepository;
-    private final RestaurantRepository restaurantRepository;
-    private final MenuItemRepository menuItemRepository;
+    private final CartRepository cartRepository;
     private final AddressRepository addressRepository;
 
-    public OrderService(OrderRepository orderRepository, UserRepository userRepository,
-            RestaurantRepository restaurantRepository, MenuItemRepository menuItemRepository,
+    public OrderService(OrderRepository orderRepository, CartRepository cartRepository,
             AddressRepository addressRepository) {
         this.orderRepository = orderRepository;
-        this.userRepository = userRepository;
-        this.restaurantRepository = restaurantRepository;
-        this.menuItemRepository = menuItemRepository;
+        this.cartRepository = cartRepository;
         this.addressRepository = addressRepository;
     }
 
     @Transactional
-    public OrderEntity placeOrder(String userEmail, OrderRequest request) {
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    public Order placeOrder(User user, Long addressId) {
+        Cart cart = cartRepository.findByUser(user)
+                .orElseThrow(() -> new RuntimeException("Cart not found"));
 
-        Restaurant restaurant = restaurantRepository.findById(request.getRestaurantId())
-                .orElseThrow(() -> new RuntimeException("Restaurant not found"));
+        if (cart.getItems().isEmpty()) {
+            throw new RuntimeException("Cart is empty");
+        }
 
         Address address = null;
-        if (request.getAddressId() != null) {
-            address = addressRepository.findById(request.getAddressId())
+        if (addressId != null) {
+            address = addressRepository.findById(addressId)
                     .orElseThrow(() -> new RuntimeException("Address not found"));
         }
 
-        OrderEntity order = new OrderEntity();
-        order.setCustomer(user);
-        order.setRestaurant(restaurant);
-        order.setDeliveryAddress(address);
-        order.setStatus(OrderStatus.PENDING);
-        order.setCreatedAt(LocalDateTime.now());
+        // Create Order
+        Order order = new Order(user, cart.getRestaurant(), cart.getTotalPrice(), address);
 
-        List<OrderItem> orderItems = new ArrayList<>();
-        double totalAmount = 0.0;
-
-        // Iterate through items, creating OrderItem and associating strictly with this
-        // OrderEntity
-        for (OrderItemRequest itemRequest : request.getItems()) {
-            MenuItem menuItem = menuItemRepository.findById(itemRequest.getMenuItemId())
-                    .orElseThrow(() -> new RuntimeException("Menu Item not found"));
-
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order); // Link to the new OrderEntity
-            orderItem.setMenuItem(menuItem);
-            orderItem.setQuantity(itemRequest.getQuantity());
-            orderItem.setPrice(menuItem.getPrice());
-
-            totalAmount += menuItem.getPrice() * itemRequest.getQuantity();
-            orderItems.add(orderItem);
+        // Convert CartItems to OrderItems (snapshot)
+        for (CartItem ci : cart.getItems()) {
+            OrderItem oi = new OrderItem(
+                    order,
+                    ci.getMenuItem().getId(),
+                    ci.getMenuItem().getName(),
+                    ci.getPrice(),
+                    ci.getQuantity(), // Ensure CartItem has this or get from menuItem? CartItem should have snapshot
+                                      // price. wait, CartItem entity has price snapshot? Let's check. Yes, added in
+                                      // Phase 4.
+                    ci.getMenuItem().getIsVeg() // Assuming snapshot needed or just reference? OrderItem has isVeg
+                                                // field. Good.
+            );
+            order.addItem(oi);
         }
 
-        order.setItems(orderItems);
-        order.setTotalAmount(totalAmount);
+        // Mock Payment
+        if (processPaymentMock(order.getTotalPrice())) {
+            order.setStatus(OrderStatus.PAID);
+        } else {
+            order.setStatus(OrderStatus.PENDING); // Or fail? For now, let's assume success mostly.
+        }
 
-        return orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
+
+        // Clear Cart
+        cart.clear();
+        cart.setRestaurant(null);
+        cartRepository.save(cart);
+
+        return savedOrder;
     }
 
-    public List<OrderEntity> getUserOrders(String userEmail) {
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return orderRepository.findByCustomerId(user.getId());
+    public List<Order> getUserOrders(User user) {
+        return orderRepository.findByUserOrderByCreatedAtDesc(user);
     }
 
-    public OrderEntity getOrderById(Long orderId) {
-        return orderRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
-    }
-
-    public List<OrderEntity> getRestaurantOrders(Long restaurantId) {
-        return orderRepository.findByRestaurantId(restaurantId);
-    }
-
-    public OrderEntity updateOrderStatus(Long orderId, OrderStatus status) {
-        OrderEntity order = getOrderById(orderId);
-        order.setStatus(status);
-        return orderRepository.save(order);
+    private boolean processPaymentMock(Double amount) {
+        // Simulate processing time
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // 90% success rate, or just true for Phase 5 demo
+        return true;
     }
 }

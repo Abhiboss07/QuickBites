@@ -11,25 +11,25 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private OrderEntity order;
+    private Order order;
 
-    @ManyToOne
-    @JoinColumn(name = "menu_item_id")
-    private MenuItem menuItem;
-
+    // Snapshot details
+    private Long menuItemId; // Keep ID for reference if needed
+    private String name;
+    private Double price;
     private Integer quantity;
-
-    private Double price; // Price at the time of order
+    private Boolean isVeg;
 
     public OrderItem() {
     }
 
-    public OrderItem(Long id, OrderEntity order, MenuItem menuItem, Integer quantity, Double price) {
-        this.id = id;
+    public OrderItem(Order order, Long menuItemId, String name, Double price, Integer quantity, Boolean isVeg) {
         this.order = order;
-        this.menuItem = menuItem;
-        this.quantity = quantity;
+        this.menuItemId = menuItemId;
+        this.name = name;
         this.price = price;
+        this.quantity = quantity;
+        this.isVeg = isVeg;
     }
 
     public Long getId() {
@@ -40,20 +40,36 @@ public class OrderItem {
         this.id = id;
     }
 
-    public OrderEntity getOrder() {
+    public Order getOrder() {
         return order;
     }
 
-    public void setOrder(OrderEntity order) {
+    public void setOrder(Order order) {
         this.order = order;
     }
 
-    public MenuItem getMenuItem() {
-        return menuItem;
+    public Long getMenuItemId() {
+        return menuItemId;
     }
 
-    public void setMenuItem(MenuItem menuItem) {
-        this.menuItem = menuItem;
+    public void setMenuItemId(Long menuItemId) {
+        this.menuItemId = menuItemId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public Integer getQuantity() {
@@ -64,11 +80,11 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public Double getPrice() {
-        return price;
+    public Boolean getIsVeg() {
+        return isVeg;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setIsVeg(Boolean veg) {
+        isVeg = veg;
     }
 }
