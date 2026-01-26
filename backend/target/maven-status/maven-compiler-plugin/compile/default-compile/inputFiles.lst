@@ -2,6 +2,7 @@ D:\QuickBite\backend\src\main\java\com\quickbite\controller\AuthenticationContro
 D:\QuickBite\backend\src\main\java\com\quickbite\repository\UserRepository.java
 D:\QuickBite\backend\src\main\java\com\quickbite\dto\RegisterRequest.java
 D:\QuickBite\backend\src\main\java\com\quickbite\config\ApplicationConfig.java
+D:\QuickBite\backend\src\main\java\com\quickbite\config\RateLimitConfig.java
 D:\QuickBite\backend\src\main\java\com\quickbite\config\SecurityConfig.java
 D:\QuickBite\backend\src\main\java\com\quickbite\model\Cart.java
 D:\QuickBite\backend\src\main\java\com\quickbite\dto\AddToCartRequest.java
@@ -41,6 +42,7 @@ D:\QuickBite\backend\src\main\java\com\quickbite\exception\GlobalExceptionHandle
 D:\QuickBite\backend\src\main\java\com\quickbite\config\CorsConfig.java
 D:\QuickBite\backend\src\main\java\com\quickbite\model\Order.java
 D:\QuickBite\backend\src\main\java\com\quickbite\repository\RestaurantRepository.java
+D:\QuickBite\backend\src\main\java\com\quickbite\service\OrderTrackingService.java
 D:\QuickBite\backend\src\main\java\com\quickbite\controller\CategoryController.java
 D:\QuickBite\backend\src\main\java\com\quickbite\model\Review.java
 D:\QuickBite\backend\src\main\java\com\quickbite\repository\CategoryRepository.java

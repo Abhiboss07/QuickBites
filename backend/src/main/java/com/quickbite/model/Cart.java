@@ -13,6 +13,7 @@ public class Cart {
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private User user;
 
     // Ideally restrict cart to one restaurant at a time

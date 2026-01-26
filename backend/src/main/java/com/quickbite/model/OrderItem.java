@@ -11,6 +11,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Order order;
 
     // Snapshot details

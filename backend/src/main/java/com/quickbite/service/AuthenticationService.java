@@ -1,6 +1,10 @@
 package com.quickbite.service;
 
-import com.quickbite.config.ApplicationConfig;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.quickbite.dto.AuthenticationRequest;
 import com.quickbite.dto.AuthenticationResponse;
 import com.quickbite.dto.RegisterRequest;
@@ -8,10 +12,6 @@ import com.quickbite.model.Role;
 import com.quickbite.model.User;
 import com.quickbite.repository.UserRepository;
 import com.quickbite.security.JwtUtil;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationService {
@@ -54,25 +54,29 @@ public class AuthenticationService {
         }
 
         public AuthenticationResponse register(RegisterRequest request) {
-                var role = request.getRole() != null ? request.getRole() : Role.USER;
+                try {
+                    var role = request.getRole() != null ? request.getRole() : Role.USER;
 
-                User user = new User();
-                user.setFullName(request.getFullName());
-                user.setEmail(request.getEmail());
-                user.setPassword(passwordEncoder.encode(request.getPassword()));
-                user.setPhoneNumber(request.getPhoneNumber());
-                user.setRole(role);
+                    User user = new User();
+                    user.setFullName(request.getFullName());
+                    user.setEmail(request.getEmail());
+                    user.setPassword(passwordEncoder.encode(request.getPassword()));
+                    user.setPhoneNumber(request.getPhoneNumber());
+                    user.setRole(role);
 
-                repository.save(user);
-                var jwtToken = jwtUtil.generateToken(user);
-                var refreshToken = createRefreshToken(user);
+                    User savedUser = repository.save(user);
+                    var jwtToken = jwtUtil.generateToken(savedUser);
+                    var refreshToken = createRefreshToken(savedUser);
 
-                AuthenticationResponse response = new AuthenticationResponse();
-                response.setToken(jwtToken);
-                response.setRefreshToken(refreshToken.getToken());
-                response.setRole(user.getRole().name());
+                    AuthenticationResponse response = new AuthenticationResponse();
+                    response.setToken(jwtToken);
+                    response.setRefreshToken(refreshToken.getToken());
+                    response.setRole(savedUser.getRole() != null ? savedUser.getRole().name() : "USER");
 
-                return response;
+                    return response;
+                } catch (Exception e) {
+                    throw new RuntimeException("Registration failed: " + e.getMessage(), e);
+                }
         }
 
         public AuthenticationResponse authenticate(AuthenticationRequest request) {

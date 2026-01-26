@@ -27,7 +27,7 @@ public class Order {
     private Double totalPrice;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private OrderStatus status = OrderStatus.PENDING;
 
     @Column(nullable = false)

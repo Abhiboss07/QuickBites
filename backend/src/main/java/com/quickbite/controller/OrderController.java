@@ -18,19 +18,42 @@ public class OrderController {
 
     private final OrderService orderService;
     private final UserRepository userRepository;
+    private final com.quickbite.service.OrderTrackingService trackingService;
 
-    public OrderController(OrderService orderService, UserRepository userRepository) {
+    public OrderController(OrderService orderService, UserRepository userRepository,
+            com.quickbite.service.OrderTrackingService trackingService) {
         this.orderService = orderService;
         this.userRepository = userRepository;
+        this.trackingService = trackingService;
+    }
+
+    @PostMapping("/{id}/track")
+    public ResponseEntity<String> startTracking(@PathVariable Long id) {
+        try {
+            System.out.println("Received track request for Order " + id);
+            trackingService.simulateOrderProgression(id);
+            return ResponseEntity.ok("Simulation started for Order " + id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
     }
 
     @PostMapping
-    public ResponseEntity<Order> placeOrder(@AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<?> placeOrder(@AuthenticationPrincipal UserDetails userDetails,
             @RequestBody OrderRequest request) {
-        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
-        return ResponseEntity.ok(orderService.placeOrder(user, request.getAddressId())); // Address can be null for now
-                                                                                         // if pickup? Or enforce.
-                                                                                         // Service handles null.
+        try {
+            User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
+            return ResponseEntity.ok(orderService.placeOrder(user, request.getAddressId()));
+        } catch (Exception e) {
+            try {
+                java.io.FileWriter fw = new java.io.FileWriter("error_order.log", true);
+                e.printStackTrace(new java.io.PrintWriter(fw));
+                fw.close();
+            } catch (Exception ex) {
+            }
+            return ResponseEntity.status(500).body("CreateOrder Failed: " + e.getMessage());
+        }
     }
 
     @GetMapping
