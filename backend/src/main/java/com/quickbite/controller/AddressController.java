@@ -39,7 +39,8 @@ public class AddressController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAddress(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
-        Address address = addressRepository.findById(id).orElseThrow();
+        Address address = addressRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Address not found"));
         if (!address.getUser().getEmail().equals(userDetails.getUsername())) {
             return ResponseEntity.status(403).build();
         }

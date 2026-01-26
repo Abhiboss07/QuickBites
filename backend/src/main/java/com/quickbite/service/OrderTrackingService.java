@@ -19,7 +19,6 @@ public class OrderTrackingService {
 
     @Async
     public CompletableFuture<Void> simulateOrderProgression(Long orderId) {
-        System.out.println("Starting simulation for Order " + orderId);
         try {
             updateStatus(orderId, OrderStatus.PREPARING);
             Thread.sleep(10000); // 10s
@@ -28,7 +27,6 @@ public class OrderTrackingService {
             Thread.sleep(10000); // 10s
 
             updateStatus(orderId, OrderStatus.DELIVERED);
-            System.out.println("Order " + orderId + " Delivered.");
 
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -40,7 +38,6 @@ public class OrderTrackingService {
         orderRepository.findById(orderId).ifPresent(order -> {
             order.setStatus(status);
             orderRepository.save(order);
-            System.out.println("Order " + orderId + " updated to " + status);
         });
     }
 }

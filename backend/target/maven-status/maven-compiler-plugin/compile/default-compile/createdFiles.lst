@@ -1,6 +1,7 @@
 com\quickbite\model\Category.class
 com\quickbite\repository\RestaurantRepository.class
 com\quickbite\controller\ReviewController.class
+com\quickbite\config\SocketConfig.class
 com\quickbite\model\OrderStatus.class
 com\quickbite\security\JwtAuthenticationFilter.class
 com\quickbite\repository\CategoryRepository.class
@@ -10,6 +11,7 @@ com\quickbite\controller\CartController.class
 com\quickbite\repository\AddressRepository.class
 com\quickbite\security\JwtUtil.class
 com\quickbite\service\RestaurantService.class
+com\quickbite\repository\PaymentRepository.class
 com\quickbite\model\CartItem.class
 com\quickbite\model\OrderItem.class
 com\quickbite\service\OrderService.class
@@ -52,6 +54,7 @@ com\quickbite\dto\RegisterRequest.class
 com\quickbite\config\RateLimitConfig$RateLimitInterceptor.class
 com\quickbite\controller\CategoryController.class
 com\quickbite\dto\AuthenticationRequest.class
+com\quickbite\service\PaymentService.class
 com\quickbite\exception\GlobalExceptionHandler.class
 com\quickbite\model\Review.class
 com\quickbite\dto\OrderItemRequest.class

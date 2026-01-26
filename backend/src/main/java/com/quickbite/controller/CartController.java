@@ -18,15 +18,12 @@ public class CartController {
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
     private final MenuItemRepository menuItemRepository;
-    private final RestaurantRepository restaurantRepository; // Ensure this is imported if used, but strictly might not
-                                                             // need if via MenuItem
 
     public CartController(CartRepository cartRepository, UserRepository userRepository,
-            MenuItemRepository menuItemRepository, RestaurantRepository restaurantRepository) {
+            MenuItemRepository menuItemRepository) {
         this.cartRepository = cartRepository;
         this.userRepository = userRepository;
         this.menuItemRepository = menuItemRepository;
-        this.restaurantRepository = restaurantRepository;
     }
 
     @GetMapping
@@ -40,15 +37,8 @@ public class CartController {
     public ResponseEntity<?> addToCart(@AuthenticationPrincipal UserDetails userDetails,
             @RequestBody AddToCartRequest request) {
         try {
-            // Log entry
-            try {
-                java.io.FileWriter fw = new java.io.FileWriter("debug_entry.log", true);
-                fw.write("Entered addToCart\n");
-                fw.close();
-            } catch (Exception e) {
-            }
-
-            User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
+            User user = userRepository.findByEmail(userDetails.getUsername())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
             Cart cart = getOrCreateCart(user);
 
             MenuItem menuItem = menuItemRepository.findById(request.getMenuItemId())
@@ -78,14 +68,10 @@ public class CartController {
 
             cartRepository.save(cart);
             return ResponseEntity.ok("Success");
-        } catch (Throwable e) {
-            try {
-                java.io.FileWriter fw = new java.io.FileWriter("error_throwable.log", true);
-                e.printStackTrace(new java.io.PrintWriter(fw));
-                fw.close();
-            } catch (Exception ex) {
-            }
-            return ResponseEntity.status(500).body("AddToCart Failed Throwable");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Add to cart failed");
         }
     }
 

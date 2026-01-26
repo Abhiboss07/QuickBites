@@ -19,20 +19,29 @@ public class UserController {
 
     @GetMapping("/profile")
     public ResponseEntity<User> getProfile(@AuthenticationPrincipal UserDetails userDetails) {
-        return ResponseEntity.ok(userRepository.findByEmail(userDetails.getUsername()).orElseThrow());
+        try {
+            return ResponseEntity.ok(userRepository.findByEmail(userDetails.getUsername())
+                    .orElseThrow(() -> new RuntimeException("User not found")));
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/profile")
     public ResponseEntity<User> updateProfile(@AuthenticationPrincipal UserDetails userDetails,
             @RequestBody User userUpdate) {
-        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
+        try {
+            User user = userRepository.findByEmail(userDetails.getUsername())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (userUpdate.getFullName() != null)
-            user.setFullName(userUpdate.getFullName());
-        if (userUpdate.getPhoneNumber() != null)
-            user.setPhoneNumber(userUpdate.getPhoneNumber());
-        // Email update usually requires re-verification, skipping for now
+            if (userUpdate.getFullName() != null)
+                user.setFullName(userUpdate.getFullName());
+            if (userUpdate.getPhoneNumber() != null)
+                user.setPhoneNumber(userUpdate.getPhoneNumber());
 
-        return ResponseEntity.ok(userRepository.save(user));
+            return ResponseEntity.ok(userRepository.save(user));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

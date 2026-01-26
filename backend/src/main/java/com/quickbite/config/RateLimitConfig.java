@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -16,8 +17,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 public class RateLimitConfig implements WebMvcConfigurer {
 
-    private final ConcurrentHashMap<String, Integer> requestCounts = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<String, Long> lastRequestTime = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Integer> requestCounts = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Long> lastRequestTime = new ConcurrentHashMap<>();
 
     @Bean
     public HttpSessionEventPublisher httpSessionEventPublisher() {
@@ -25,16 +26,16 @@ public class RateLimitConfig implements WebMvcConfigurer {
     }
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+    public void addInterceptors(@NonNull InterceptorRegistry registry) {
         registry.addInterceptor(new RateLimitInterceptor());
     }
 
-    private class RateLimitInterceptor implements HandlerInterceptor {
+    private static class RateLimitInterceptor implements HandlerInterceptor {
         private static final int MAX_REQUESTS_PER_MINUTE = 60;
         private static final long MINUTE_IN_MILLIS = TimeUnit.MINUTES.toMillis(1);
 
         @Override
-        public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        public boolean preHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) throws Exception {
             String clientIp = getClientIpAddress(request);
             long currentTime = System.currentTimeMillis();
 

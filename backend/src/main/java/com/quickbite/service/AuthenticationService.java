@@ -85,7 +85,7 @@ public class AuthenticationService {
                                                 request.getEmail(),
                                                 request.getPassword()));
                 var user = repository.findByEmail(request.getEmail())
-                                .orElseThrow();
+                                .orElseThrow(() -> new RuntimeException("User not found"));
                 var jwtToken = jwtUtil.generateToken(user);
                 var refreshToken = createRefreshToken(user);
 

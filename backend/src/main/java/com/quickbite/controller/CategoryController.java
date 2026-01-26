@@ -24,6 +24,10 @@ public class CategoryController {
 
     @PostMapping
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
-        return ResponseEntity.ok(categoryRepository.save(category));
+        try {
+            return ResponseEntity.ok(categoryRepository.save(category));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

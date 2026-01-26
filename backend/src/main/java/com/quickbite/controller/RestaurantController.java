@@ -39,9 +39,14 @@ public class RestaurantController {
     @PostMapping
     public ResponseEntity<Restaurant> createRestaurant(@AuthenticationPrincipal UserDetails userDetails,
             @RequestBody Restaurant restaurant) {
-        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
-        restaurant.setOwner(user);
-        return ResponseEntity.ok(restaurantRepository.save(restaurant));
+        try {
+            User user = userRepository.findByEmail(userDetails.getUsername())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+            restaurant.setOwner(user);
+            return ResponseEntity.ok(restaurantRepository.save(restaurant));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PostMapping("/{id}/menu")

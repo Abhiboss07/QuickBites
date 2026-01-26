@@ -32,29 +32,24 @@ public class OrderService {
 
     @Transactional
     public Order placeOrder(User user, Long addressId) {
-        System.out.println("PlaceOrder started for user: " + user.getEmail());
         Cart cart = cartRepository.findByUser(user)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
 
         if (cart.getItems().isEmpty()) {
             throw new RuntimeException("Cart is empty");
         }
-        System.out.println("Cart found with items: " + cart.getItems().size());
 
         Address address = null;
         if (addressId != null) {
             address = addressRepository.findById(addressId)
                     .orElseThrow(() -> new RuntimeException("Address not found"));
-            System.out.println("Address found: " + address.getId());
         }
 
         // Create Order
         Order order = new Order(user, cart.getRestaurant(), cart.getTotalPrice(), address);
-        System.out.println("Order entity created (transient)");
 
         // Convert CartItems to OrderItems (snapshot)
         for (CartItem ci : cart.getItems()) {
-            System.out.println("Processing CartItem: " + ci.getId());
             OrderItem oi = new OrderItem(
                     order,
                     ci.getMenuItem().getId(),
@@ -64,7 +59,6 @@ public class OrderService {
                     ci.getMenuItem().getIsVeg());
             order.addItem(oi);
         }
-        System.out.println("OrderItems added");
 
         // Mock Payment
         if (processPaymentMock(order.getTotalPrice())) {
@@ -72,16 +66,13 @@ public class OrderService {
         } else {
             order.setStatus(OrderStatus.PENDING);
         }
-        System.out.println("Payment processed, status: " + order.getStatus());
 
         Order savedOrder = orderRepository.save(order);
-        System.out.println("Order saved: " + savedOrder.getId());
 
         // Clear Cart
         cart.clear();
         cart.setRestaurant(null);
         cartRepository.save(cart);
-        System.out.println("Cart cleared");
 
         return savedOrder;
     }
@@ -98,6 +89,12 @@ public class OrderService {
             Thread.currentThread().interrupt();
             return false;
         }
+        // Validate amount and simulate payment processing
+        if (amount == null || amount <= 0) {
+            return false;
+        }
+        // In a real implementation, you would process the actual payment
+        // For now, just return true to simulate successful payment
         return true;
     }
 }
