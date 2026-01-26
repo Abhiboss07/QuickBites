@@ -8,6 +8,7 @@ com\quickbite\model\OrderEntity.class
 com\quickbite\controller\OrderController.class
 com\quickbite\model\Payment.class
 com\quickbite\model\OrderStatus.class
+com\quickbite\dto\RefreshTokenRequest.class
 com\quickbite\QuickBiteApplication.class
 com\quickbite\security\JwtAuthenticationFilter.class
 com\quickbite\controller\ReviewController$ReviewRequest.class
@@ -15,6 +16,7 @@ com\quickbite\config\CorsConfig.class
 com\quickbite\config\ApplicationConfig.class
 com\quickbite\controller\RestaurantController.class
 com\quickbite\exception\GlobalExceptionHandler$ErrorResponse.class
+com\quickbite\controller\AddressController.class
 com\quickbite\controller\AuthenticationController$OtpRequest.class
 com\quickbite\dto\AuthenticationResponse.class
 com\quickbite\repository\MenuItemRepository.class
@@ -22,7 +24,9 @@ com\quickbite\model\Address.class
 com\quickbite\repository\AddressRepository.class
 com\quickbite\model\Role.class
 com\quickbite\dto\OrderRequest.class
+com\quickbite\model\RefreshToken.class
 com\quickbite\security\JwtUtil.class
+com\quickbite\controller\UserController.class
 com\quickbite\service\RestaurantService.class
 com\quickbite\config\SecurityConfig.class
 com\quickbite\controller\AuthenticationController.class
@@ -34,5 +38,6 @@ com\quickbite\dto\AuthenticationRequest.class
 com\quickbite\exception\GlobalExceptionHandler.class
 com\quickbite\repository\OrderRepository.class
 com\quickbite\model\Review.class
+com\quickbite\repository\RefreshTokenRepository.class
 com\quickbite\dto\OrderItemRequest.class
 com\quickbite\repository\UserRepository.class

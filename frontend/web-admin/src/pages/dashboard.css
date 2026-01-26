@@ -78,6 +78,12 @@
     border-collapse: collapse;
 }
 
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 .table th {
     text-align: left;
     padding: 1rem 1.5rem;

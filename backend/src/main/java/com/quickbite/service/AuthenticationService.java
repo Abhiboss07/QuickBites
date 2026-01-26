@@ -20,13 +20,37 @@ public class AuthenticationService {
         private final PasswordEncoder passwordEncoder;
         private final JwtUtil jwtUtil;
         private final AuthenticationManager authenticationManager;
+        private final com.quickbite.repository.RefreshTokenRepository refreshTokenRepository;
 
         public AuthenticationService(UserRepository repository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil,
-                        AuthenticationManager authenticationManager) {
+                        AuthenticationManager authenticationManager,
+                        com.quickbite.repository.RefreshTokenRepository refreshTokenRepository) {
                 this.repository = repository;
                 this.passwordEncoder = passwordEncoder;
                 this.jwtUtil = jwtUtil;
                 this.authenticationManager = authenticationManager;
+                this.refreshTokenRepository = refreshTokenRepository;
+        }
+
+        public com.quickbite.model.RefreshToken createRefreshToken(User user) {
+                com.quickbite.model.RefreshToken refreshToken = new com.quickbite.model.RefreshToken();
+                refreshToken.setUser(user);
+                refreshToken.setExpiryDate(java.time.Instant.now().plusMillis(2592000000L)); // 30 days
+                refreshToken.setToken(java.util.UUID.randomUUID().toString());
+                return refreshTokenRepository.save(refreshToken);
+        }
+
+        public java.util.Optional<com.quickbite.model.RefreshToken> findByToken(String token) {
+                return refreshTokenRepository.findByToken(token);
+        }
+
+        public com.quickbite.model.RefreshToken verifyExpiration(com.quickbite.model.RefreshToken token) {
+                if (token.getExpiryDate().compareTo(java.time.Instant.now()) < 0) {
+                        refreshTokenRepository.delete(token);
+                        throw new RuntimeException(token.getToken()
+                                        + " Refresh token was expired. Please make a new signin request");
+                }
+                return token;
         }
 
         public AuthenticationResponse register(RegisterRequest request) {
@@ -41,9 +65,11 @@ public class AuthenticationService {
 
                 repository.save(user);
                 var jwtToken = jwtUtil.generateToken(user);
+                var refreshToken = createRefreshToken(user);
 
                 AuthenticationResponse response = new AuthenticationResponse();
                 response.setToken(jwtToken);
+                response.setRefreshToken(refreshToken.getToken());
                 response.setRole(user.getRole().name());
 
                 return response;
@@ -57,9 +83,11 @@ public class AuthenticationService {
                 var user = repository.findByEmail(request.getEmail())
                                 .orElseThrow();
                 var jwtToken = jwtUtil.generateToken(user);
+                var refreshToken = createRefreshToken(user);
 
                 AuthenticationResponse response = new AuthenticationResponse();
                 response.setToken(jwtToken);
+                response.setRefreshToken(refreshToken.getToken());
                 response.setRole(user.getRole().name());
 
                 return response;
@@ -75,5 +103,17 @@ public class AuthenticationService {
         public boolean verifyOtp(String email, String otp) {
                 // Stub: Always accept "1234"
                 return "1234".equals(otp);
+        }
+
+        public AuthenticationResponse refreshToken(String refreshToken) {
+                return findByToken(refreshToken)
+                                .map(this::verifyExpiration)
+                                .map(com.quickbite.model.RefreshToken::getUser)
+                                .map(user -> {
+                                        String accessToken = jwtUtil.generateToken(user);
+                                        return new AuthenticationResponse(accessToken, refreshToken,
+                                                        user.getRole().name());
+                                })
+                                .orElseThrow(() -> new RuntimeException("Refresh token is not in database!"));
         }
 }

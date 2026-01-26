@@ -2,13 +2,15 @@ package com.quickbite.dto;
 
 public class AuthenticationResponse {
     private String token;
+    private String refreshToken;
     private String role;
 
     public AuthenticationResponse() {
     }
 
-    public AuthenticationResponse(String token, String role) {
+    public AuthenticationResponse(String token, String refreshToken, String role) {
         this.token = token;
+        this.refreshToken = refreshToken;
         this.role = role;
     }
 
@@ -18,6 +20,14 @@ public class AuthenticationResponse {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     public String getRole() {

@@ -2,6 +2,7 @@ package com.quickbite.controller;
 
 import com.quickbite.dto.AuthenticationRequest;
 import com.quickbite.dto.AuthenticationResponse;
+import com.quickbite.dto.RefreshTokenRequest;
 import com.quickbite.dto.RegisterRequest;
 import com.quickbite.service.AuthenticationService;
 
@@ -47,6 +48,11 @@ public class AuthenticationController {
     public ResponseEntity<String> resendOtp(@org.springframework.web.bind.annotation.RequestParam String email) {
         service.generateOtp(email);
         return ResponseEntity.ok("OTP Sent");
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<AuthenticationResponse> refreshToken(@RequestBody RefreshTokenRequest request) {
+        return ResponseEntity.ok(service.refreshToken(request.getToken()));
     }
 
     static class OtpRequest {

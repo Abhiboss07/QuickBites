@@ -21,6 +21,8 @@ public class MenuItem {
 
     private String category; // e.g., "Main", "Starter", "Drink"
 
+    private Boolean isVeg = true;
+
     private Boolean available = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -92,5 +94,13 @@ public class MenuItem {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public Boolean getIsVeg() {
+        return isVeg;
+    }
+
+    public void setIsVeg(Boolean veg) {
+        isVeg = veg;
     }
 }

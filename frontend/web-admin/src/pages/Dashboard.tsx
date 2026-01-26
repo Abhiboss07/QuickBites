@@ -61,33 +61,35 @@ const Dashboard = () => {
                         <h3>Recent Orders</h3>
                         <button className="btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}>View All</button>
                     </div>
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Customer</th>
-                                <th>Items</th>
-                                <th>Total</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {[1, 2, 3, 4].map((i) => (
-                                <tr key={i}>
-                                    <td>#QB-{1000 + i}</td>
-                                    <td className="customer-cell">
-                                        <div className="avatar-placeholder">A</div>
-                                        <span>Alex Dough</span>
-                                    </td>
-                                    <td>2x Burgers, 1x Fries</td>
-                                    <td className="font-bold">$24.50</td>
-                                    <td>
-                                        <span className="badge badge-preparing">Preparing</span>
-                                    </td>
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {[1, 2, 3, 4].map((i) => (
+                                    <tr key={i}>
+                                        <td>#QB-{1000 + i}</td>
+                                        <td className="customer-cell">
+                                            <div className="avatar-placeholder">A</div>
+                                            <span>Alex Dough</span>
+                                        </td>
+                                        <td>2x Burgers, 1x Fries</td>
+                                        <td className="font-bold">$24.50</td>
+                                        <td>
+                                            <span className="badge badge-preparing">Preparing</span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div className="card popular-items">
