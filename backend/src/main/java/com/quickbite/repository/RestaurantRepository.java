@@ -10,4 +10,6 @@ import java.util.List;
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     // Basic search/filtering can be added here
     List<Restaurant> findAllByCuisineType(String cuisineType);
+
+    List<Restaurant> findByNameContainingIgnoreCase(String name);
 }

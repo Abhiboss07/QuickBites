@@ -27,6 +27,6 @@ public class RestaurantService {
     }
 
     public List<Restaurant> searchRestaurants(String query) {
-        return repository.searchByName(query);
+        return repository.findByNameContainingIgnoreCase(query);
     }
 }
