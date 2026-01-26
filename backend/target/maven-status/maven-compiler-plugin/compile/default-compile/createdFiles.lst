@@ -50,6 +50,7 @@ com\quickbite\model\Order.class
 com\quickbite\controller\UserController.class
 com\quickbite\config\SecurityConfig.class
 com\quickbite\controller\AuthenticationController.class
+com\quickbite\controller\HealthController.class
 com\quickbite\dto\RegisterRequest.class
 com\quickbite\config\RateLimitConfig$RateLimitInterceptor.class
 com\quickbite\controller\CategoryController.class

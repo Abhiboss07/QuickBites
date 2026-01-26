@@ -33,6 +33,9 @@ public class AuthenticationService {
         }
 
         public com.quickbite.model.RefreshToken createRefreshToken(User user) {
+                // Delete any existing refresh tokens for this user
+                refreshTokenRepository.deleteByUser(user);
+                
                 com.quickbite.model.RefreshToken refreshToken = new com.quickbite.model.RefreshToken();
                 refreshToken.setUser(user);
                 refreshToken.setExpiryDate(java.time.Instant.now().plusMillis(2592000000L)); // 30 days
