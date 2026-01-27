@@ -35,7 +35,7 @@ public class AuthenticationService {
         public com.quickbite.model.RefreshToken createRefreshToken(User user) {
                 // Delete any existing refresh tokens for this user
                 refreshTokenRepository.deleteByUser(user);
-                
+
                 com.quickbite.model.RefreshToken refreshToken = new com.quickbite.model.RefreshToken();
                 refreshToken.setUser(user);
                 refreshToken.setExpiryDate(java.time.Instant.now().plusMillis(2592000000L)); // 30 days
@@ -58,27 +58,27 @@ public class AuthenticationService {
 
         public AuthenticationResponse register(RegisterRequest request) {
                 try {
-                    var role = request.getRole() != null ? request.getRole() : Role.USER;
+                        var role = request.getRole() != null ? request.getRole() : Role.USER;
 
-                    User user = new User();
-                    user.setFullName(request.getFullName());
-                    user.setEmail(request.getEmail());
-                    user.setPassword(passwordEncoder.encode(request.getPassword()));
-                    user.setPhoneNumber(request.getPhoneNumber());
-                    user.setRole(role);
+                        User user = new User();
+                        user.setFullName(request.getFullName());
+                        user.setEmail(request.getEmail());
+                        user.setPassword(passwordEncoder.encode(request.getPassword()));
+                        user.setPhoneNumber(request.getPhoneNumber());
+                        user.setRole(role);
 
-                    User savedUser = repository.save(user);
-                    var jwtToken = jwtUtil.generateToken(savedUser);
-                    var refreshToken = createRefreshToken(savedUser);
+                        User savedUser = repository.save(user);
+                        var jwtToken = jwtUtil.generateToken(savedUser);
+                        var refreshToken = createRefreshToken(savedUser);
 
-                    AuthenticationResponse response = new AuthenticationResponse();
-                    response.setToken(jwtToken);
-                    response.setRefreshToken(refreshToken.getToken());
-                    response.setRole(savedUser.getRole() != null ? savedUser.getRole().name() : "USER");
+                        AuthenticationResponse response = new AuthenticationResponse();
+                        response.setAccessToken(jwtToken);
+                        response.setRefreshToken(refreshToken.getToken());
+                        response.setRole(savedUser.getRole() != null ? savedUser.getRole().name() : "USER");
 
-                    return response;
+                        return response;
                 } catch (Exception e) {
-                    throw new RuntimeException("Registration failed: " + e.getMessage(), e);
+                        throw new RuntimeException("Registration failed: " + e.getMessage(), e);
                 }
         }
 
@@ -93,7 +93,7 @@ public class AuthenticationService {
                 var refreshToken = createRefreshToken(user);
 
                 AuthenticationResponse response = new AuthenticationResponse();
-                response.setToken(jwtToken);
+                response.setAccessToken(jwtToken);
                 response.setRefreshToken(refreshToken.getToken());
                 response.setRole(user.getRole().name());
 

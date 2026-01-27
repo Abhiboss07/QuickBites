@@ -1,25 +1,25 @@
 package com.quickbite.dto;
 
 public class AuthenticationResponse {
-    private String token;
+    private String accessToken;
     private String refreshToken;
     private String role;
 
     public AuthenticationResponse() {
     }
 
-    public AuthenticationResponse(String token, String refreshToken, String role) {
-        this.token = token;
+    public AuthenticationResponse(String accessToken, String refreshToken, String role) {
+        this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.role = role;
     }
 
-    public String getToken() {
-        return token;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     public String getRefreshToken() {
