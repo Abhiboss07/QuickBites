@@ -1,5 +1,8 @@
 package com.quickbite.service;
 
+import java.time.Instant;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,8 +17,6 @@ import com.quickbite.model.Role;
 import com.quickbite.model.User;
 import com.quickbite.repository.UserRepository;
 import com.quickbite.security.JwtUtil;
-import java.time.Instant;
-import java.util.Optional;
 
 @Service
 public class AuthenticationService {
