@@ -39,6 +39,7 @@ com\quickbite\config\CorsConfig.class
 com\quickbite\config\ApplicationConfig.class
 com\quickbite\controller\RestaurantController.class
 com\quickbite\exception\GlobalExceptionHandler$ErrorResponse.class
+com\quickbite\config\DataInitializer.class
 com\quickbite\controller\AddressController.class
 com\quickbite\controller\AuthenticationController$OtpRequest.class
 com\quickbite\repository\MenuItemRepository.class
