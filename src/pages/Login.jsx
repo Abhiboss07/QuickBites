@@ -25,22 +25,23 @@ export default function Login() {
     return (
         <div className="page" style={{ background: 'var(--bg-light)', height: '100vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             {/* Header */}
-            <div style={{ display: 'flex', alignItems: 'center', padding: '1.5rem', paddingTop: '0' }}>
+            <div style={{ display: 'flex', alignItems: 'center', padding: '0.5rem 1.5rem' }}>
                 <button
                     className="btn-icon"
                     onClick={() => navigate('/')}
                     id="login-back-btn"
+                    style={{ width: '2rem', height: '2rem' }}
                 >
-                    <span className="material-symbols-outlined">arrow_back</span>
+                    <span className="material-symbols-outlined" style={{ fontSize: '1.2rem' }}>arrow_back</span>
                 </button>
-                <h2 style={{ flex: 1, textAlign: 'center', fontWeight: 800, fontSize: '1.25rem' }}>QuickBites</h2>
-                <div style={{ width: '2.75rem' }} /> {/* Spacer for centering */}
+                <h2 style={{ flex: 1, textAlign: 'center', fontWeight: 800, fontSize: '1.1rem' }}>QuickBites</h2>
+                <div style={{ width: '2rem' }} /> {/* Spacer for centering */}
             </div>
 
             {/* Hero Image */}
-            <div className="animate-slideUp" style={{ padding: '0 1.5rem', marginBottom: '0' }}>
+            <div className="animate-slideUp" style={{ padding: '0 1.5rem' }}>
                 <div style={{
-                    width: '100%', height: '220px', borderRadius: 'var(--radius-xl)',
+                    width: '100%', height: '140px', borderRadius: 'var(--radius-xl)',
                     overflow: 'hidden', position: 'relative',
                 }}>
                     <img
@@ -61,11 +62,11 @@ export default function Login() {
             </div>
 
             {/* Content */}
-            <div style={{ padding: '1.5rem 1.5rem 2rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <h1 className="animate-fadeIn" style={{ fontSize: '2rem', fontWeight: 800, textAlign: 'center', marginBottom: '0.5rem' }}>
+            <div style={{ padding: '1rem 1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <h1 className="animate-fadeIn" style={{ fontSize: '1.5rem', fontWeight: 800, textAlign: 'center', marginBottom: '0.25rem' }}>
                     Time to Feast! 🍔
                 </h1>
-                <p style={{ color: 'var(--text-secondary)', textAlign: 'center', fontSize: '1rem', marginBottom: '2rem', lineHeight: 1.5 }}>
+                <p style={{ color: 'var(--text-secondary)', textAlign: 'center', fontSize: '0.875rem', marginBottom: '1.5rem', lineHeight: 1.2 }}>
                     Log in to track your munchies and discover new treats.
                 </p>
 
@@ -129,19 +130,19 @@ export default function Login() {
                 </form>
 
                 {/* Divider */}
-                <div className="divider-text" style={{ margin: '1.5rem 0' }}>
+                <div className="divider-text" style={{ margin: '1rem 0' }}>
                     <span>or continue with</span>
                 </div>
 
                 {/* Social buttons */}
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '1.25rem', marginBottom: '1.5rem' }}>
-                    <button className="social-btn social-google" id="google-login" onClick={() => navigate('/home')}>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '1rem' }}>
+                    <button className="social-btn social-google" id="google-login" onClick={() => navigate('/home')} style={{ width: '3rem', height: '3rem' }}>
                         <span style={{ fontSize: '0.875rem', fontWeight: 700 }}>G</span>
                     </button>
-                    <button className="social-btn social-facebook" id="facebook-login" onClick={() => navigate('/home')}>
+                    <button className="social-btn social-facebook" id="facebook-login" onClick={() => navigate('/home')} style={{ width: '3rem', height: '3rem' }}>
                         <span style={{ fontSize: '1.25rem', fontWeight: 800 }}>f</span>
                     </button>
-                    <button className="social-btn social-apple" id="apple-login" onClick={() => navigate('/home')}>
+                    <button className="social-btn social-apple" id="apple-login" onClick={() => navigate('/home')} style={{ width: '3rem', height: '3rem' }}>
                         <span className="material-symbols-outlined" style={{ fontSize: '1.5rem' }}>
                             laptop_mac
                         </span>
