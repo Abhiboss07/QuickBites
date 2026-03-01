@@ -49,13 +49,13 @@ export default function Onboarding() {
             <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', height: '100%', flexGrow: 1 }}>
                 {/* Image section */}
                 <div
-                    style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'flex-end', padding: '1.5rem 1.5rem 1rem' }}
+                    style={{ flex: 0.8, display: 'flex', justifyContent: 'center', alignItems: 'flex-end', padding: '0.5rem 1.5rem 0rem' }}
                     onTouchStart={handleTouchStart}
                     onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd}
                 >
                     <div style={{
-                        width: '100%', aspectRatio: '4/5', maxHeight: '42vh',
+                        width: '100%', aspectRatio: '4/5', maxHeight: '38vh',
                         backgroundImage: `url(${slide.image})`,
                         backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',
                         borderRadius: 'var(--radius-xl)',
@@ -69,13 +69,13 @@ export default function Onboarding() {
                 {/* Content section */}
                 <div style={{
                     display: 'flex', flexDirection: 'column', alignItems: 'center',
-                    background: 'var(--bg-light)', padding: '1.5rem 1.5rem 1rem',
-                    borderRadius: '3rem 3rem 0 0', marginTop: '-1.5rem',
+                    background: 'var(--bg-light)', padding: '1rem 1.5rem 2.5rem',
+                    borderRadius: '3rem 3rem 0 0', marginTop: '-1rem',
                     boxShadow: '0 -10px 40px -15px rgba(0,0,0,0.1)',
-                    position: 'relative', zIndex: 20,
+                    position: 'relative', zIndex: 20, flex: 1.2
                 }}>
                     {/* Handle bar */}
-                    <div style={{ width: '3rem', height: '0.375rem', background: '#e2e8f0', borderRadius: 'var(--radius-full)', marginBottom: '1rem' }} />
+                    <div style={{ width: '3rem', height: '0.375rem', background: '#e2e8f0', borderRadius: 'var(--radius-full)', marginBottom: '0.75rem' }} />
 
                     {/* Icon */}
                     <div style={{
@@ -122,18 +122,18 @@ export default function Onboarding() {
                         ))}
                     </div>
 
-                    {/* Get Started button */}
                     <button
                         className="btn-primary"
                         onClick={() => navigate('/login')}
                         id="get-started-btn"
+                        style={{ marginTop: 'auto' }}
                     >
                         <span>Get Started</span>
                         <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>arrow_forward</span>
                     </button>
 
                     {/* Login link */}
-                    <p style={{ marginTop: '1rem', fontSize: '0.875rem', color: 'var(--text-muted)', fontWeight: 500 }}>
+                    <p style={{ marginTop: '1rem', paddingBottom: '1.5rem', fontSize: '0.875rem', color: 'var(--text-muted)', fontWeight: 500 }}>
                         Already have an account?{' '}
                         <button
                             onClick={() => navigate('/login')}
