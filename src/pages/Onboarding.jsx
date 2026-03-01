@@ -37,7 +37,7 @@ export default function Onboarding() {
     const slide = onboardingSlides[current]
 
     return (
-        <div className="page" style={{ background: 'var(--bg-light)' }}>
+        <div className="page" style={{ background: 'var(--bg-light)', height: '100vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             {/* Subtle pattern background */}
             <div style={{
                 position: 'absolute', inset: 0, zIndex: 0, opacity: 0.03, pointerEvents: 'none',
@@ -49,13 +49,13 @@ export default function Onboarding() {
             <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', height: '100%', flexGrow: 1 }}>
                 {/* Image section */}
                 <div
-                    style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'flex-end', padding: '3rem 1.5rem 1.5rem' }}
+                    style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'flex-end', padding: '1.5rem 1.5rem 1rem' }}
                     onTouchStart={handleTouchStart}
                     onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd}
                 >
                     <div style={{
-                        width: '100%', aspectRatio: '4/5', maxHeight: '55vh',
+                        width: '100%', aspectRatio: '4/5', maxHeight: '42vh',
                         backgroundImage: `url(${slide.image})`,
                         backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',
                         borderRadius: 'var(--radius-xl)',
@@ -69,13 +69,13 @@ export default function Onboarding() {
                 {/* Content section */}
                 <div style={{
                     display: 'flex', flexDirection: 'column', alignItems: 'center',
-                    background: 'var(--bg-light)', padding: '2rem',
+                    background: 'var(--bg-light)', padding: '1.5rem 1.5rem 1rem',
                     borderRadius: '3rem 3rem 0 0', marginTop: '-1.5rem',
                     boxShadow: '0 -10px 40px -15px rgba(0,0,0,0.1)',
                     position: 'relative', zIndex: 20,
                 }}>
                     {/* Handle bar */}
-                    <div style={{ width: '3rem', height: '0.375rem', background: '#e2e8f0', borderRadius: 'var(--radius-full)', marginBottom: '1.5rem' }} />
+                    <div style={{ width: '3rem', height: '0.375rem', background: '#e2e8f0', borderRadius: 'var(--radius-full)', marginBottom: '1rem' }} />
 
                     {/* Icon */}
                     <div style={{
@@ -89,7 +89,7 @@ export default function Onboarding() {
                     <h1
                         className="animate-fadeIn"
                         key={`title-${current}`}
-                        style={{ fontSize: '2.25rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '1rem', textAlign: 'center' }}
+                        style={{ fontSize: '1.75rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '0.5rem', textAlign: 'center' }}
                     >
                         {slide.title}
                     </h1>
@@ -98,13 +98,13 @@ export default function Onboarding() {
                     <p
                         className="animate-fadeIn"
                         key={`sub-${current}`}
-                        style={{ color: 'var(--text-secondary)', fontSize: '1.125rem', fontWeight: 500, lineHeight: 1.6, textAlign: 'center', marginBottom: '2rem', maxWidth: '320px' }}
+                        style={{ color: 'var(--text-secondary)', fontSize: '1rem', fontWeight: 500, lineHeight: 1.4, textAlign: 'center', marginBottom: '1rem', maxWidth: '320px' }}
                     >
                         {slide.subtitle}
                     </p>
 
                     {/* Dot indicators */}
-                    <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '2rem' }}>
+                    <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem' }}>
                         {onboardingSlides.map((_, i) => (
                             <button
                                 key={i}
@@ -133,7 +133,7 @@ export default function Onboarding() {
                     </button>
 
                     {/* Login link */}
-                    <p style={{ marginTop: '1.5rem', fontSize: '0.875rem', color: 'var(--text-muted)', fontWeight: 500 }}>
+                    <p style={{ marginTop: '1rem', fontSize: '0.875rem', color: 'var(--text-muted)', fontWeight: 500 }}>
                         Already have an account?{' '}
                         <button
                             onClick={() => navigate('/login')}
