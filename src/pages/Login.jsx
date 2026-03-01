@@ -23,9 +23,9 @@ export default function Login() {
     }
 
     return (
-        <div className="page" style={{ background: 'var(--bg-light)' }}>
+        <div className="page" style={{ background: 'var(--bg-light)', height: '100vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             {/* Header */}
-            <div style={{ display: 'flex', alignItems: 'center', padding: '1.5rem', paddingTop: '2rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', padding: '1.5rem', paddingTop: '0' }}>
                 <button
                     className="btn-icon"
                     onClick={() => navigate('/')}
