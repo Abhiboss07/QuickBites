@@ -1,25 +1,56 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useApp } from '../context/AppContextBackend'
 
 export default function Login() {
     const navigate = useNavigate()
+    const { login } = useApp()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
     const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault()
+        setError('')
+        setLoading(true)
+
+        console.log('=== Login Attempt ===');
+        console.log('Email:', email)
+        console.log('Password:', password ? '[REDACTED]' : '[EMPTY]')
+
         if (!email.trim()) {
+            console.log('❌ Validation failed: Empty email')
             setError('Please enter your email address')
+            setLoading(false)
             return
         }
         if (!password.trim()) {
+            console.log('❌ Validation failed: Empty password')
             setError('Please enter your password')
+            setLoading(false)
             return
         }
-        // Simulate login
-        navigate('/home')
+
+        try {
+            console.log('🔄 Attempting API call...')
+            const result = await login({ email, password })
+            console.log('✅ API call successful:', result)
+            console.log('🔄 Navigating to /home...')
+            navigate('/home')
+        } catch (err) {
+            console.error('❌ Login error:', err)
+            console.error('Error details:', {
+                message: err.message,
+                stack: err.stack,
+                name: err.name
+            })
+            setError(err.message || 'Login failed. Please try again.')
+        } finally {
+            console.log('🔄 Setting loading to false')
+            setLoading(false)
+        }
     }
 
     return (
@@ -123,9 +154,11 @@ export default function Login() {
                     </div>
 
                     {/* Login button */}
-                    <button type="submit" className="btn-primary" id="login-btn" style={{ marginTop: '0.5rem' }}>
-                        <span>Let's Eat</span>
-                        <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>arrow_forward</span>
+                    <button type="submit" className="btn-primary" id="login-btn" style={{ marginTop: '0.5rem' }} disabled={loading}>
+                        <span>{loading ? 'Logging in...' : "Let's Eat"}</span>
+                        <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>
+                            {loading ? 'hourglass_empty' : 'arrow_forward'}
+                        </span>
                     </button>
                 </form>
 

@@ -1,6 +1,30 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { onboardingSlides } from '../data/restaurants'
+
+// Simple onboarding slides
+const onboardingSlides = [
+    {
+        id: 1,
+        title: "Welcome to QuickBites",
+        subtitle: "Your favorite food delivered fast",
+        image: "🍔",
+        description: "Order from top restaurants in your area"
+    },
+    {
+        id: 2,
+        title: "Track Your Order",
+        subtitle: "Real-time delivery tracking",
+        image: "📍",
+        description: "Watch your food journey from kitchen to door"
+    },
+    {
+        id: 3,
+        title: "Easy Payments",
+        subtitle: "Secure and simple checkout",
+        image: "💳",
+        description: "Multiple payment options for your convenience"
+    }
+]
 
 export default function Onboarding() {
     const navigate = useNavigate()

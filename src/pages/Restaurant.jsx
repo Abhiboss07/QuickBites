@@ -1,19 +1,18 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useApp } from '../context/AppContext'
-import { restaurants } from '../data/restaurants'
+import { useApp } from '../context/AppContextBackend'
 import MenuItem from '../components/MenuItem'
 import BottomNav from '../components/BottomNav'
 
 export default function Restaurant() {
     const { id } = useParams()
     const navigate = useNavigate()
-    const { cartCount } = useApp()
+    const { restaurants, cartCount } = useApp()
     const [activeCategory, setActiveCategory] = useState('Popular')
     const [searchQuery, setSearchQuery] = useState('')
     const [showSearch, setShowSearch] = useState(false)
 
-    const restaurant = restaurants.find(r => r.id === id)
+    const restaurant = restaurants.find(r => r._id === id)
 
     if (!restaurant) {
         return (

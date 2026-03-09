@@ -1,13 +1,29 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { restaurants, categories } from '../data/restaurants'
+import { useApp } from '../context/AppContextBackend'
 import RestaurantCard from '../components/RestaurantCard'
 import BottomNav from '../components/BottomNav'
 
 export default function Search() {
     const navigate = useNavigate()
+    const { restaurants, categories, loadRestaurants, loadCategories } = useApp()
     const [query, setQuery] = useState('')
     const [activeFilters, setActiveFilters] = useState([])
+
+    // Load data on component mount
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                await Promise.all([
+                    loadRestaurants(),
+                    loadCategories()
+                ])
+            } catch (error) {
+                console.error('Failed to load search data:', error)
+            }
+        }
+        loadData()
+    }, [loadRestaurants, loadCategories])
 
     const toggleFilter = (id) => {
         setActiveFilters(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id])

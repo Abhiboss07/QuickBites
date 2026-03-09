@@ -1,5 +1,12 @@
 import { createContext, useContext, useReducer } from 'react'
-import { promoCodes } from '../data/restaurants'
+
+// Promo codes moved to backend - this file is legacy
+const promoCodes = [
+    { code: 'YUMMY20', discount: 0.20, label: '20% Off', minOrder: 15 },
+    { code: 'QUICK10', discount: 0.10, label: '10% Off', minOrder: 10 },
+    { code: 'FIRST50', discount: 0.50, label: '50% Off (First Order!)', minOrder: 0, maxDiscount: 15 },
+    { code: 'FREESHIP', discount: 0, label: 'Free Delivery', freeDelivery: true, minOrder: 20 },
+]
 
 const AppContext = createContext()
 

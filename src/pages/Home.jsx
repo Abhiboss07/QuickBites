@@ -1,16 +1,28 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useApp } from '../context/AppContext'
-import { categories, restaurants } from '../data/restaurants'
+import { useApp } from '../context/AppContextBackend'
 import RestaurantCard from '../components/RestaurantCard'
 import BottomNav from '../components/BottomNav'
 
 export default function Home() {
     const navigate = useNavigate()
-    const { cartCount } = useApp()
+    const { cartCount, restaurants, categories, loadRestaurants, loadingRestaurants } = useApp()
     const [searchQuery, setSearchQuery] = useState('')
     const [selectedCategory, setSelectedCategory] = useState(null)
 
+    // Load restaurants on component mount
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                await loadRestaurants()
+            } catch (error) {
+                console.error('Failed to load restaurants:', error)
+            }
+        }
+        loadData()
+    }, [loadRestaurants])
+
+    // Filter restaurants based on search and category
     const filteredRestaurants = restaurants.filter(r => {
         const matchesSearch = !searchQuery ||
             r.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -18,6 +30,43 @@ export default function Home() {
         const matchesCategory = !selectedCategory || r.category === selectedCategory
         return matchesSearch && matchesCategory
     })
+
+    // Format categories for display
+    const displayCategories = categories.map(cat => ({
+        id: cat.category,
+        label: cat.category.charAt(0).toUpperCase() + cat.category.slice(1),
+        emoji: getCategoryEmoji(cat.category),
+        color: getCategoryColor(cat.category)
+    }))
+
+    // Helper functions
+    const getCategoryEmoji = (category) => {
+        const emojiMap = {
+            pizza: '🍕',
+            burger: '🍔',
+            taco: '🌮',
+            healthy: '🥗',
+            donut: '🍩',
+            sushi: '🍣',
+            noodles: '🍜',
+            'ice-cream': '🍦'
+        }
+        return emojiMap[category] || '🍽️'
+    }
+
+    const getCategoryColor = (category) => {
+        const colorMap = {
+            pizza: '#fff7ed',
+            burger: '#fef2f2',
+            taco: '#fefce8',
+            healthy: '#f0fdf4',
+            donut: '#fdf2f8',
+            sushi: '#faf5ff',
+            noodles: '#fffbeb',
+            'ice-cream': '#f0f9ff'
+        }
+        return colorMap[category] || '#f5f5f5'
+    }
 
     return (
         <div className="page page-with-nav">
@@ -86,7 +135,7 @@ export default function Home() {
                     </button>
                 </div>
                 <div className="scroll-row" style={{ paddingRight: '1.25rem' }}>
-                    {categories.map((cat, i) => (
+                    {displayCategories.map((cat, i) => (
                         <button
                             key={cat.id}
                             className={`category-pill animate-slideUp stagger-${i + 1} ${selectedCategory === cat.id ? 'active' : ''}`}
@@ -106,7 +155,7 @@ export default function Home() {
             <section style={{ padding: '0.5rem 1.25rem 1.5rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
                     <h2 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.02em' }}>
-                        {selectedCategory ? `${categories.find(c => c.id === selectedCategory)?.label || ''} Restaurants` : 'Featured Restaurants'}
+                        {selectedCategory ? `${displayCategories.find(c => c.id === selectedCategory)?.label || ''} Restaurants` : 'Featured Restaurants'}
                     </h2>
                 </div>
 
@@ -114,7 +163,7 @@ export default function Home() {
                     {filteredRestaurants.length > 0 ? (
                         filteredRestaurants.map((restaurant, i) => (
                             <RestaurantCard
-                                key={restaurant.id}
+                                key={restaurant._id}
                                 restaurant={restaurant}
                                 style={{ animationDelay: `${i * 0.1}s` }}
                             />

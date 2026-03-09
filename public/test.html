@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Fetch Test</title>
+</head>
+<body>
+    <h1>Login Fetch Test</h1>
+    <button onclick="testLogin()">Test Login Fetch</button>
+    <div id="results"></div>
+    
+    <script>
+        async function testLogin() {
+            console.log('=== Testing Login Fetch ===');
+            const results = document.getElementById('results');
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'foodie@quickbites.com',
+                        password: 'password123'
+                    })
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+                
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                if (response.ok) {
+                    results.innerHTML = '<p style="color: green;">✅ Login successful! Token: ' + data.data.token.substring(0, 20) + '...</p>';
+                    localStorage.setItem('token', data.data.token);
+                } else {
+                    results.innerHTML = '<p style="color: red;">❌ Login failed: ' + data.message + '</p>';
+                }
+            } catch (error) {
+                console.error('❌ Fetch error:', error);
+                results.innerHTML = '<p style="color: red;">❌ Fetch error: ' + error.message + '</p>';
+            }
+        }
+    </script>
+</body>
+</html>

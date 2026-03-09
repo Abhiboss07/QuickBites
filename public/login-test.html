@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Test</title>
+</head>
+<body>
+    <h1>QuickBites Login Test</h1>
+    <div>
+        <input type="email" id="email" value="foodie@quickbites.com" placeholder="Email">
+        <br><br>
+        <input type="password" id="password" value="password123" placeholder="Password">
+        <br><br>
+        <button onclick="testLogin()">Test Login</button>
+    </div>
+    <div id="result"></div>
+    <div id="logs"></div>
+
+    <script>
+        function log(message) {
+            const logs = document.getElementById('logs');
+            logs.innerHTML += '<p>' + new Date().toLocaleTimeString() + ': ' + message + '</p>';
+        }
+
+        async function testLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const result = document.getElementById('result');
+            
+            log('=== Starting Login Test ===');
+            log('Email: ' + email);
+            log('Password: ' + (password ? '[REDACTED]' : '[EMPTY]'));
+            
+            try {
+                log('🔄 Making fetch request...');
+                
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+                
+                log('📡 Response status: ' + response.status);
+                log('📡 Response ok: ' + response.ok);
+                
+                const data = await response.json();
+                log('📡 Response data: ' + JSON.stringify(data, null, 2));
+                
+                if (response.ok) {
+                    result.innerHTML = '<p style="color: green;">✅ Login Successful! Token: ' + data.data.token.substring(0, 20) + '...</p>';
+                    localStorage.setItem('token', data.data.token);
+                    log('✅ Token saved to localStorage');
+                } else {
+                    result.innerHTML = '<p style="color: red;">❌ Login Failed: ' + data.message + '</p>';
+                    log('❌ Login failed: ' + data.message);
+                }
+            } catch (error) {
+                result.innerHTML = '<p style="color: red;">❌ Fetch Error: ' + error.message + '</p>';
+                log('❌ Fetch error: ' + error.message);
+                log('❌ Error details: ' + error.stack);
+            }
+            
+            log('=== Test Complete ===');
+        }
+
+        // Auto-test on page load
+        window.onload = function() {
+            setTimeout(testLogin, 1000);
+        };
+    </script>
+</body>
+</html>
