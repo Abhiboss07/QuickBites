@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useApp } from '../context/AppContextBackend'
+import { useApp } from '../context/AppContext'
 import RestaurantCard from '../components/RestaurantCard'
 import BottomNav from '../components/BottomNav'
 
@@ -23,7 +23,7 @@ export default function Search() {
             }
         }
         loadData()
-    }, [loadRestaurants, loadCategories])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const toggleFilter = (id) => {
         setActiveFilters(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id])

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useApp } from '../context/AppContextBackend';
+import { useApp } from '../context/AppContext';
 
 export default function DebugLogin() {
   const { user, isAuthenticated, loading, login } = useApp();

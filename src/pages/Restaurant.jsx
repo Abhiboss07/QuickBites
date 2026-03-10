@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useApp } from '../context/AppContextBackend'
+import { useApp } from '../context/AppContext'
 import MenuItem from '../components/MenuItem'
 import BottomNav from '../components/BottomNav'
 
