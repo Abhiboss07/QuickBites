@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useApp } from '../context/AppContextBackend'
+import { useApp } from '../context/AppContext'
 import RestaurantCard from '../components/RestaurantCard'
 import BottomNav from '../components/BottomNav'
 
@@ -20,24 +20,7 @@ export default function Home() {
             }
         }
         loadData()
-    }, [loadRestaurants])
-
-    // Filter restaurants based on search and category
-    const filteredRestaurants = restaurants.filter(r => {
-        const matchesSearch = !searchQuery ||
-            r.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            r.cuisine.toLowerCase().includes(searchQuery.toLowerCase())
-        const matchesCategory = !selectedCategory || r.category === selectedCategory
-        return matchesSearch && matchesCategory
-    })
-
-    // Format categories for display
-    const displayCategories = categories.map(cat => ({
-        id: cat.category,
-        label: cat.category.charAt(0).toUpperCase() + cat.category.slice(1),
-        emoji: getCategoryEmoji(cat.category),
-        color: getCategoryColor(cat.category)
-    }))
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     // Helper functions
     const getCategoryEmoji = (category) => {
@@ -67,6 +50,23 @@ export default function Home() {
         }
         return colorMap[category] || '#f5f5f5'
     }
+
+    // Filter restaurants based on search and category
+    const filteredRestaurants = restaurants.filter(r => {
+        const matchesSearch = !searchQuery ||
+            r.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            r.cuisine.toLowerCase().includes(searchQuery.toLowerCase())
+        const matchesCategory = !selectedCategory || r.category === selectedCategory
+        return matchesSearch && matchesCategory
+    })
+
+    // Format categories for display
+    const displayCategories = categories.map(cat => ({
+        id: cat.category,
+        label: cat.category.charAt(0).toUpperCase() + cat.category.slice(1),
+        emoji: getCategoryEmoji(cat.category),
+        color: getCategoryColor(cat.category)
+    }))
 
     return (
         <div className="page page-with-nav">
