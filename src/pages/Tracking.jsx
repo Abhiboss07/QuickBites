@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useApp } from '../context/AppContext'
+import { useApp } from '../context/AppContextBackend'
 import BottomNav from '../components/BottomNav'
 
 export default function Tracking() {
@@ -9,6 +9,11 @@ export default function Tracking() {
     const [progress, setProgress] = useState(20)
     const [stage, setStage] = useState('cooking')
     const order = currentOrder || orderHistory[0]
+
+    const orderNum = order?.orderNumber || order?._id || '#4829'
+    const itemsSummary = Array.isArray(order?.items)
+        ? order.items.map(i => `${i.quantity}x ${i.name}`).join(', ')
+        : order?.items || '2x Cheese Burger, 1x Fries...'
 
     useEffect(() => {
         const stages = [
@@ -30,7 +35,7 @@ export default function Tracking() {
         <div className="page page-with-nav">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.5rem 1.25rem 1rem', position: 'sticky', top: 0, zIndex: 20, background: 'rgba(254,250,246,0.95)', backdropFilter: 'blur(8px)' }}>
                 <button className="btn-icon" onClick={() => navigate('/home')} id="tracking-back-btn"><span className="material-symbols-outlined">arrow_back</span></button>
-                <h2 style={{ fontWeight: 700, fontSize: '1.125rem' }}>Track Order {order?.id || '#4829'}</h2>
+                <h2 style={{ fontWeight: 700, fontSize: '1.125rem' }}>Track Order {orderNum}</h2>
                 <button style={{ background: 'rgba(244,123,37,0.1)', padding: '0.375rem 0.75rem', borderRadius: 'var(--radius-full)', color: 'var(--primary)', fontWeight: 700, fontSize: '0.875rem' }} id="help-btn">Help</button>
             </div>
 
@@ -97,7 +102,7 @@ export default function Tracking() {
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.75rem 0', borderTop: '1px solid var(--border)', cursor: 'pointer' }} onClick={() => navigate('/orders')} id="view-order-detail">
                         <div>
                             <span style={{ fontSize: '0.625rem', color: 'var(--text-muted)', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block' }}>Order Detail</span>
-                            <span style={{ fontSize: '0.875rem', fontWeight: 700 }}>{order?.items || '2x Cheese Burger, 1x Fries...'}</span>
+                            <span style={{ fontSize: '0.875rem', fontWeight: 700 }}>{itemsSummary}</span>
                         </div>
                         <span className="material-symbols-outlined" style={{ color: 'var(--text-muted)' }}>chevron_right</span>
                     </div>

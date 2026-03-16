@@ -10,6 +10,14 @@ const cartItemSchema = new mongoose.Schema({
     ref: 'Restaurant',
     required: true
   },
+  name: {
+    type: String,
+    default: ''
+  },
+  image: {
+    type: String,
+    default: ''
+  },
   quantity: {
     type: Number,
     required: true,

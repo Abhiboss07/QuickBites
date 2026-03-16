@@ -1,18 +1,41 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useApp } from '../context/AppContext'
+import { useApp } from '../context/AppContextBackend'
+import { restaurantsAPI } from '../services/api'
 import MenuItem from '../components/MenuItem'
 import BottomNav from '../components/BottomNav'
 
 export default function Restaurant() {
     const { id } = useParams()
     const navigate = useNavigate()
-    const { restaurants, cartCount } = useApp()
+    const { cartCount } = useApp()
+    const [restaurant, setRestaurant] = useState(null)
+    const [loadingRestaurant, setLoadingRestaurant] = useState(true)
     const [activeCategory, setActiveCategory] = useState('Popular')
     const [searchQuery, setSearchQuery] = useState('')
     const [showSearch, setShowSearch] = useState(false)
 
-    const restaurant = restaurants.find(r => r._id === id)
+    useEffect(() => {
+        setLoadingRestaurant(true)
+        restaurantsAPI.getById(id)
+            .then(res => {
+                setRestaurant(res.data.restaurant)
+                setActiveCategory(res.data.restaurant.menuCategories?.[0] || 'Popular')
+            })
+            .catch(console.error)
+            .finally(() => setLoadingRestaurant(false))
+    }, [id])
+
+    if (loadingRestaurant) {
+        return (
+            <div className="page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ textAlign: 'center' }}>
+                    <span style={{ fontSize: '3rem' }}>⏳</span>
+                    <p style={{ fontWeight: 700, marginTop: '1rem', color: 'var(--text-muted)' }}>Loading menu...</p>
+                </div>
+            </div>
+        )
+    }
 
     if (!restaurant) {
         return (
@@ -97,7 +120,7 @@ export default function Restaurant() {
                         background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%)',
                     }} />
                     <div style={{ position: 'absolute', bottom: '1rem', left: '1rem', color: 'white' }}>
-                        {restaurant.deliveryFeeAmount === 0 && (
+                        {restaurant.deliveryFee === 0 && (
                             <span className="badge badge-success" style={{ marginBottom: '0.5rem', display: 'inline-block' }}>
                                 Free Delivery
                             </span>
@@ -169,8 +192,8 @@ export default function Restaurant() {
             <div style={{ padding: '0 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem', paddingBottom: '2rem' }}>
                 {displayMenu.length > 0 ? (
                     displayMenu.map((item, i) => (
-                        <div key={item.id} style={{ animationDelay: `${i * 0.08}s` }}>
-                            <MenuItem item={item} restaurantId={restaurant.id} />
+                        <div key={item._id} style={{ animationDelay: `${i * 0.08}s` }}>
+                            <MenuItem item={item} restaurantId={restaurant._id} />
                         </div>
                     ))
                 ) : (

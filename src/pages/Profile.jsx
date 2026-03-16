@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom'
-import { useApp } from '../context/AppContext'
+import { useApp } from '../context/AppContextBackend'
 import BottomNav from '../components/BottomNav'
 
 export default function Profile() {
     const navigate = useNavigate()
-    const { user } = useApp()
+    const { user, logout } = useApp()
 
     const settings = [
         { icon: 'location_on', label: 'My Addresses', color: '#3b82f6', bg: '#eff6ff' },
@@ -14,6 +14,23 @@ export default function Profile() {
         { icon: 'help', label: 'Help & Support', color: '#10b981', bg: '#ecfdf5' },
         { icon: 'info', label: 'About QuickBites', color: '#6366f1', bg: '#eef2ff' },
     ]
+
+    if (!user) {
+        return (
+            <div className="page page-with-nav" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ textAlign: 'center' }}>
+                    <p style={{ fontWeight: 700, marginBottom: '1rem' }}>Please log in to view your profile</p>
+                    <button className="btn-primary" onClick={() => navigate('/login')} style={{ maxWidth: '200px', margin: '0 auto' }}>Log In</button>
+                </div>
+                <BottomNav />
+            </div>
+        )
+    }
+
+    const handleLogout = () => {
+        logout()
+        navigate('/')
+    }
 
     return (
         <div className="page page-with-nav">
@@ -53,7 +70,7 @@ export default function Profile() {
                 </div>
 
                 {/* Logout */}
-                <button onClick={() => navigate('/')} style={{ width: '100%', marginTop: '1.5rem', padding: '1rem', borderRadius: 'var(--radius-lg)', border: '2px solid #fecaca', background: '#fef2f2', color: 'var(--danger)', fontWeight: 700, fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }} id="logout-btn">
+                <button onClick={handleLogout} style={{ width: '100%', marginTop: '1.5rem', padding: '1rem', borderRadius: 'var(--radius-lg)', border: '2px solid #fecaca', background: '#fef2f2', color: 'var(--danger)', fontWeight: 700, fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }} id="logout-btn">
                     <span className="material-symbols-outlined">logout</span> Log Out
                 </button>
             </div>

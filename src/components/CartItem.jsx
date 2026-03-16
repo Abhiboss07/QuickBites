@@ -1,4 +1,4 @@
-import { useApp } from '../context/AppContext'
+import { useApp } from '../context/AppContextBackend'
 
 export default function CartItem({ item }) {
     const { updateQuantity, removeFromCart } = useApp()
@@ -12,7 +12,7 @@ export default function CartItem({ item }) {
                 border: '2px solid var(--border)', padding: '1rem',
                 boxShadow: 'var(--shadow-cartoon)',
             }}
-            id={`cart-item-${item.id}`}
+            id={`cart-item-${item._id}`}
         >
             {/* Food image */}
             <div style={{
@@ -40,13 +40,13 @@ export default function CartItem({ item }) {
                     </span>
                     <div className="qty-control">
                         <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            id={`qty-minus-${item.id}`}
+                            onClick={() => updateQuantity(item._id, item.quantity - 1)}
+                            id={`qty-minus-${item._id}`}
                         >−</button>
                         <span>{item.quantity}</span>
                         <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            id={`qty-plus-${item.id}`}
+                            onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                            id={`qty-plus-${item._id}`}
                         >+</button>
                     </div>
                 </div>

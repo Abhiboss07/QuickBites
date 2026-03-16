@@ -62,19 +62,20 @@ function reducer(state, action) {
     case 'LOADING_RESTAURANTS':
       return { ...state, loadingRestaurants: action.payload }
 
-    case 'SET_CART':
-      const cart = action.payload.items || []
-      const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0)
-      const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-      
-      return { 
-        ...state, 
-        cart: action.payload,
+    case 'SET_CART': {
+      const cartItems = action.payload?.items || []
+      const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
+      const cartTotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+
+      return {
+        ...state,
+        cart: cartItems,
         cartCount,
         cartTotal,
-        promoCode: action.payload.promoCode || '',
-        promoDiscount: action.payload.promoDiscount || null
+        promoCode: action.payload?.promoCode || '',
+        promoDiscount: action.payload?.promoDiscount || null
       }
+    }
 
     case 'ADD_TO_CART':
       return { ...state, cart: [...state.cart, action.payload] }
@@ -132,7 +133,7 @@ function reducer(state, action) {
     case 'CLEAR_PROMO':
       return { ...state, promoCode: '', promoDiscount: null }
 
-    case 'PLACE_ORDER':
+    case 'PLACE_ORDER': {
       const newOrder = action.payload
       return {
         ...state,
@@ -144,6 +145,7 @@ function reducer(state, action) {
         cartCount: 0,
         cartTotal: 0
       }
+    }
 
     case 'SET_ORDER_HISTORY':
       return { ...state, orderHistory: action.payload }
@@ -330,6 +332,10 @@ export function AppProvider({ children }) {
     }
   }
 
+  const clearPromo = () => {
+    dispatch({ type: 'CLEAR_PROMO' })
+  }
+
   // Order actions
   const placeOrder = async (orderData) => {
     try {
@@ -393,6 +399,7 @@ export function AppProvider({ children }) {
     updateQuantity,
     clearCart,
     applyPromo,
+    clearPromo,
     
     // Orders
     placeOrder,

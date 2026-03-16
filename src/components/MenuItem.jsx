@@ -1,17 +1,17 @@
-import { useApp } from '../context/AppContext'
+import { useApp } from '../context/AppContextBackend'
 
 export default function MenuItem({ item, restaurantId }) {
     const { addToCart, cart } = useApp()
-    const inCart = cart.find(c => c.id === item.id)
+    const inCart = cart.find(c => c.menuItem?.toString() === item._id?.toString())
 
     const handleAdd = () => {
         addToCart({
-            id: item.id,
-            name: item.name,
-            description: item.description,
+            menuItem: item._id,
+            restaurant: restaurantId,
+            quantity: 1,
             price: item.price,
+            name: item.name,
             image: item.image,
-            restaurantId,
         })
     }
 
@@ -24,7 +24,7 @@ export default function MenuItem({ item, restaurantId }) {
                 border: '2px solid var(--border)', padding: '0.75rem',
                 boxShadow: 'var(--shadow-cartoon)', transition: 'all 0.3s ease',
             }}
-            id={`menu-item-${item.id}`}
+            id={`menu-item-${item._id}`}
         >
             {/* Food image */}
             <div style={{
@@ -67,7 +67,7 @@ export default function MenuItem({ item, restaurantId }) {
             </div>
 
             {/* Add button */}
-            <button className="add-btn" onClick={handleAdd} id={`add-btn-${item.id}`}>
+            <button className="add-btn" onClick={handleAdd} id={`add-btn-${item._id}`}>
                 <span className="material-symbols-outlined">add</span>
             </button>
         </div>

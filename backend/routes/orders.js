@@ -146,7 +146,6 @@ router.post('/', protect, [
 
     // Create order
     const order = new Order({
-      orderNumber,
       user: req.user._id,
       restaurant,
       restaurantName,

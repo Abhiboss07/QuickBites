@@ -1,17 +1,20 @@
 import { useNavigate } from 'react-router-dom'
-import { useApp } from '../context/AppContext'
+import { useApp } from '../context/AppContextBackend'
 
 export default function RestaurantCard({ restaurant, style }) {
     const navigate = useNavigate()
     const { favorites, toggleFavorite } = useApp()
-    const isFav = favorites.includes(restaurant.id)
+    const rid = restaurant._id?.toString() || restaurant.id
+    const isFav = favorites.some(f => f?.toString() === rid)
+
+    const deliveryFeeText = restaurant.deliveryFee === 0 ? 'Free' : `$${restaurant.deliveryFee.toFixed(2)}`
 
     return (
         <div
             className="card animate-slideUp"
             style={{ cursor: 'pointer', ...style }}
-            onClick={() => navigate(`/restaurant/${restaurant.id}`)}
-            id={`restaurant-card-${restaurant.id}`}
+            onClick={() => navigate(`/restaurant/${rid}`)}
+            id={`restaurant-card-${rid}`}
         >
             <div style={{ position: 'relative', height: '12rem', width: '100%', overflow: 'hidden' }}>
                 {/* Delivery time badge */}
@@ -28,8 +31,8 @@ export default function RestaurantCard({ restaurant, style }) {
                 <button
                     className={`fav-btn ${isFav ? 'active' : ''}`}
                     style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', zIndex: 10 }}
-                    onClick={(e) => { e.stopPropagation(); toggleFavorite(restaurant.id) }}
-                    id={`fav-btn-${restaurant.id}`}
+                    onClick={(e) => { e.stopPropagation(); toggleFavorite(rid) }}
+                    id={`fav-btn-${rid}`}
                 >
                     <span className="material-symbols-outlined">favorite</span>
                 </button>
@@ -64,9 +67,9 @@ export default function RestaurantCard({ restaurant, style }) {
                 </p>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: restaurant.deliveryFeeAmount === 0 ? 'var(--primary)' : 'inherit' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: restaurant.deliveryFee === 0 ? 'var(--primary)' : 'inherit' }}>
                         <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>local_shipping</span>
-                        <span>{restaurant.deliveryFee}</span>
+                        <span>{deliveryFeeText}</span>
                     </div>
                     <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#cbd5e1' }}></span>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>

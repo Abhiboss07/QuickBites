@@ -1,14 +1,16 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useApp } from '../context/AppContext'
+import { useApp } from '../context/AppContextBackend'
 import CartItem from '../components/CartItem'
 
 export default function Cart() {
     const navigate = useNavigate()
-    const { cart, cartTotal, clearCart, applyPromo, clearPromo, promoCode, promoDiscount, placeOrder } = useApp()
+    const { cart, cartTotal, clearCart, applyPromo, clearPromo, promoCode, promoDiscount, placeOrder, user } = useApp()
     const [promoInput, setPromoInput] = useState(promoCode || '')
     const [promoError, setPromoError] = useState('')
     const [promoSuccess, setPromoSuccess] = useState(promoCode ? true : false)
+    const [orderLoading, setOrderLoading] = useState(false)
+    const [orderError, setOrderError] = useState('')
 
     const deliveryFee = cartTotal >= 20 ? 0 : 2.99
     let discountAmount = 0
@@ -17,7 +19,7 @@ export default function Cart() {
         if (promoDiscount.freeDelivery) {
             discountAmount = deliveryFee
         } else {
-            discountAmount = cartTotal * promoDiscount.discount
+            discountAmount = cartTotal * (promoDiscount.discount || promoDiscount)
             if (promoDiscount.maxDiscount) {
                 discountAmount = Math.min(discountAmount, promoDiscount.maxDiscount)
             }
@@ -26,33 +28,50 @@ export default function Cart() {
 
     const total = cartTotal + deliveryFee - discountAmount
 
-    const handleApplyPromo = () => {
+    const handleApplyPromo = async () => {
         if (!promoInput.trim()) return
-        applyPromo(promoInput)
-        // Check if promo was valid (a small delay to let state update)
-        setTimeout(() => {
-            const code = promoInput.toUpperCase()
-            const validCodes = ['YUMMY20', 'QUICK10', 'FIRST50', 'FREESHIP']
-            if (validCodes.includes(code)) {
-                setPromoSuccess(true)
-                setPromoError('')
-            } else {
-                setPromoError('Invalid promo code. Try YUMMY20!')
-                setPromoSuccess(false)
-                clearPromo()
-            }
-        }, 100)
+        try {
+            await applyPromo(promoInput)
+            setPromoSuccess(true)
+            setPromoError('')
+        } catch (err) {
+            setPromoError(err.message || 'Invalid promo code. Try YUMMY20!')
+            setPromoSuccess(false)
+            clearPromo()
+        }
     }
 
-    const handlePlaceOrder = () => {
+    const handlePlaceOrder = async () => {
         if (cart.length === 0) return
-        const itemsSummary = cart.map(item => `${item.quantity}x ${item.name}`).join(', ')
-        placeOrder({
-            restaurant: cart[0]?.restaurantId || 'QuickBites',
-            items: itemsSummary,
-            total: total,
-        })
-        navigate('/tracking')
+        setOrderLoading(true)
+        setOrderError('')
+        try {
+            const restaurantId = cart[0]?.restaurant?._id || cart[0]?.restaurant
+            const orderItems = cart.map(item => ({
+                menuItem: item.menuItem,
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity,
+            }))
+            const deliveryAddress = user?.addresses?.[0] || {
+                street: '123 Main St',
+                city: 'New York',
+                zipCode: '10001',
+            }
+            await placeOrder({
+                restaurant: restaurantId,
+                items: orderItems,
+                deliveryFee,
+                promoDiscount: promoDiscount?.discount || 0,
+                deliveryAddress,
+            })
+            navigate('/tracking')
+        } catch (err) {
+            console.error('Order failed:', err)
+            setOrderError(err.message || 'Failed to place order. Please try again.')
+        } finally {
+            setOrderLoading(false)
+        }
     }
 
     if (cart.length === 0) {
@@ -94,7 +113,7 @@ export default function Cart() {
             {/* Cart Items */}
             <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
                 {cart.map((item, i) => (
-                    <div key={item.id} className={`stagger-${i + 1}`} style={{ animationFillMode: 'both' }}>
+                    <div key={item._id} className={`stagger-${i + 1}`} style={{ animationFillMode: 'both' }}>
                         <CartItem item={item} />
                     </div>
                 ))}
@@ -133,7 +152,7 @@ export default function Cart() {
                     )}
                     {promoSuccess && promoDiscount && (
                         <p className="animate-fadeIn" style={{ color: 'var(--success)', fontSize: '0.75rem', fontWeight: 600, marginTop: '0.5rem' }}>
-                            ✅ {promoDiscount.label} applied!
+                            ✅ Promo code applied!
                         </p>
                     )}
                 </div>
@@ -161,6 +180,10 @@ export default function Cart() {
                         <span style={{ fontWeight: 800, fontSize: '1.125rem' }}>${total.toFixed(2)}</span>
                     </div>
                 </div>
+
+                {orderError && (
+                    <p style={{ color: 'var(--danger)', fontSize: '0.875rem', fontWeight: 600, textAlign: 'center' }}>{orderError}</p>
+                )}
             </div>
 
             {/* Place Order Button - Fixed at bottom */}
@@ -174,9 +197,10 @@ export default function Cart() {
                     onClick={handlePlaceOrder}
                     id="place-order-btn"
                     style={{ borderRadius: 'var(--radius-2xl)' }}
+                    disabled={orderLoading}
                 >
-                    <span>Place Order</span>
-                    <span style={{ fontSize: '1.25rem' }}>🚀</span>
+                    <span>{orderLoading ? 'Placing Order...' : 'Place Order'}</span>
+                    <span style={{ fontSize: '1.25rem' }}>{orderLoading ? '⏳' : '🚀'}</span>
                 </button>
             </div>
         </div>

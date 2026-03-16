@@ -48,7 +48,7 @@ router.post('/add', protect, [
       });
     }
 
-    const { menuItem, restaurant, quantity, price } = req.body;
+    const { menuItem, restaurant, quantity, price, name = '', image = '' } = req.body;
 
     // Find or create cart
     let cart = await Cart.findOne({ user: req.user._id });
@@ -70,6 +70,8 @@ router.post('/add', protect, [
       cart.items.push({
         menuItem,
         restaurant,
+        name,
+        image,
         quantity,
         price
       });
