@@ -23,7 +23,6 @@ const orderItemSchema = new mongoose.Schema({
 const orderSchema = new mongoose.Schema({
   orderNumber: {
     type: String,
-    required: true,
     unique: true
   },
   user: {
@@ -103,8 +102,8 @@ const orderSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Generate order number before saving
-orderSchema.pre('save', async function(next) {
+// Generate order number before validation (must be pre-validate, not pre-save)
+orderSchema.pre('validate', async function(next) {
   if (!this.orderNumber) {
     const count = await this.constructor.countDocuments();
     this.orderNumber = `#${5000 + count + 1}`;

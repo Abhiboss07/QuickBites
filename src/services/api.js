@@ -9,10 +9,7 @@ const removeToken = () => localStorage.removeItem('token');
 const apiRequest = async (endpoint, options = {}) => {
   const token = getToken();
   const url = `${API_BASE_URL}${endpoint}`;
-  
-  console.log(`🔄 API Request: ${options.method || 'GET'} ${endpoint}`);
-  console.log('🔑 Token:', token ? 'present' : 'none');
-  
+
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -23,19 +20,13 @@ const apiRequest = async (endpoint, options = {}) => {
   };
 
   try {
-    console.log('📡 Sending request to:', url);
     const response = await fetch(url, config);
-    console.log('📡 Response status:', response.status);
-    console.log('📡 Response ok:', response.ok);
-    
     const data = await response.json();
-    console.log('📡 Response data:', data);
 
     if (!response.ok) {
       if (response.status === 401) {
-        // Token expired or invalid, redirect to login (only if not already there)
         removeToken();
-        if (window.location.pathname !== '/login' && window.location.pathname !== '/debug-login') {
+        if (window.location.pathname !== '/login' && window.location.pathname !== '/signup') {
           window.location.href = '/login';
         }
         throw new Error('Session expired. Please login again.');
@@ -45,11 +36,9 @@ const apiRequest = async (endpoint, options = {}) => {
 
     return data;
   } catch (error) {
-    console.error('❌ API Error:', error);
-    console.error('❌ Error details:', {
-      message: error.message,
-      stack: error.stack
-    });
+    if (import.meta.env.DEV) {
+      console.error(`API Error [${options.method || 'GET'} ${endpoint}]:`, error.message);
+    }
     throw error;
   }
 };
@@ -224,6 +213,23 @@ export const usersAPI = {
 
   getFavorites: async () => {
     return await apiRequest('/users/favorites');
+  },
+};
+
+// Payments API
+export const paymentsAPI = {
+  createOrder: async (amount, currency = 'INR') => {
+    return await apiRequest('/payments/create-order', {
+      method: 'POST',
+      body: JSON.stringify({ amount, currency }),
+    });
+  },
+
+  verify: async (paymentData) => {
+    return await apiRequest('/payments/verify', {
+      method: 'POST',
+      body: JSON.stringify(paymentData),
+    });
   },
 };
 

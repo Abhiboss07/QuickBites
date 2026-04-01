@@ -166,43 +166,37 @@ export function AppProvider({ children }) {
     const initializeApp = async () => {
       try {
         const token = localStorage.getItem('token')
-        console.log('Initializing app with token:', token ? 'present' : 'none')
         
         if (token) {
           // Verify token and get user data
           const userData = await authAPI.getProfile()
-          console.log('User data loaded:', userData.data.user)
           dispatch({ type: 'SET_USER', payload: userData.data.user })
           
-          // Load user's cart
+          // Load user's cart (non-blocking)
           try {
             const cartData = await cartAPI.get()
-            console.log('Cart data loaded:', cartData.data.cart)
             dispatch({ type: 'SET_CART', payload: cartData.data.cart })
-          } catch (error) {
-            console.log('No existing cart found:', error.message)
+          } catch (_) {
+            // Cart may not exist yet — that's fine
           }
 
-          // Load user's favorites
+          // Load user's favorites (non-blocking)
           try {
-            const favoritesData = await restaurantsAPI.getFeatured() // Using featured as fallback
-            console.log('Favorites loaded:', favoritesData.data.restaurants)
+            const favoritesData = await restaurantsAPI.getFeatured()
             dispatch({ type: 'SET_FAVORITES', payload: favoritesData.data.restaurants.map(r => r._id) })
-          } catch (error) {
-            console.log('Could not load favorites:', error.message)
+          } catch (_) {
+            // Favorites may be empty
           }
 
-          // Load order history
+          // Load order history (non-blocking)
           try {
             const ordersData = await ordersAPI.getAll()
-            console.log('Order history loaded:', ordersData.data.orders)
             dispatch({ type: 'SET_ORDER_HISTORY', payload: ordersData.data.orders })
-          } catch (error) {
-            console.log('Could not load order history:', error.message)
+          } catch (_) {
+            // No orders yet
           }
         }
       } catch (error) {
-        console.error('Initialization error:', error)
         localStorage.removeItem('token')
         dispatch({ type: 'SET_LOADING', payload: false })
       } finally {
@@ -215,23 +209,15 @@ export function AppProvider({ children }) {
 
   // Auth actions
   const login = async (credentials) => {
-    try {
-      const response = await authAPI.login(credentials)
-      dispatch({ type: 'SET_USER', payload: response.data.user })
-      return response
-    } catch (error) {
-      throw error
-    }
+    const response = await authAPI.login(credentials)
+    dispatch({ type: 'SET_USER', payload: response.data.user })
+    return response
   }
 
   const register = async (userData) => {
-    try {
-      const response = await authAPI.register(userData)
-      dispatch({ type: 'SET_USER', payload: response.data.user })
-      return response
-    } catch (error) {
-      throw error
-    }
+    const response = await authAPI.register(userData)
+    dispatch({ type: 'SET_USER', payload: response.data.user })
+    return response
   }
 
   const logout = () => {
@@ -247,7 +233,6 @@ export function AppProvider({ children }) {
       dispatch({ type: 'SET_RESTAURANTS', payload: response.data.restaurants })
       return response.data.restaurants
     } catch (error) {
-      console.error('Error loading restaurants:', error)
       throw error
     } finally {
       dispatch({ type: 'LOADING_RESTAURANTS', payload: false })
@@ -260,7 +245,6 @@ export function AppProvider({ children }) {
       dispatch({ type: 'SET_CATEGORIES', payload: response.data.categories })
       return response.data.categories
     } catch (error) {
-      console.error('Error loading categories:', error)
       throw error
     }
   }
@@ -272,7 +256,6 @@ export function AppProvider({ children }) {
       dispatch({ type: 'SET_CART', payload: response.data.cart })
       return response.data.cart
     } catch (error) {
-      console.error('Error loading cart:', error)
       throw error
     }
   }
@@ -283,7 +266,6 @@ export function AppProvider({ children }) {
       dispatch({ type: 'SET_CART', payload: response.data.cart })
       return response.data.cart
     } catch (error) {
-      console.error('Error adding to cart:', error)
       throw error
     }
   }
@@ -294,7 +276,6 @@ export function AppProvider({ children }) {
       dispatch({ type: 'SET_CART', payload: response.data.cart })
       return response.data.cart
     } catch (error) {
-      console.error('Error removing from cart:', error)
       throw error
     }
   }
@@ -305,7 +286,6 @@ export function AppProvider({ children }) {
       dispatch({ type: 'SET_CART', payload: response.data.cart })
       return response.data.cart
     } catch (error) {
-      console.error('Error updating quantity:', error)
       throw error
     }
   }
@@ -316,7 +296,6 @@ export function AppProvider({ children }) {
       dispatch({ type: 'CLEAR_CART' })
       return response.data.cart
     } catch (error) {
-      console.error('Error clearing cart:', error)
       throw error
     }
   }
@@ -327,7 +306,6 @@ export function AppProvider({ children }) {
       dispatch({ type: 'APPLY_PROMO', payload: response.data })
       return response.data
     } catch (error) {
-      console.error('Error applying promo:', error)
       throw error
     }
   }
@@ -343,7 +321,6 @@ export function AppProvider({ children }) {
       dispatch({ type: 'PLACE_ORDER', payload: response.data.order })
       return response.data.order
     } catch (error) {
-      console.error('Error placing order:', error)
       throw error
     }
   }
@@ -354,7 +331,6 @@ export function AppProvider({ children }) {
       dispatch({ type: 'SET_ORDER_HISTORY', payload: response.data.orders })
       return response.data.orders
     } catch (error) {
-      console.error('Error loading order history:', error)
       throw error
     }
   }
@@ -365,7 +341,6 @@ export function AppProvider({ children }) {
       dispatch({ type: 'SET_CURRENT_ORDER', payload: response.data.tracking })
       return response.data.tracking
     } catch (error) {
-      console.error('Error tracking order:', error)
       throw error
     }
   }
@@ -375,7 +350,6 @@ export function AppProvider({ children }) {
       await restaurantsAPI.toggleFavorite(restaurantId)
       dispatch({ type: 'TOGGLE_FAVORITE', payload: restaurantId })
     } catch (error) {
-      console.error('Error toggling favorite:', error)
       throw error
     }
   }

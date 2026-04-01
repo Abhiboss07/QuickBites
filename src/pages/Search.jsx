@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useApp } from '../context/AppContext'
+import { useApp } from '../context/AppContextBackend'
 import RestaurantCard from '../components/RestaurantCard'
 import BottomNav from '../components/BottomNav'
 
@@ -30,13 +30,13 @@ export default function Search() {
     }
 
     const results = restaurants.filter(r => {
-        const matchesQuery = !query || r.name.toLowerCase().includes(query.toLowerCase()) || r.cuisine.toLowerCase().includes(query.toLowerCase())
-        const matchesFilter = activeFilters.length === 0 || activeFilters.includes(r.category)
+        const matchesQuery = !query || r.name?.toLowerCase().includes(query.toLowerCase()) || r.cuisine?.toLowerCase().includes(query.toLowerCase())
+        const matchesFilter = activeFilters.length === 0 || activeFilters.includes(r.category) || activeFilters.some(f => r.cuisine?.toLowerCase().includes(f.toLowerCase()))
         return matchesQuery && matchesFilter
     })
 
-    // Also search menu items
-    const menuResults = query ? restaurants.flatMap(r => r.menu.filter(m => m.name.toLowerCase().includes(query.toLowerCase()) || m.description.toLowerCase().includes(query.toLowerCase())).map(m => ({ ...m, restaurantName: r.name, restaurantId: r._id || r.id }))) : []
+    // Also search menu items (guard against missing menu)
+    const menuResults = query ? restaurants.flatMap(r => (r.menu || []).filter(m => m.name?.toLowerCase().includes(query.toLowerCase()) || m.description?.toLowerCase().includes(query.toLowerCase())).map(m => ({ ...m, restaurantName: r.name, restaurantId: r._id || r.id }))) : []
 
     return (
         <div className="page page-with-nav">

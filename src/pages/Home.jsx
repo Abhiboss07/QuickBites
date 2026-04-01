@@ -1,22 +1,27 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useApp } from '../context/AppContext'
+import { useApp } from '../context/AppContextBackend'
 import RestaurantCard from '../components/RestaurantCard'
 import BottomNav from '../components/BottomNav'
 
 export default function Home() {
     const navigate = useNavigate()
-    const { cartCount, restaurants, categories, loadRestaurants, loadingRestaurants } = useApp()
+    const { cartCount, restaurants, categories, loadRestaurants, loadCategories, loadingRestaurants } = useApp()
     const [searchQuery, setSearchQuery] = useState('')
     const [selectedCategory, setSelectedCategory] = useState(null)
 
-    // Load restaurants on component mount
+    // Load restaurants and categories on component mount
     useEffect(() => {
         const loadData = async () => {
             try {
-                await loadRestaurants()
+                await Promise.all([
+                    loadRestaurants(),
+                    loadCategories()
+                ])
             } catch (error) {
-                console.error('Failed to load restaurants:', error)
+                if (import.meta.env.DEV) {
+                    console.error('Failed to load data:', error)
+                }
             }
         }
         loadData()

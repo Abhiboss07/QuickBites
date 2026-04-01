@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useApp } from '../context/AppContext'
+import { useApp } from '../context/AppContextBackend'
 
 export default function Login() {
     const navigate = useNavigate()
@@ -16,41 +16,29 @@ export default function Login() {
         setError('')
         setLoading(true)
 
-        console.log('=== Login Attempt ===');
-        console.log('Email:', email)
-        console.log('Password:', password ? '[REDACTED]' : '[EMPTY]')
-
         if (!email.trim()) {
-            console.log('❌ Validation failed: Empty email')
             setError('Please enter your email address')
             setLoading(false)
             return
         }
         if (!password.trim()) {
-            console.log('❌ Validation failed: Empty password')
             setError('Please enter your password')
             setLoading(false)
             return
         }
 
         try {
-            console.log('🔄 Attempting API call...')
-            const result = await login({ email, password })
-            console.log('✅ API call successful:', result)
-            console.log('🔄 Navigating to /home...')
+            await login({ email, password })
             navigate('/home')
         } catch (err) {
-            console.error('❌ Login error:', err)
-            console.error('Error details:', {
-                message: err.message,
-                stack: err.stack,
-                name: err.name
-            })
             setError(err.message || 'Login failed. Please try again.')
         } finally {
-            console.log('🔄 Setting loading to false')
             setLoading(false)
         }
+    }
+
+    const handleSocialLogin = (provider) => {
+        setError(`${provider} login is coming soon! For now, use email & password.`)
     }
 
     return (
@@ -103,7 +91,8 @@ export default function Login() {
 
                 {error && (
                     <div className="animate-bounceIn" style={{
-                        background: 'rgba(239,68,68,0.1)', color: 'var(--danger)',
+                        background: error.includes('coming soon') ? 'rgba(59,130,246,0.1)' : 'rgba(239,68,68,0.1)',
+                        color: error.includes('coming soon') ? 'var(--primary)' : 'var(--danger)',
                         padding: '0.75rem 1rem', borderRadius: 'var(--radius-md)',
                         fontSize: '0.875rem', fontWeight: 600, marginBottom: '1rem', textAlign: 'center',
                     }}>
@@ -121,6 +110,7 @@ export default function Login() {
                             value={email}
                             onChange={(e) => { setEmail(e.target.value); setError('') }}
                             id="email-input"
+                            autoComplete="email"
                         />
                     </div>
 
@@ -133,6 +123,7 @@ export default function Login() {
                             value={password}
                             onChange={(e) => { setPassword(e.target.value); setError('') }}
                             id="password-input"
+                            autoComplete="current-password"
                         />
                         <button
                             type="button"
@@ -169,13 +160,13 @@ export default function Login() {
 
                 {/* Social buttons */}
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '1rem' }}>
-                    <button className="social-btn social-google" id="google-login" onClick={() => navigate('/home')} style={{ width: '3rem', height: '3rem' }}>
+                    <button className="social-btn social-google" id="google-login" onClick={() => handleSocialLogin('Google')} style={{ width: '3rem', height: '3rem' }}>
                         <span style={{ fontSize: '0.875rem', fontWeight: 700 }}>G</span>
                     </button>
-                    <button className="social-btn social-facebook" id="facebook-login" onClick={() => navigate('/home')} style={{ width: '3rem', height: '3rem' }}>
+                    <button className="social-btn social-facebook" id="facebook-login" onClick={() => handleSocialLogin('Facebook')} style={{ width: '3rem', height: '3rem' }}>
                         <span style={{ fontSize: '1.25rem', fontWeight: 800 }}>f</span>
                     </button>
-                    <button className="social-btn social-apple" id="apple-login" onClick={() => navigate('/home')} style={{ width: '3rem', height: '3rem' }}>
+                    <button className="social-btn social-apple" id="apple-login" onClick={() => handleSocialLogin('Apple')} style={{ width: '3rem', height: '3rem' }}>
                         <span className="material-symbols-outlined" style={{ fontSize: '1.5rem' }}>
                             laptop_mac
                         </span>
@@ -186,7 +177,7 @@ export default function Login() {
                 <p style={{ textAlign: 'center', fontSize: '0.875rem', color: 'var(--text-muted)', fontWeight: 500 }}>
                     Don't have an account?{' '}
                     <button
-                        onClick={() => navigate('/home')}
+                        onClick={() => navigate('/signup')}
                         style={{ color: 'var(--primary)', fontWeight: 700 }}
                         id="signup-link"
                     >

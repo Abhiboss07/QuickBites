@@ -8,6 +8,7 @@ const onboardingSlides = [
         title: "Welcome to QuickBites",
         subtitle: "Your favorite food delivered fast",
         image: "🍔",
+        icon: "lunch_dining",
         description: "Order from top restaurants in your area"
     },
     {
@@ -15,6 +16,7 @@ const onboardingSlides = [
         title: "Track Your Order",
         subtitle: "Real-time delivery tracking",
         image: "📍",
+        icon: "location_on",
         description: "Watch your food journey from kitchen to door"
     },
     {
@@ -22,6 +24,7 @@ const onboardingSlides = [
         title: "Easy Payments",
         subtitle: "Secure and simple checkout",
         image: "💳",
+        icon: "credit_card",
         description: "Multiple payment options for your convenience"
     }
 ]

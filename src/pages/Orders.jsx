@@ -8,8 +8,8 @@ export default function Orders() {
     const { orderHistory, loadOrderHistory } = useApp()
 
     useEffect(() => {
-        loadOrderHistory().catch(console.error)
-    }, [])
+        loadOrderHistory().catch(() => {})
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const getStatusLabel = (status) => {
         if (status === 'delivered') return '✅ Delivered'
@@ -33,7 +33,7 @@ export default function Orders() {
                         <div key={order._id || order.orderNumber} className="order-card animate-slideUp" style={{ animationDelay: `${i * 0.1}s` }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
                                 <div>
-                                    <h3 style={{ fontWeight: 700, fontSize: '1rem' }}>{order.restaurantName || order.restaurant}</h3>
+                                    <h3 style={{ fontWeight: 700, fontSize: '1rem' }}>{order.restaurantName || order.restaurant?.name || 'Restaurant'}</h3>
                                     <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>
                                         Order {order.orderNumber || order._id} • {new Date(order.createdAt || Date.now()).toLocaleDateString()}
                                     </p>
