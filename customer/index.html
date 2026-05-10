@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuickBites 🍔 - Cartoon Food Delivery</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #FF6B35;
+    --secondary: #FFD23F;
+    --accent: #06D6A0;
+    --purple: #9B5DE5;
+    --pink: #F72585;
+    --dark: #1a1a2e;
+    --glass: rgba(255,255,255,0.15);
+    --glass-border: rgba(255,255,255,0.3);
+    --shadow: 0 8px 32px rgba(31,38,135,0.25);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: white;
+  }
+
+  /* Animated Background Blobs */
+  .bg-blob {
+    position: fixed; border-radius: 50%; filter: blur(80px);
+    animation: blobFloat 8s ease-in-out infinite; z-index: 0; pointer-events: none;
+  }
+  .blob1 { width:400px; height:400px; background:rgba(255,107,53,0.25); top:-100px; left:-100px; animation-delay:0s; }
+  .blob2 { width:350px; height:350px; background:rgba(155,93,229,0.2); top:50%; right:-100px; animation-delay:2s; }
+  .blob3 { width:300px; height:300px; background:rgba(6,214,160,0.2); bottom:-100px; left:30%; animation-delay:4s; }
+  @keyframes blobFloat {
+    0%,100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+
+  /* Floating food emojis */
+  .food-float { position:fixed; font-size:2rem; animation: floatUp 6s linear infinite; z-index:0; pointer-events:none; opacity:0.5; }
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) rotate(0deg); opacity:0; }
+    10% { opacity:0.5; }
+    90% { opacity:0.3; }
+    100% { transform: translateY(-100px) rotate(360deg); opacity:0; }
+  }
+
+  /* Glassmorphism card */
+  .glass-card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    padding: 1rem 2rem;
+    background: rgba(26,26,46,0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items:center; justify-content:space-between;
+  }
+  .logo {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, #FF6B35, #FFD23F);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    text-shadow: none;
+    display: flex; align-items:center; gap:8px;
+  }
+  .logo-emoji { -webkit-text-fill-color: initial; font-size:1.5rem; }
+  .nav-links { display:flex; gap:1.5rem; align-items:center; }
+  .nav-link {
+    color: rgba(255,255,255,0.7); text-decoration:none;
+    font-weight:700; font-size:0.9rem; letter-spacing:0.5px;
+    transition: color 0.3s; padding:0.4rem 0.8rem; border-radius:12px;
+  }
+  .nav-link:hover { color:white; background:rgba(255,255,255,0.1); }
+  .cart-btn {
+    background: linear-gradient(135deg, #FF6B35, #FF8C42);
+    border:none; border-radius:50px; padding:0.6rem 1.4rem;
+    color:white; font-weight:800; font-family:'Nunito',sans-serif;
+    cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:6px;
+    box-shadow: 0 4px 20px rgba(255,107,53,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .cart-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(255,107,53,0.6); }
+
+  /* HERO */
+  .hero {
+    position:relative; z-index:1; padding: 10rem 2rem 4rem;
+    text-align:center;
+  }
+  .hero-badge {
+    display:inline-block;
+    background: rgba(255,210,63,0.2);
+    border: 1px solid rgba(255,210,63,0.5);
+    border-radius:50px; padding:0.4rem 1.2rem;
+    font-size:0.85rem; font-weight:700; color:#FFD23F;
+    margin-bottom:1.5rem; letter-spacing:1px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+  .hero h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .hero h1 span { background: linear-gradient(135deg, #FF6B35, #FFD23F, #06D6A0); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .hero p { font-size:1.2rem; color:rgba(255,255,255,0.7); margin-bottom:2rem; max-width:500px; margin-left:auto; margin-right:auto; }
+
+  /* Search Bar */
+  .search-container { position:relative; max-width:600px; margin:0 auto 3rem; }
+  .search-bar {
+    width:100%; padding:1.2rem 1.5rem 1.2rem 3.5rem;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius:20px; color:white; font-size:1.1rem;
+    font-family:'Nunito',sans-serif; font-weight:600;
+    outline:none; transition: all 0.3s;
+  }
+  .search-bar::placeholder { color:rgba(255,255,255,0.5); }
+  .search-bar:focus { border-color:#FF6B35; background:rgba(255,255,255,0.18); box-shadow:0 0 30px rgba(255,107,53,0.3); }
+  .search-icon { position:absolute; left:1.2rem; top:50%; transform:translateY(-50%); font-size:1.3rem; }
+  .search-btn {
+    position:absolute; right:8px; top:50%; transform:translateY(-50%);
+    background:linear-gradient(135deg,#FF6B35,#FF8C42);
+    border:none; border-radius:14px; padding:0.7rem 1.4rem;
+    color:white; font-weight:800; font-family:'Nunito',sans-serif;
+    cursor:pointer; font-size:0.9rem;
+    box-shadow: 0 4px 15px rgba(255,107,53,0.4);
+    transition: transform 0.2s;
+  }
+  .search-btn:hover { transform: translateY(-50%) scale(1.05); }
+
+  /* Stats */
+  .stats { display:flex; gap:2rem; justify-content:center; flex-wrap:wrap; margin-bottom:4rem; }
+  .stat-item { text-align:center; }
+  .stat-number { font-family:'Fredoka One',cursive; font-size:2rem; color:#FFD23F; }
+  .stat-label { font-size:0.8rem; color:rgba(255,255,255,0.6); font-weight:600; text-transform:uppercase; letter-spacing:1px; }
+
+  /* Category Pills */
+  .section { position:relative; z-index:1; padding:2rem; max-width:1200px; margin:0 auto; }
+  .section-title {
+    font-family:'Fredoka One',cursive; font-size:1.8rem;
+    margin-bottom:1.5rem; display:flex; align-items:center; gap:10px;
+  }
+  .categories { display:flex; gap:1rem; overflow-x:auto; padding-bottom:0.5rem; scrollbar-width:none; }
+  .categories::-webkit-scrollbar { display:none; }
+  .category-pill {
+    flex-shrink:0;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius:50px; padding:0.7rem 1.4rem;
+    cursor:pointer; transition: all 0.3s; font-weight:700;
+    display:flex; align-items:center; gap:8px; white-space:nowrap;
+    font-family:'Nunito',sans-serif; font-size:0.95rem;
+  }
+  .category-pill:hover, .category-pill.active {
+    background: linear-gradient(135deg, rgba(255,107,53,0.4), rgba(255,140,66,0.3));
+    border-color: #FF6B35; color:white;
+    box-shadow: 0 4px 20px rgba(255,107,53,0.3);
+    transform: translateY(-3px);
+  }
+  .cat-emoji { font-size:1.3rem; }
+
+  /* Restaurant Grid */
+  .restaurant-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:1.5rem; margin-top:1.5rem; }
+  .restaurant-card {
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius:24px; overflow:hidden;
+    cursor:pointer; transition: all 0.4s;
+    position:relative;
+  }
+  .restaurant-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255,107,53,0.5);
+    box-shadow: 0 20px 60px rgba(255,107,53,0.25);
+  }
+  .restaurant-img {
+    width:100%; height:160px; object-fit:cover;
+    background: linear-gradient(135deg, #FF6B35, #FF8C42);
+    display:flex; align-items:center; justify-content:center;
+    font-size:5rem; position:relative;
+  }
+  .restaurant-img .food-bg { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+  .discount-badge {
+    position:absolute; top:12px; left:12px;
+    background: linear-gradient(135deg, #FF6B35, #FF4500);
+    border-radius:50px; padding:0.3rem 0.8rem;
+    font-size:0.75rem; font-weight:800; letter-spacing:0.5px;
+    box-shadow: 0 4px 15px rgba(255,69,0,0.4);
+  }
+  .veg-badge {
+    position:absolute; top:12px; right:12px;
+    width:24px; height:24px; border-radius:4px;
+    border: 2px solid;
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.6rem; font-weight:800;
+  }
+  .veg { border-color:#06D6A0; color:#06D6A0; }
+  .nonveg { border-color:#FF6B35; color:#FF6B35; }
+  .restaurant-info { padding:1.2rem; }
+  .restaurant-name { font-family:'Fredoka One',cursive; font-size:1.2rem; margin-bottom:0.3rem; }
+  .restaurant-cuisine { color:rgba(255,255,255,0.6); font-size:0.85rem; margin-bottom:0.8rem; }
+  .restaurant-meta { display:flex; align-items:center; gap:1rem; font-size:0.85rem; }
+  .rating { display:flex; align-items:center; gap:4px; color:#FFD23F; font-weight:800; }
+  .delivery-time { color:rgba(255,255,255,0.7); font-weight:600; }
+  .min-order { color:rgba(255,255,255,0.5); font-size:0.8rem; margin-left:auto; }
+
+  /* Promo Banner */
+  .promo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.5rem; margin-top:1.5rem; }
+  .promo-card {
+    border-radius:24px; padding:1.5rem; position:relative; overflow:hidden; cursor:pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    min-height:140px; display:flex; flex-direction:column; justify-content:flex-end;
+  }
+  .promo-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+  .promo1 { background: linear-gradient(135deg, #FF6B35 0%, #9B5DE5 100%); }
+  .promo2 { background: linear-gradient(135deg, #06D6A0 0%, #0077B6 100%); }
+  .promo3 { background: linear-gradient(135deg, #F72585 0%, #FFD23F 100%); }
+  .promo-emoji { font-size:4rem; position:absolute; right:1rem; top:50%; transform:translateY(-50%); opacity:0.7; }
+  .promo-title { font-family:'Fredoka One',cursive; font-size:1.4rem; position:relative; z-index:1; }
+  .promo-subtitle { font-size:0.85rem; color:rgba(255,255,255,0.85); font-weight:600; position:relative; z-index:1; }
+  .promo-btn {
+    display:inline-block; margin-top:0.8rem;
+    background:rgba(255,255,255,0.25); border:1px solid rgba(255,255,255,0.5);
+    border-radius:50px; padding:0.3rem 1rem;
+    font-size:0.8rem; font-weight:800; position:relative; z-index:1;
+    transition: background 0.3s;
+  }
+  .promo-btn:hover { background:rgba(255,255,255,0.4); }
+
+  /* Bottom Nav */
+  .bottom-nav {
+    position:fixed; bottom:0; left:0; right:0; z-index:100;
+    background: rgba(26,26,46,0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display:flex; justify-content:space-around; align-items:center;
+    padding:0.8rem 1rem;
+  }
+  .nav-item { display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; padding:0.3rem 1rem; border-radius:12px; transition:all 0.3s; }
+  .nav-item:hover, .nav-item.active { background:rgba(255,107,53,0.2); }
+  .nav-emoji { font-size:1.4rem; }
+  .nav-label { font-size:0.65rem; font-weight:700; color:rgba(255,255,255,0.6); letter-spacing:0.5px; }
+  .nav-item.active .nav-label { color:#FF6B35; }
+
+  /* Cart Sidebar */
+  .cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:200; display:none; backdrop-filter:blur(5px); }
+  .cart-overlay.open { display:block; }
+  .cart-sidebar {
+    position:fixed; right:-450px; top:0; bottom:0; width:400px; max-width:100%;
+    background: rgba(26,26,46,0.95);
+    backdrop-filter: blur(30px);
+    border-left: 1px solid rgba(255,255,255,0.15);
+    z-index:201; padding:1.5rem; overflow-y:auto;
+    transition: right 0.4s cubic-bezier(0.4,0,0.2,1);
+    display:flex; flex-direction:column;
+  }
+  .cart-sidebar.open { right:0; }
+  .cart-title { font-family:'Fredoka One',cursive; font-size:1.8rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:10px; }
+  .close-btn { margin-left:auto; background:none; border:none; color:white; font-size:1.5rem; cursor:pointer; padding:0.3rem; border-radius:8px; transition:background 0.2s; }
+  .close-btn:hover { background:rgba(255,255,255,0.1); }
+  .cart-item { display:flex; align-items:center; gap:1rem; padding:1rem; background:rgba(255,255,255,0.07); border-radius:16px; margin-bottom:0.8rem; }
+  .cart-item-emoji { font-size:2rem; }
+  .cart-item-info { flex:1; }
+  .cart-item-name { font-weight:700; font-size:0.95rem; }
+  .cart-item-price { color:#FFD23F; font-weight:800; font-size:0.9rem; }
+  .qty-controls { display:flex; align-items:center; gap:8px; }
+  .qty-btn { background:rgba(255,107,53,0.3); border:1px solid rgba(255,107,53,0.5); color:white; width:28px; height:28px; border-radius:8px; cursor:pointer; font-size:1rem; font-weight:700; transition:background 0.2s; }
+  .qty-btn:hover { background:rgba(255,107,53,0.6); }
+  .qty-num { font-weight:800; min-width:20px; text-align:center; }
+  .cart-total { margin-top:auto; padding-top:1.5rem; border-top:1px solid rgba(255,255,255,0.1); }
+  .total-row { display:flex; justify-content:space-between; margin-bottom:0.5rem; font-size:0.9rem; color:rgba(255,255,255,0.7); }
+  .total-row.grand { font-size:1.1rem; font-weight:800; color:white; }
+  .checkout-btn {
+    width:100%; margin-top:1rem;
+    background: linear-gradient(135deg, #FF6B35, #FF4500);
+    border:none; border-radius:16px; padding:1rem;
+    color:white; font-weight:900; font-size:1.1rem; font-family:'Nunito',sans-serif;
+    cursor:pointer; transition:transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 8px 25px rgba(255,107,53,0.4);
+  }
+  .checkout-btn:hover { transform:translateY(-3px); box-shadow:0 12px 35px rgba(255,107,53,0.6); }
+
+  /* Toast notification */
+  .toast {
+    position:fixed; bottom:5rem; left:50%; transform:translateX(-50%) translateY(100px);
+    background: rgba(6,214,160,0.9); backdrop-filter:blur(10px);
+    border-radius:50px; padding:0.8rem 2rem;
+    font-weight:800; font-size:0.95rem; z-index:300;
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    pointer-events:none; white-space:nowrap;
+  }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width:6px; }
+  ::-webkit-scrollbar-track { background:rgba(255,255,255,0.05); border-radius:10px; }
+  ::-webkit-scrollbar-thumb { background:rgba(255,107,53,0.5); border-radius:10px; }
+
+  /* Section spacing */
+  .section-gap { padding-bottom:2rem; }
+  .pb-safe { padding-bottom:5rem; }
+</style>
+</head>
+<body>
+
+<!-- Background blobs -->
+<div class="bg-blob blob1"></div>
+<div class="bg-blob blob2"></div>
+<div class="bg-blob blob3"></div>
+
+<!-- Floating food -->
+<div class="food-float" style="left:5%; animation-delay:0s; animation-duration:8s">🍕</div>
+<div class="food-float" style="left:20%; animation-delay:2s; animation-duration:10s">🍔</div>
+<div class="food-float" style="left:40%; animation-delay:4s; animation-duration:7s">🌮</div>
+<div class="food-float" style="left:60%; animation-delay:1s; animation-duration:9s">🍜</div>
+<div class="food-float" style="left:80%; animation-delay:3s; animation-duration:11s">🍰</div>
+<div class="food-float" style="left:90%; animation-delay:5s; animation-duration:8s">🍩</div>
+
+<!-- Navigation -->
+<nav>
+  <div class="logo"><span class="logo-emoji">🍔</span> QuickBites</div>
+  <div class="nav-links">
+    <a href="#" class="nav-link">Restaurants</a>
+    <a href="#" class="nav-link">Offers</a>
+    <a href="order-tracking.html" class="nav-link">Track Order</a>
+    <a href="../admin/index.html" class="nav-link" style="color:#FFD23F">Admin</a>
+    <a href="../rider/index.html" class="nav-link" style="color:#06D6A0">Rider</a>
+    <button class="cart-btn" onclick="toggleCart()">🛒 Cart <span id="cart-count" style="background:rgba(255,255,255,0.3);padding:2px 8px;border-radius:50px;font-size:0.85rem">3</span></button>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-badge">⚡ 25-30 min delivery guaranteed</div>
+  <h1>Delicious Food,<br><span>Delivered Cartoon Fast!</span> 🚀</h1>
+  <p>Order from 500+ cartoon-themed restaurants. Fresh, fun, and fast delivery right to your door!</p>
+  <div class="search-container">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-bar" placeholder="Search for biryani, pizza, sushi...">
+    <button class="search-btn">Find Food</button>
+  </div>
+  <div class="stats">
+    <div class="stat-item"><div class="stat-number">500+</div><div class="stat-label">Restaurants</div></div>
+    <div class="stat-item"><div class="stat-number">50K+</div><div class="stat-label">Happy Customers</div></div>
+    <div class="stat-item"><div class="stat-number">25 min</div><div class="stat-label">Avg Delivery</div></div>
+    <div class="stat-item"><div class="stat-number">4.8⭐</div><div class="stat-label">App Rating</div></div>
+  </div>
+</section>
+
+<!-- Promo Banners -->
+<section class="section section-gap">
+  <div class="section-title">🔥 Hot Deals</div>
+  <div class="promo-grid">
+    <div class="promo-card promo1" onclick="showToast('🎉 Code YUMMY50 copied!')">
+      <span class="promo-emoji">🍕</span>
+      <div class="promo-title">50% OFF Pizza!</div>
+      <div class="promo-subtitle">Use code YUMMY50 • Min ₹299</div>
+      <div class="promo-btn">Grab Deal →</div>
+    </div>
+    <div class="promo-card promo2" onclick="showToast('🎉 Code FREEBIE applied!')">
+      <span class="promo-emoji">🍱</span>
+      <div class="promo-title">Free Delivery!</div>
+      <div class="promo-subtitle">On orders above ₹199</div>
+      <div class="promo-btn">Order Now →</div>
+    </div>
+    <div class="promo-card promo3" onclick="showToast('🎉 New user offer activated!')">
+      <span class="promo-emoji">🎉</span>
+      <div class="promo-title">New User? ₹100 OFF</div>
+      <div class="promo-subtitle">First order discount</div>
+      <div class="promo-btn">Claim Now →</div>
+    </div>
+  </div>
+</section>
+
+<!-- Categories -->
+<section class="section section-gap">
+  <div class="section-title">🍽️ What's Craving?</div>
+  <div class="categories">
+    <div class="category-pill active" onclick="filterCategory(this)"><span class="cat-emoji">🌟</span> All</div>
+    <div class="category-pill" onclick="filterCategory(this)"><span class="cat-emoji">🍕</span> Pizza</div>
+    <div class="category-pill" onclick="filterCategory(this)"><span class="cat-emoji">🍔</span> Burgers</div>
+    <div class="category-pill" onclick="filterCategory(this)"><span class="cat-emoji">🍜</span> Noodles</div>
+    <div class="category-pill" onclick="filterCategory(this)"><span class="cat-emoji">🍱</span> Biryani</div>
+    <div class="category-pill" onclick="filterCategory(this)"><span class="cat-emoji">🌮</span> Tacos</div>
+    <div class="category-pill" onclick="filterCategory(this)"><span class="cat-emoji">🍣</span> Sushi</div>
+    <div class="category-pill" onclick="filterCategory(this)"><span class="cat-emoji">🧁</span> Desserts</div>
+    <div class="category-pill" onclick="filterCategory(this)"><span class="cat-emoji">🥗</span> Healthy</div>
+    <div class="category-pill" onclick="filterCategory(this)"><span class="cat-emoji">☕</span> Drinks</div>
+  </div>
+</section>
+
+<!-- Restaurants -->
+<section class="section pb-safe">
+  <div class="section-title">🏪 Nearby Restaurants</div>
+  <div class="restaurant-grid" id="restaurant-grid">
+
+    <div class="restaurant-card" onclick="openRestaurant('pizzapalace')">
+      <div class="restaurant-img" style="background:linear-gradient(135deg,#FF6B35,#FF8C42)">
+        <div class="food-bg">🍕</div>
+        <div class="discount-badge">🔥 30% OFF</div>
+        <div class="veg-badge veg">V</div>
+      </div>
+      <div class="restaurant-info">
+        <div class="restaurant-name">🎨 Pizza Palace Cartoon</div>
+        <div class="restaurant-cuisine">Pizza • Italian • Pasta</div>
+        <div class="restaurant-meta">
+          <div class="rating">⭐ 4.7</div>
+          <div class="delivery-time">⏱ 25-30 min</div>
+          <div class="min-order">₹199 min</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurant('burgerblast')">
+      <div class="restaurant-img" style="background:linear-gradient(135deg,#9B5DE5,#C77DFF)">
+        <div class="food-bg">🍔</div>
+        <div class="discount-badge">🎉 20% OFF</div>
+        <div class="veg-badge nonveg">NV</div>
+      </div>
+      <div class="restaurant-info">
+        <div class="restaurant-name">💜 Burger Blast Station</div>
+        <div class="restaurant-cuisine">Burgers • Fries • Shakes</div>
+        <div class="restaurant-meta">
+          <div class="rating">⭐ 4.5</div>
+          <div class="delivery-time">⏱ 20-25 min</div>
+          <div class="min-order">₹149 min</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurant('noodlehouse')">
+      <div class="restaurant-img" style="background:linear-gradient(135deg,#06D6A0,#0077B6)">
+        <div class="food-bg">🍜</div>
+        <div class="veg-badge veg">V</div>
+      </div>
+      <div class="restaurant-info">
+        <div class="restaurant-name">🌊 Noodle Wave House</div>
+        <div class="restaurant-cuisine">Noodles • Ramen • Dimsum</div>
+        <div class="restaurant-meta">
+          <div class="rating">⭐ 4.8</div>
+          <div class="delivery-time">⏱ 30-35 min</div>
+          <div class="min-order">₹249 min</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurant('biryaniking')">
+      <div class="restaurant-img" style="background:linear-gradient(135deg,#F72585,#FFD23F)">
+        <div class="food-bg">🍲</div>
+        <div class="discount-badge">⚡ COMBO</div>
+        <div class="veg-badge nonveg">NV</div>
+      </div>
+      <div class="restaurant-info">
+        <div class="restaurant-name">👑 Biryani King Palace</div>
+        <div class="restaurant-cuisine">Biryani • Kebabs • Curries</div>
+        <div class="restaurant-meta">
+          <div class="rating">⭐ 4.9</div>
+          <div class="delivery-time">⏱ 35-40 min</div>
+          <div class="min-order">₹299 min</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurant('sushiworld')">
+      <div class="restaurant-img" style="background:linear-gradient(135deg,#2D6A4F,#52B788)">
+        <div class="food-bg">🍣</div>
+        <div class="veg-badge veg">V</div>
+      </div>
+      <div class="restaurant-info">
+        <div class="restaurant-name">🐟 Sushi World Express</div>
+        <div class="restaurant-cuisine">Sushi • Sashimi • Maki</div>
+        <div class="restaurant-meta">
+          <div class="rating">⭐ 4.6</div>
+          <div class="delivery-time">⏱ 30-40 min</div>
+          <div class="min-order">₹399 min</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="restaurant-card" onclick="openRestaurant('dessertdream')">
+      <div class="restaurant-img" style="background:linear-gradient(135deg,#FF9EBB,#FFCEE3)">
+        <div class="food-bg">🎂</div>
+        <div class="discount-badge">🎂 15% OFF</div>
+        <div class="veg-badge veg">V</div>
+      </div>
+      <div class="restaurant-info">
+        <div class="restaurant-name">🌸 Dessert Dream Castle</div>
+        <div class="restaurant-cuisine">Cakes • Ice Cream • Waffles</div>
+        <div class="restaurant-meta">
+          <div class="rating">⭐ 4.7</div>
+          <div class="delivery-time">⏱ 20-25 min</div>
+          <div class="min-order">₹99 min</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Cart Overlay -->
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+
+<!-- Cart Sidebar -->
+<div class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-title">🛒 Your Cart <button class="close-btn" onclick="toggleCart()">✕</button></div>
+
+  <div class="cart-item">
+    <div class="cart-item-emoji">🍕</div>
+    <div class="cart-item-info">
+      <div class="cart-item-name">Margherita Pizza</div>
+      <div class="cart-item-price">₹299</div>
+    </div>
+    <div class="qty-controls">
+      <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+      <span class="qty-num">2</span>
+      <button class="qty-btn" onclick="changeQty(this,1)">+</button>
+    </div>
+  </div>
+
+  <div class="cart-item">
+    <div class="cart-item-emoji">🍔</div>
+    <div class="cart-item-info">
+      <div class="cart-item-name">Cheese Burger Deluxe</div>
+      <div class="cart-item-price">₹199</div>
+    </div>
+    <div class="qty-controls">
+      <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+      <span class="qty-num">1</span>
+      <button class="qty-btn" onclick="changeQty(this,1)">+</button>
+    </div>
+  </div>
+
+  <div class="cart-item">
+    <div class="cart-item-emoji">🥤</div>
+    <div class="cart-item-info">
+      <div class="cart-item-name">Mango Lassi</div>
+      <div class="cart-item-price">₹79</div>
+    </div>
+    <div class="qty-controls">
+      <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+      <span class="qty-num">1</span>
+      <button class="qty-btn" onclick="changeQty(this,1)">+</button>
+    </div>
+  </div>
+
+  <div class="cart-total">
+    <div class="total-row"><span>Subtotal</span><span>₹876</span></div>
+    <div class="total-row"><span>Delivery Fee</span><span style="color:#06D6A0">FREE 🎉</span></div>
+    <div class="total-row"><span>Taxes</span><span>₹52</span></div>
+    <div class="total-row grand"><span>Total</span><span>₹928</span></div>
+    <button class="checkout-btn" onclick="window.location.href='order-tracking.html'">🚀 Place Order →</button>
+  </div>
+</div>
+
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+  <div class="nav-item active"><div class="nav-emoji">🏠</div><div class="nav-label">Home</div></div>
+  <div class="nav-item"><div class="nav-emoji">🔍</div><div class="nav-label">Search</div></div>
+  <div class="nav-item" onclick="window.location.href='order-tracking.html'"><div class="nav-emoji">📦</div><div class="nav-label">Orders</div></div>
+  <div class="nav-item"><div class="nav-emoji">❤️</div><div class="nav-label">Saved</div></div>
+  <div class="nav-item"><div class="nav-emoji">👤</div><div class="nav-label">Profile</div></div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+function toggleCart() {
+  const cart = document.getElementById('cart-sidebar');
+  const overlay = document.getElementById('cart-overlay');
+  cart.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+
+function changeQty(btn, delta) {
+  const qtyEl = btn.parentElement.querySelector('.qty-num');
+  let qty = parseInt(qtyEl.textContent) + delta;
+  if (qty < 0) qty = 0;
+  qtyEl.textContent = qty;
+}
+
+function filterCategory(el) {
+  document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  // Add bounce animation
+  el.style.animation = 'none';
+  el.offsetHeight;
+  el.style.animation = '';
+}
+
+function openRestaurant(id) {
+  showToast('🍽️ Loading menu...');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Animate cards on scroll
+const cards = document.querySelectorAll('.restaurant-card, .promo-card');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '0';
+      entry.target.style.transform = 'translateY(40px)';
+      setTimeout(() => {
+        entry.target.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = '';
+      }, i * 100);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+cards.forEach(c => observer.observe(c));
+</script>
+</body>
+</html>
