@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pizza Palace 🍕 | QuickBites Cartoon Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #FF6B35;    /* Cartoon Orange */
+    --secondary: #FFD23F;  /* Sunny Yellow */
+    --accent: #06D6A0;     /* Minty Green */
+    --purple: #9B5DE5;     /* Lavender */
+    --pink: #F72585;       /* Hot Pink */
+    --dark: #1a1a2e;       /* Deep Navy */
+    --glass: rgba(255,255,255,0.08);
+    --glass-border: rgba(255,255,255,0.2);
+    --shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    color: white;
+    overflow-x: hidden;
+    padding-bottom: 90px;
+  }
+
+  /* Scrollbar Customization */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
+  ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--secondary); }
+
+  /* Animated Background Blobs */
+  .bg-blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    pointer-events: none;
+    animation: blobFloat 12s ease-in-out infinite alternate;
+  }
+  .blob1 { width: 450px; height: 450px; background: rgba(255,107,53,0.18); top: -100px; left: -100px; }
+  .blob2 { width: 400px; height: 400px; background: rgba(155,93,229,0.12); top: 40%; right: -150px; animation-delay: 2s; }
+  .blob3 { width: 350px; height: 350px; background: rgba(6,214,160,0.12); bottom: -100px; left: 20%; animation-delay: 4s; }
+
+  @keyframes blobFloat {
+    0% { transform: translateY(0) scale(1) rotate(0deg); }
+    100% { transform: translateY(-50px) scale(1.1) rotate(180deg); }
+  }
+
+  /* Floating food emojis */
+  .food-float {
+    position: fixed;
+    font-size: 2rem;
+    animation: floatUp 8s linear infinite;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.4;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.4; }
+    100% { transform: translateY(-15vh) rotate(360deg) scale(1.2); opacity: 0; }
+  }
+
+  /* Sticky Header */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(26,26,46,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .back-btn {
+    text-decoration: none;
+    color: white;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 800;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: var(--shadow);
+  }
+  .back-btn:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    transform: translateX(-4px) scale(1.1);
+  }
+
+  .restaurant-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, #FF6B35, #FFD23F);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .header-right {
+    position: relative;
+  }
+
+  .cart-icon-btn {
+    background: linear-gradient(135deg, var(--primary), #FF8C42);
+    border: none;
+    border-radius: 50px;
+    padding: 0.6rem 1.4rem;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 20px rgba(255,107,53,0.4);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .cart-icon-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 28px rgba(255,107,53,0.6);
+  }
+  .cart-badge {
+    background: white;
+    color: var(--primary);
+    padding: 2px 8px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 900;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+  }
+  .cart-badge.bump {
+    animation: badgeBump 0.3s ease-out;
+  }
+  @keyframes badgeBump {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4); }
+    100% { transform: scale(1); }
+  }
+
+  /* Main Content Container */
+  .container {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Hero Banner */
+  .hero-banner {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    padding: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-banner::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .hero-emoji-container {
+    font-size: 5rem;
+    background: linear-gradient(135deg, rgba(255,107,53,0.2), rgba(255,210,63,0.2));
+    border: 2px dashed rgba(255,255,255,0.2);
+    border-radius: 24px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: wiggler 4s ease-in-out infinite;
+  }
+  @keyframes wiggler {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(8deg) scale(1.05); }
+  }
+
+  .hero-info {
+    flex: 1;
+  }
+
+  .hero-name-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-name {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.5rem;
+    color: white;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+
+  .hero-rating {
+    background: rgba(255,210,63,0.18);
+    border: 1.5px solid rgba(255,210,63,0.4);
+    color: var(--secondary);
+    padding: 0.4rem 0.8rem;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .hero-cuisines {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+  }
+  .cuisine-tag {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 0.3rem 0.9rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .hero-delivery-details {
+    display: flex;
+    gap: 1.5rem;
+    border-top: 1.5px dashed rgba(255,255,255,0.15);
+    padding-top: 1.2rem;
+    flex-wrap: wrap;
+  }
+  .detail-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+  .detail-item span {
+    color: rgba(255,255,255,0.5);
+  }
+  .detail-item strong {
+    color: white;
+  }
+  .detail-item.accent strong {
+    color: var(--accent);
+  }
+
+  /* Sticky Category Pills Navigation */
+  .category-nav-wrapper {
+    position: sticky;
+    top: 76px; /* Offset based on header height */
+    z-index: 90;
+    background: rgba(22,33,62,0.9);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    margin: 0 -1.5rem 2rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .category-pills {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0.8rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .category-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .category-pill {
+    text-decoration: none;
+    color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid rgba(255,255,255,0.12);
+    border-radius: 50px;
+    padding: 0.6rem 1.3rem;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+  }
+  .category-pill:hover {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.3);
+    color: white;
+    transform: translateY(-2px);
+  }
+  .category-pill.active {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-color: var(--primary);
+    color: var(--dark);
+    box-shadow: 0 4px 15px rgba(255,107,53,0.4);
+    transform: translateY(-2px) scale(1.04);
+  }
+  .pill-emoji {
+    font-size: 1.1rem;
+  }
+
+  /* Menu Grid Sections */
+  .menu-section {
+    padding-top: 5rem;
+    margin-top: -3.5rem; /* Anchor offset so sticky headers align properly */
+    margin-bottom: 3.5rem;
+  }
+
+  .menu-section-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-left: 5px solid var(--primary);
+    padding-left: 12px;
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* Menu Card */
+  .menu-card {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .menu-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255,107,53,0.5);
+    box-shadow: 0 15px 40px rgba(255,107,53,0.18);
+  }
+
+  .popular-badge {
+    position: absolute;
+    top: 15px;
+    right: -30px;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.25rem 2.2rem;
+    transform: rotate(45deg);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    z-index: 2;
+  }
+
+  .menu-card-top {
+    display: flex;
+    gap: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .menu-emoji-box {
+    width: 80px;
+    height: 80px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #2a2a4a, #1a1a2e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+  }
+  .menu-card:hover .menu-emoji-box {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  .menu-details {
+    flex: 1;
+  }
+
+  .menu-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.3rem;
+  }
+
+  .veg-indicator {
+    width: 14px;
+    height: 14px;
+    border: 2px solid;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .veg-indicator::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+  .veg-indicator.veg { border-color: var(--accent); }
+  .veg-indicator.veg::after { background: var(--accent); }
+  .veg-indicator.non-veg { border-color: #FF4D4D; }
+  .veg-indicator.non-veg::after { background: #FF4D4D; }
+
+  .veg-text {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .veg-text.veg { color: var(--accent); }
+  .veg-text.non-veg { color: #FF4D4D; }
+
+  .menu-name {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.25rem;
+    color: white;
+    margin-bottom: 0.4rem;
+  }
+
+  .menu-desc {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .menu-card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px dashed rgba(255,255,255,0.1);
+    padding-top: 1rem;
+    margin-top: auto;
+  }
+
+  .menu-price {
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: var(--secondary);
+    display: flex;
+    align-items: center;
+  }
+
+  /* Cart Action Morph Container */
+  .cart-action-container {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .add-to-cart-btn {
+    background: linear-gradient(135deg, var(--primary), #FF8C42);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 900;
+    padding: 0.5rem 1.4rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 15px rgba(255,107,53,0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 40px;
+  }
+  .add-to-cart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255,107,53,0.5);
+  }
+
+  .qty-controller-box {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    overflow: hidden;
+    padding: 2px;
+    height: 40px;
+    animation: morphIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+
+  @keyframes morphIn {
+    0% { transform: scale(0.6); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .qty-adjust-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+    font-weight: 900;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+  .qty-adjust-btn:hover {
+    background: rgba(255,255,255,0.1);
+  }
+  .qty-adjust-btn.minus { color: var(--primary); }
+  .qty-adjust-btn.plus { color: var(--accent); }
+
+  .qty-display-val {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    min-width: 25px;
+    text-align: center;
+    color: white;
+  }
+
+  /* Sticky Bottom Alert Cart Bar */
+  .bottom-cart-bar {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(120px);
+    width: 90%;
+    max-width: 600px;
+    background: linear-gradient(135deg, rgba(26,26,46,0.95), rgba(15,32,39,0.95));
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 2px solid var(--primary);
+    border-radius: 20px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 99;
+    box-shadow: 0 15px 40px rgba(255,107,53,0.3);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+  }
+  .bottom-cart-bar.visible {
+    transform: translateX(-50%) translateY(0);
+  }
+  .bottom-cart-bar:hover {
+    transform: translateX(-50%) translateY(-4px);
+    box-shadow: 0 18px 45px rgba(255,107,53,0.4);
+  }
+
+  .cart-bar-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .cart-bar-info {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.7);
+  }
+  .cart-bar-info strong {
+    color: white;
+  }
+  .cart-bar-price {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: var(--secondary);
+  }
+
+  .cart-bar-right {
+    font-family: 'Fredoka One', cursive;
+    color: var(--primary);
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform 0.2s;
+  }
+  .bottom-cart-bar:hover .cart-bar-right {
+    transform: translateX(4px);
+  }
+
+  /* Cart Sidebar Drawer */
+  .cart-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .cart-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -460px;
+    width: 440px;
+    max-width: 100%;
+    height: 100vh;
+    background: rgba(26,26,46,0.96);
+    backdrop-filter: blur(35px);
+    -webkit-backdrop-filter: blur(35px);
+    border-left: 2px solid rgba(255,255,255,0.15);
+    z-index: 201;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: right 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+  }
+  .cart-sidebar.open {
+    right: 0;
+  }
+
+  .cart-sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    border-bottom: 1.5px solid rgba(255,255,255,0.08);
+    padding-bottom: 1rem;
+  }
+  .cart-sidebar-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+  }
+  .cart-close-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .cart-close-btn:hover {
+    background: rgba(255,69,0,0.2);
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: scale(1.08);
+  }
+
+  /* Cart Items Container */
+  .cart-items-list {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-right: 4px;
+  }
+
+  .empty-cart-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 4rem;
+    color: rgba(255,255,255,0.4);
+  }
+  .empty-cart-emoji {
+    font-size: 4.5rem;
+    animation: floatUp 3s ease-in-out infinite alternate;
+  }
+
+  .cart-item-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 18px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: border-color 0.2s;
+  }
+  .cart-item-card:hover {
+    border-color: rgba(255,107,53,0.3);
+  }
+
+  .cart-item-emoji {
+    font-size: 2.2rem;
+    background: rgba(255,255,255,0.06);
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cart-item-mid {
+    flex: 1;
+  }
+  .cart-item-title {
+    font-weight: 800;
+    font-size: 0.95rem;
+    margin-bottom: 2px;
+  }
+  .cart-item-price-tag {
+    color: var(--secondary);
+    font-weight: 800;
+    font-size: 0.9rem;
+  }
+
+  .cart-item-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Cart Total Block */
+  .cart-summary-block {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.6);
+    font-weight: 700;
+  }
+  .summary-row strong {
+    color: white;
+  }
+  .summary-row.free-accent span:last-child {
+    color: var(--accent);
+  }
+  .summary-row.grand-total {
+    border-top: 1.5px dashed rgba(255,255,255,0.15);
+    padding-top: 0.8rem;
+    margin-top: 0.4rem;
+    margin-bottom: 0;
+    font-size: 1.15rem;
+    color: white;
+  }
+  .summary-row.grand-total strong {
+    font-family: 'Fredoka One', cursive;
+    color: var(--secondary);
+    font-size: 1.3rem;
+  }
+
+  /* Order Button */
+  .place-order-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary), #FF4500);
+    border: none;
+    border-radius: 18px;
+    padding: 1.1rem;
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(255,107,53,0.4);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .place-order-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(255,107,53,0.6);
+  }
+  .place-order-btn:disabled {
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.3);
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  /* Mobile Tweaks */
+  @media(max-width: 768px) {
+    .hero-banner {
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .hero-name-row {
+      justify-content: center;
+    }
+    .hero-cuisines {
+      justify-content: center;
+    }
+    .hero-delivery-details {
+      justify-content: center;
+      gap: 1rem;
+    }
+    .cart-sidebar {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Animated background elements -->
+<div class="bg-blob blob1"></div>
+<div class="bg-blob blob2"></div>
+<div class="bg-blob blob3"></div>
+
+<div class="food-float" style="left: 5%; animation-delay: 0s; animation-duration: 9s;">🍕</div>
+<div class="food-float" style="left: 22%; animation-delay: 1.5s; animation-duration: 11s;">🥐</div>
+<div class="food-float" style="left: 45%; animation-delay: 3s; animation-duration: 8s;">🍝</div>
+<div class="food-float" style="left: 68%; animation-delay: 0.5s; animation-duration: 10s;">🍰</div>
+<div class="food-float" style="left: 88%; animation-delay: 2.2s; animation-duration: 9s;">🧋</div>
+
+<!-- Header -->
+<header>
+  <div class="header-left">
+    <a href="index.html" class="back-btn">←</a>
+    <h1 class="restaurant-title">Pizza Palace</h1>
+  </div>
+  <div class="header-right">
+    <button class="cart-icon-btn" onclick="toggleCartDrawer(true)">
+      <span>🛒</span> Cart 
+      <span class="cart-badge" id="header-cart-badge">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- Main Container -->
+<div class="container">
+
+  <!-- Hero Banner -->
+  <div class="hero-banner">
+    <div class="hero-emoji-container">🍕</div>
+    <div class="hero-info">
+      <div class="hero-name-row">
+        <h2 class="hero-name">Pizza Palace</h2>
+        <span class="hero-rating">⭐ 4.7 <span style="font-size:0.75rem;opacity:0.6">(500+)</span></span>
+      </div>
+      <div class="hero-cuisines">
+        <span class="cuisine-tag">🍕 Pizza</span>
+        <span class="cuisine-tag">🇮🇹 Italian</span>
+        <span class="cuisine-tag">🍝 Pasta</span>
+        <span class="cuisine-tag">🍰 Desserts</span>
+      </div>
+      <div class="hero-delivery-details">
+        <div class="detail-item">
+          <span>⏱</span> <strong>25-30 min</strong>
+        </div>
+        <div class="detail-item accent">
+          <span>🛵</span> <strong>Free Delivery</strong>
+        </div>
+        <div class="detail-item">
+          <span>💳</span> <span>Min. Order <strong>₹199</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Category Pills Nav -->
+  <div class="category-nav-wrapper">
+    <div class="category-pills" id="category-pills-bar">
+      <a href="#starters" class="category-pill active" data-target="starters">
+        <span class="pill-emoji">🥖</span> Starters
+      </a>
+      <a href="#main-course" class="category-pill" data-target="main-course">
+        <span class="pill-emoji">🍕</span> Main Course
+      </a>
+      <a href="#desserts" class="category-pill" data-target="desserts">
+        <span class="pill-emoji">🍰</span> Desserts
+      </a>
+      <a href="#drinks" class="category-pill" data-target="drinks">
+        <span class="pill-emoji">🧋</span> Drinks
+      </a>
+    </div>
+  </div>
+
+  <!-- Menu Grid Sections -->
+
+  <!-- Starters Section -->
+  <section class="menu-section" id="starters">
+    <h3 class="menu-section-title">🥖 Fresh Starters</h3>
+    <div class="menu-grid">
+      <!-- Garlic Bread -->
+      <div class="menu-card" data-dish-id="garlic-bread">
+        <div class="menu-card-top">
+          <div class="menu-emoji-box">🥖</div>
+          <div class="menu-details">
+            <div class="menu-badge-row">
+              <span class="veg-indicator veg"></span>
+              <span class="veg-text veg">Veg</span>
+            </div>
+            <h4 class="menu-name">Garlic Bread</h4>
+            <p class="menu-desc">Warm, buttery garlic bread toasted to crispy golden perfection.</p>
+          </div>
+        </div>
+        <div class="menu-card-bottom">
+          <span class="menu-price">₹99</span>
+          <div class="cart-action-container" id="action-garlic-bread">
+            <button class="add-to-cart-btn" onclick="modifyItemQty('garlic-bread', 1)">Add +</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Course Section -->
+  <section class="menu-section" id="main-course">
+    <h3 class="menu-section-title">🍕 Main Course Delights</h3>
+    <div class="menu-grid">
+      <!-- Margherita Pizza -->
+      <div class="menu-card" data-dish-id="margherita">
+        <div class="popular-badge">Popular</div>
+        <div class="menu-card-top">
+          <div class="menu-emoji-box">🍕</div>
+          <div class="menu-details">
+            <div class="menu-badge-row">
+              <span class="veg-indicator veg"></span>
+              <span class="veg-text veg">Veg</span>
+            </div>
+            <h4 class="menu-name">Margherita Pizza</h4>
+            <p class="menu-desc">Classic tomato sauce, fresh mozzarella cheese, and fresh basil leaves.</p>
+          </div>
+        </div>
+        <div class="menu-card-bottom">
+          <span class="menu-price">₹299</span>
+          <div class="cart-action-container" id="action-margherita">
+            <button class="add-to-cart-btn" onclick="modifyItemQty('margherita', 1)">Add +</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- BBQ Chicken Pizza -->
+      <div class="menu-card" data-dish-id="bbq-chicken">
+        <div class="menu-card-top">
+          <div class="menu-emoji-box">🍗</div>
+          <div class="menu-details">
+            <div class="menu-badge-row">
+              <span class="veg-indicator non-veg"></span>
+              <span class="veg-text non-veg">Non-Veg</span>
+            </div>
+            <h4 class="menu-name">BBQ Chicken Pizza</h4>
+            <p class="menu-desc">Smoky BBQ chicken chunks, sweet red onions, and gooey mozzarella.</p>
+          </div>
+        </div>
+        <div class="menu-card-bottom">
+          <span class="menu-price">₹399</span>
+          <div class="cart-action-container" id="action-bbq-chicken">
+            <button class="add-to-cart-btn" onclick="modifyItemQty('bbq-chicken', 1)">Add +</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pasta Alfredo -->
+      <div class="menu-card" data-dish-id="pasta-alfredo">
+        <div class="popular-badge">Popular</div>
+        <div class="menu-card-top">
+          <div class="menu-emoji-box">🍝</div>
+          <div class="menu-details">
+            <div class="menu-badge-row">
+              <span class="veg-indicator veg"></span>
+              <span class="veg-text veg">Veg</span>
+            </div>
+            <h4 class="menu-name">Pasta Alfredo</h4>
+            <p class="menu-desc">Creamy parmesan cheese sauce tossed with perfectly cooked penne pasta.</p>
+          </div>
+        </div>
+        <div class="menu-card-bottom">
+          <span class="menu-price">₹249</span>
+          <div class="cart-action-container" id="action-pasta-alfredo">
+            <button class="add-to-cart-btn" onclick="modifyItemQty('pasta-alfredo', 1)">Add +</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Desserts Section -->
+  <section class="menu-section" id="desserts">
+    <h3 class="menu-section-title">🍰 Sweet Desserts</h3>
+    <div class="menu-grid">
+      <!-- Tiramisu -->
+      <div class="menu-card" data-dish-id="tiramisu">
+        <div class="menu-card-top">
+          <div class="menu-emoji-box">🍰</div>
+          <div class="menu-details">
+            <div class="menu-badge-row">
+              <span class="veg-indicator veg"></span>
+              <span class="veg-text veg">Veg</span>
+            </div>
+            <h4 class="menu-name">Classic Tiramisu</h4>
+            <p class="menu-desc">Classic Italian dessert made of coffee-dipped ladyfingers and sweet mascarpone.</p>
+          </div>
+        </div>
+        <div class="menu-card-bottom">
+          <span class="menu-price">₹189</span>
+          <div class="cart-action-container" id="action-tiramisu">
+            <button class="add-to-cart-btn" onclick="modifyItemQty('tiramisu', 1)">Add +</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Drinks Section -->
+  <section class="menu-section" id="drinks">
+    <h3 class="menu-section-title">🧋 Chill Drinks</h3>
+    <div class="menu-grid">
+      <!-- Cold Coffee -->
+      <div class="menu-card" data-dish-id="cold-coffee">
+        <div class="menu-card-top">
+          <div class="menu-emoji-box">🧋</div>
+          <div class="menu-details">
+            <div class="menu-badge-row">
+              <span class="veg-indicator veg"></span>
+              <span class="veg-text veg">Veg</span>
+            </div>
+            <h4 class="menu-name">Signature Cold Coffee</h4>
+            <p class="menu-desc">Chilled creamy blend of espresso and vanilla ice cream.</p>
+          </div>
+        </div>
+        <div class="menu-card-bottom">
+          <span class="menu-price">₹129</span>
+          <div class="cart-action-container" id="action-cold-coffee">
+            <button class="add-to-cart-btn" onclick="modifyItemQty('cold-coffee', 1)">Add +</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Sticky Bottom Alert Cart Bar -->
+<div class="bottom-cart-bar" id="bottom-cart-alert-bar" onclick="toggleCartDrawer(true)">
+  <div class="cart-bar-left">
+    <span class="cart-bar-info"><strong id="bottom-cart-count">0 items</strong> added to cart</span>
+    <span class="cart-bar-price" id="bottom-cart-total">₹0</span>
+  </div>
+  <div class="cart-bar-right">
+    <span>View Cart</span>
+    <span>→</span>
+  </div>
+</div>
+
+<!-- Cart Drawer Overlay -->
+<div class="cart-overlay" id="cart-drawer-overlay" onclick="toggleCartDrawer(false)"></div>
+
+<!-- Cart Sidebar Drawer -->
+<div class="cart-sidebar" id="cart-sidebar-drawer">
+  <div class="cart-sidebar-header">
+    <h3 class="cart-sidebar-title"><span>🛒</span> Your Cart</h3>
+    <button class="cart-close-btn" onclick="toggleCartDrawer(false)">✕</button>
+  </div>
+
+  <!-- Cart Items List -->
+  <div class="cart-items-list" id="cart-sidebar-items-list">
+    <!-- Items dynamically filled via JS -->
+  </div>
+
+  <!-- Cart Cost breakdown Summary -->
+  <div class="cart-summary-block">
+    <div class="summary-row">
+      <span>Subtotal</span>
+      <span id="sum-subtotal">₹0</span>
+    </div>
+    <div class="summary-row free-accent">
+      <span>Delivery Fee</span>
+      <span>FREE 🎉</span>
+    </div>
+    <div class="summary-row">
+      <span>Taxes & Charges (6%)</span>
+      <span id="sum-taxes">₹0</span>
+    </div>
+    <div class="summary-row grand-total">
+      <span>Grand Total</span>
+      <strong id="sum-grand-total">₹0</strong>
+    </div>
+  </div>
+
+  <!-- Checkout Button -->
+  <button class="place-order-btn" id="drawer-checkout-btn" onclick="placeOrder()" disabled>
+    <span>🚀</span> Place Order →
+  </button>
+</div>
+
+<script>
+  // Restaurant Items Data Definition
+  const menuData = {
+    'garlic-bread': { name: 'Garlic Bread', price: 99, emoji: '🥖', veg: true },
+    'margherita': { name: 'Margherita Pizza', price: 299, emoji: '🍕', veg: true },
+    'bbq-chicken': { name: 'BBQ Chicken Pizza', price: 399, emoji: '🍗', veg: false },
+    'pasta-alfredo': { name: 'Pasta Alfredo', price: 249, emoji: '🍝', veg: true },
+    'tiramisu': { name: 'Classic Tiramisu', price: 189, emoji: '🍰', veg: true },
+    'cold-coffee': { name: 'Signature Cold Coffee', price: 129, emoji: '🧋', veg: true }
+  };
+
+  // State Management
+  let cart = {};
+
+  // Cart Drawer open/close
+  function toggleCartDrawer(open) {
+    const sidebar = document.getElementById('cart-sidebar-drawer');
+    const overlay = document.getElementById('cart-drawer-overlay');
+    if (open) {
+      sidebar.classList.add('open');
+      overlay.classList.add('open');
+    } else {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('open');
+    }
+  }
+
+  // Update quantities & redraw components
+  function modifyItemQty(itemId, delta) {
+    const currentQty = cart[itemId] || 0;
+    const newQty = Math.max(0, currentQty + delta);
+
+    if (newQty === 0) {
+      delete cart[itemId];
+    } else {
+      cart[itemId] = newQty;
+    }
+
+    // Trigger bump animation on badges
+    const badge = document.getElementById('header-cart-badge');
+    badge.classList.remove('bump');
+    badge.offsetHeight; // trigger reflow
+    badge.classList.add('bump');
+
+    renderAll();
+  }
+
+  // Renders both Grid controls, Bottom Bar, and Sidebar Items List
+  function renderAll() {
+    let totalItems = 0;
+    let subtotal = 0;
+
+    // 1. Render all quantity controller boxes on Grid Cards
+    Object.keys(menuData).forEach(itemId => {
+      const container = document.getElementById(`action-${itemId}`);
+      const qty = cart[itemId] || 0;
+
+      if (qty > 0) {
+        container.innerHTML = `
+          <div class="qty-controller-box">
+            <button class="qty-adjust-btn minus" onclick="modifyItemQty('${itemId}', -1)">−</button>
+            <span class="qty-display-val">${qty}</span>
+            <button class="qty-adjust-btn plus" onclick="modifyItemQty('${itemId}', 1)">+</button>
+          </div>
+        `;
+      } else {
+        container.innerHTML = `
+          <button class="add-to-cart-btn" onclick="modifyItemQty('${itemId}', 1)">Add +</button>
+        `;
+      }
+    });
+
+    // Calculate totals
+    Object.keys(cart).forEach(itemId => {
+      totalItems += cart[itemId];
+      subtotal += cart[itemId] * menuData[itemId].price;
+    });
+
+    // 2. Render Header Cart Count Badge
+    document.getElementById('header-cart-badge').textContent = totalItems;
+
+    // 3. Render Bottom Alert Cart Bar
+    const alertBar = document.getElementById('bottom-cart-alert-bar');
+    if (totalItems > 0) {
+      alertBar.classList.add('visible');
+      document.getElementById('bottom-cart-count').textContent = `${totalItems} ${totalItems === 1 ? 'item' : 'items'}`;
+      document.getElementById('bottom-cart-total').textContent = `₹${subtotal}`;
+    } else {
+      alertBar.classList.remove('visible');
+    }
+
+    // 4. Render Cart Drawer list
+    const itemsListContainer = document.getElementById('cart-sidebar-items-list');
+    itemsListContainer.innerHTML = '';
+
+    if (totalItems === 0) {
+      itemsListContainer.innerHTML = `
+        <div class="empty-cart-view">
+          <div class="empty-cart-emoji">🍕</div>
+          <p style="font-weight: 800; font-size: 1.1rem;">Your cart is hungry!</p>
+          <p style="font-size: 0.85rem; opacity: 0.6;">Add items to get started.</p>
+        </div>
+      `;
+    } else {
+      Object.keys(cart).forEach(itemId => {
+        const item = menuData[itemId];
+        const qty = cart[itemId];
+        const itemTotalPrice = item.price * qty;
+
+        const card = document.createElement('div');
+        card.className = 'cart-item-card';
+        card.innerHTML = `
+          <div class="cart-item-emoji">${item.emoji}</div>
+          <div class="cart-item-mid">
+            <h4 class="cart-item-title">${item.name}</h4>
+            <span class="cart-item-price-tag">₹${itemTotalPrice}</span>
+          </div>
+          <div class="cart-item-right">
+            <button class="qty-adjust-btn minus" onclick="modifyItemQty('${itemId}', -1)" style="width:26px; height:26px; font-size:1rem;">−</button>
+            <span class="qty-display-val" style="font-size: 0.95rem; min-width: 20px;">${qty}</span>
+            <button class="qty-adjust-btn plus" onclick="modifyItemQty('${itemId}', 1)" style="width:26px; height:26px; font-size:1rem;">+</button>
+          </div>
+        `;
+        itemsListContainer.appendChild(card);
+      });
+    }
+
+    // 5. Cost summary calculation & rendering
+    const taxes = Math.round(subtotal * 0.06);
+    const grandTotal = subtotal + taxes;
+
+    document.getElementById('sum-subtotal').textContent = `₹${subtotal}`;
+    document.getElementById('sum-taxes').textContent = `₹${taxes}`;
+    document.getElementById('sum-grand-total').textContent = `₹${grandTotal}`;
+
+    // Checkout button state
+    const checkoutBtn = document.getElementById('drawer-checkout-btn');
+    if (totalItems > 0) {
+      checkoutBtn.removeAttribute('disabled');
+    } else {
+      checkoutBtn.setAttribute('disabled', 'true');
+    }
+  }
+
+  // Redirect to order tracking page or show placing animation
+  function placeOrder() {
+    const btn = document.getElementById('drawer-checkout-btn');
+    btn.innerHTML = '⚡ Placing Order...';
+    btn.setAttribute('disabled', 'true');
+    setTimeout(() => {
+      // Clear cart
+      cart = {};
+      renderAll();
+      toggleCartDrawer(false);
+      // Navigate
+      window.location.href = 'order-tracking.html';
+    }, 1200);
+  }
+
+  // ----------------------------------------------------
+  // Category Pill Scroll Auto-Highlighting
+  // ----------------------------------------------------
+  const sections = document.querySelectorAll('.menu-section');
+  const navPills = document.querySelectorAll('.category-pill');
+
+  const scrollObserverOptions = {
+    root: null,
+    rootMargin: '-10% 0px -70% 0px', // check when elements enter the middle/upper scroll range
+    threshold: 0
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navPills.forEach(pill => {
+          if (pill.getAttribute('data-target') === id) {
+            pill.classList.add('active');
+            // Auto scroll category tab pill into view if overflowed
+            pill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          } else {
+            pill.classList.remove('active');
+          }
+        });
+      }
+    });
+  }, scrollObserverOptions);
+
+  sections.forEach(sec => observer.observe(sec));
+
+  // Category pill manual click smooth scrolls to target
+  navPills.forEach(pill => {
+    pill.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = pill.getAttribute('data-target');
+      const targetSection = document.getElementById(targetId);
+      
+      // Calculate sticky offset (header 76px + category wrapper 68px = approx 145px)
+      const offsetPosition = targetSection.offsetTop - 145;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    });
+  });
+
+  // Initial draw
+  renderAll();
+</script>
+</body>
+</html>
