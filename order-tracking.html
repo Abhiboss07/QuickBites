@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuickBites 🍔 - Track Order</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --primary:#FF6B35; --accent:#06D6A0; --purple:#9B5DE5; --dark:#1a1a2e; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Nunito',sans-serif; background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%); min-height:100vh; color:white; overflow-x:hidden; }
+  .bg-blob { position:fixed; border-radius:50%; filter:blur(80px); animation:blobFloat 8s ease-in-out infinite; z-index:0; pointer-events:none; }
+  .blob1 { width:400px; height:400px; background:rgba(255,107,53,0.2); top:-100px; right:-100px; }
+  .blob2 { width:300px; height:300px; background:rgba(6,214,160,0.2); bottom:0; left:0; animation-delay:3s; }
+  @keyframes blobFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+
+  nav { position:sticky; top:0; z-index:100; padding:1rem 1.5rem; background:rgba(26,26,46,0.9); backdrop-filter:blur(20px); border-bottom:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; gap:1rem; }
+  .back-btn { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:12px; padding:0.5rem 1rem; color:white; cursor:pointer; font-family:'Nunito',sans-serif; font-weight:700; font-size:0.9rem; transition:all 0.2s; }
+  .back-btn:hover { background:rgba(255,255,255,0.2); }
+  .logo { font-family:'Fredoka One',cursive; font-size:1.5rem; background:linear-gradient(135deg,#FF6B35,#FFD23F); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .order-id { margin-left:auto; background:rgba(255,210,63,0.2); border:1px solid rgba(255,210,63,0.4); border-radius:50px; padding:0.3rem 1rem; font-size:0.85rem; font-weight:700; color:#FFD23F; }
+
+  .content { position:relative; z-index:1; padding:1.5rem; max-width:800px; margin:0 auto; }
+
+  /* Map Area */
+  .map-container {
+    background:rgba(255,255,255,0.08); backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.2); border-radius:24px;
+    overflow:hidden; margin-bottom:1.5rem; position:relative;
+    height:300px;
+  }
+  .map-bg {
+    width:100%; height:100%;
+    background: linear-gradient(145deg, #0d3b5e 0%, #1a5f7a 30%, #0d3b5e 60%, #162447 100%);
+    position:relative; overflow:hidden;
+  }
+  /* Fake map grid */
+  .map-grid {
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  /* Roads */
+  .road { position:absolute; background:rgba(255,255,255,0.12); border-radius:4px; }
+  .road-h { height:8px; }
+  .road-v { width:8px; }
+  /* Delivery path */
+  .delivery-path { position:absolute; pointer-events:none; }
+  /* Restaurant marker */
+  .map-marker { position:absolute; font-size:2rem; animation:markerBounce 1s ease-in-out infinite; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.5)); }
+  @keyframes markerBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  /* Rider */
+  .rider-marker { position:absolute; font-size:1.8rem; animation:riderMove 4s linear infinite; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.5)); }
+  @keyframes riderMove {
+    0%   { left:20%; top:65%; }
+    25%  { left:35%; top:55%; }
+    50%  { left:50%; top:50%; }
+    75%  { left:62%; top:42%; }
+    100% { left:72%; top:35%; }
+  }
+  /* Home marker */
+  .home-marker { position:absolute; font-size:2rem; right:10%; top:25%; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.5)); animation:pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+  /* ETA badge */
+  .eta-badge { position:absolute; top:1rem; left:1rem; background:rgba(26,26,46,0.9); backdrop-filter:blur(10px); border:1px solid rgba(255,107,53,0.4); border-radius:16px; padding:0.6rem 1.2rem; display:flex; align-items:center; gap:8px; }
+  .eta-time { font-family:'Fredoka One',cursive; font-size:1.4rem; color:#FF6B35; }
+  .eta-label { font-size:0.8rem; color:rgba(255,255,255,0.7); font-weight:600; }
+  /* Rider info badge */
+  .rider-info { position:absolute; bottom:1rem; left:1rem; right:1rem; background:rgba(26,26,46,0.9); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:0.8rem 1.2rem; display:flex; align-items:center; gap:1rem; }
+  .rider-avatar { font-size:2.5rem; }
+  .rider-details { flex:1; }
+  .rider-name { font-weight:800; font-size:0.95rem; }
+  .rider-vehicle { color:rgba(255,255,255,0.6); font-size:0.8rem; }
+  .call-btn { background:linear-gradient(135deg,#06D6A0,#0077B6); border:none; border-radius:50%; width:40px; height:40px; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 15px rgba(6,214,160,0.4); transition:transform 0.2s; }
+  .call-btn:hover { transform:scale(1.1); }
+
+  /* Progress Steps */
+  .progress-card { background:rgba(255,255,255,0.08); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,0.2); border-radius:24px; padding:1.5rem; margin-bottom:1.5rem; }
+  .progress-title { font-family:'Fredoka One',cursive; font-size:1.4rem; margin-bottom:1.5rem; }
+  .steps { display:flex; justify-content:space-between; position:relative; }
+  .steps::before { content:''; position:absolute; top:20px; left:10%; right:10%; height:3px; background:rgba(255,255,255,0.15); border-radius:3px; z-index:0; }
+  .progress-line { position:absolute; top:20px; left:10%; height:3px; background:linear-gradient(90deg,#FF6B35,#FFD23F); border-radius:3px; z-index:1; transition:width 1s ease; width:55%; }
+  .step { display:flex; flex-direction:column; align-items:center; gap:8px; position:relative; z-index:2; flex:1; }
+  .step-icon { width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.2rem; transition:all 0.4s; }
+  .step.done .step-icon { background:linear-gradient(135deg,#FF6B35,#FF8C42); box-shadow:0 4px 20px rgba(255,107,53,0.5); animation:stepPop 0.5s ease; }
+  .step.active .step-icon { background:linear-gradient(135deg,#FFD23F,#FF8C42); box-shadow:0 4px 20px rgba(255,210,63,0.5); animation:stepPulse 1.5s ease-in-out infinite; }
+  .step.pending .step-icon { background:rgba(255,255,255,0.1); border:2px solid rgba(255,255,255,0.2); }
+  @keyframes stepPop { 0%{transform:scale(0)} 70%{transform:scale(1.2)} 100%{transform:scale(1)} }
+  @keyframes stepPulse { 0%,100%{box-shadow:0 4px 20px rgba(255,210,63,0.5)} 50%{box-shadow:0 4px 30px rgba(255,210,63,0.9)} }
+  .step-label { font-size:0.75rem; font-weight:700; text-align:center; color:rgba(255,255,255,0.8); }
+  .step.active .step-label { color:#FFD23F; }
+
+  /* Order Summary */
+  .order-card { background:rgba(255,255,255,0.08); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,0.2); border-radius:24px; padding:1.5rem; margin-bottom:1.5rem; }
+  .order-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.2rem; }
+  .order-title { font-family:'Fredoka One',cursive; font-size:1.4rem; }
+  .status-chip { background:rgba(255,210,63,0.2); border:1px solid rgba(255,210,63,0.5); border-radius:50px; padding:0.3rem 0.8rem; font-size:0.8rem; font-weight:700; color:#FFD23F; display:flex; align-items:center; gap:4px; }
+  .status-dot { width:8px; height:8px; border-radius:50%; background:#FFD23F; animation:pulse 1.5s ease-in-out infinite; }
+  .order-item { display:flex; align-items:center; gap:1rem; padding:0.8rem 0; border-bottom:1px solid rgba(255,255,255,0.08); }
+  .order-item:last-child { border-bottom:none; }
+  .item-emoji { font-size:2rem; }
+  .item-name { flex:1; font-weight:700; }
+  .item-qty { color:rgba(255,255,255,0.6); font-size:0.85rem; }
+  .item-price { font-weight:800; color:#FFD23F; }
+
+  /* Rate Rider */
+  .rate-card { background:rgba(255,255,255,0.05); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,0.15); border-radius:24px; padding:1.5rem; text-align:center; margin-bottom:6rem; }
+  .rate-title { font-family:'Fredoka One',cursive; font-size:1.3rem; margin-bottom:1rem; }
+  .stars { display:flex; justify-content:center; gap:0.5rem; margin-bottom:1rem; }
+  .star { font-size:2.5rem; cursor:pointer; transition:transform 0.2s; filter:grayscale(1); opacity:0.5; }
+  .star:hover, .star.active { filter:none; opacity:1; transform:scale(1.2); }
+  .rate-btn { background:linear-gradient(135deg,#FF6B35,#FF4500); border:none; border-radius:16px; padding:0.8rem 2rem; color:white; font-weight:800; font-family:'Nunito',sans-serif; font-size:1rem; cursor:pointer; margin-top:0.5rem; box-shadow:0 6px 20px rgba(255,107,53,0.4); transition:transform 0.2s; }
+  .rate-btn:hover { transform:translateY(-2px); }
+
+  .pb-safe { padding-bottom:5rem; }
+</style>
+</head>
+<body>
+<div class="bg-blob blob1"></div>
+<div class="bg-blob blob2"></div>
+
+<nav>
+  <button class="back-btn" onclick="history.back()">← Back</button>
+  <div class="logo">🍔 QuickBites</div>
+  <div class="order-id">#QB52847</div>
+</nav>
+
+<div class="content">
+
+  <!-- Map -->
+  <div class="map-container">
+    <div class="map-bg">
+      <div class="map-grid"></div>
+      <!-- Roads -->
+      <div class="road road-h" style="top:50%;left:0;right:0;transform:translateY(-50%)"></div>
+      <div class="road road-h" style="top:35%;left:0;right:0"></div>
+      <div class="road road-v" style="left:25%;top:0;bottom:0"></div>
+      <div class="road road-v" style="left:55%;top:0;bottom:0"></div>
+      <div class="road road-v" style="left:75%;top:0;bottom:0"></div>
+      <!-- SVG path -->
+      <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path d="M20,70 L35,57 L50,52 L63,44 L72,37" stroke="#FF6B35" stroke-width="0.8" fill="none" stroke-dasharray="3,2" opacity="0.7"/>
+        <circle cx="72" cy="37" r="2" fill="#06D6A0" opacity="0.8"/>
+        <circle cx="20" cy="70" r="2" fill="#FF6B35" opacity="0.8"/>
+      </svg>
+      <!-- Markers -->
+      <div class="map-marker" style="left:17%;top:62%">🍔</div>
+      <div class="home-marker">🏠</div>
+      <div class="rider-marker">🛵</div>
+      <!-- ETA -->
+      <div class="eta-badge">
+        <div><div class="eta-time" id="eta">12 min</div><div class="eta-label">Estimated arrival</div></div>
+      </div>
+      <!-- Rider Info -->
+      <div class="rider-info">
+        <div class="rider-avatar">👨‍🦱</div>
+        <div class="rider-details">
+          <div class="rider-name">Ramesh Kumar 🌟</div>
+          <div class="rider-vehicle">🛵 Hero Splendor • MH-04 AB 1234</div>
+        </div>
+        <button class="call-btn" onclick="showToast('📞 Calling Ramesh...')">📞</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-card">
+    <div class="progress-title">📍 Order Progress</div>
+    <div class="steps">
+      <div class="progress-line"></div>
+      <div class="step done">
+        <div class="step-icon">✅</div>
+        <div class="step-label">Order<br>Placed</div>
+      </div>
+      <div class="step done">
+        <div class="step-icon">👨‍🍳</div>
+        <div class="step-label">Preparing<br>Food</div>
+      </div>
+      <div class="step active">
+        <div class="step-icon">🛵</div>
+        <div class="step-label">On The<br>Way</div>
+      </div>
+      <div class="step pending">
+        <div class="step-icon">🏠</div>
+        <div class="step-label">Delivered<br>!</div>
+      </div>
+    </div>
+    <div style="margin-top:1.5rem; padding:1rem; background:rgba(255,210,63,0.1); border:1px solid rgba(255,210,63,0.3); border-radius:14px; text-align:center; font-weight:700; color:#FFD23F; font-size:0.9rem;">
+      🛵 Your rider Ramesh is 1.2 km away • Arriving in ~12 minutes!
+    </div>
+  </div>
+
+  <!-- Order Summary -->
+  <div class="order-card">
+    <div class="order-header">
+      <div class="order-title">📦 Your Order</div>
+      <div class="status-chip"><div class="status-dot"></div>On the way</div>
+    </div>
+    <div class="order-item">
+      <div class="item-emoji">🍕</div>
+      <div class="item-name">Margherita Pizza (L)</div>
+      <div class="item-qty">×2</div>
+      <div class="item-price">₹598</div>
+    </div>
+    <div class="order-item">
+      <div class="item-emoji">🍔</div>
+      <div class="item-name">Cheese Burger Deluxe</div>
+      <div class="item-qty">×1</div>
+      <div class="item-price">₹199</div>
+    </div>
+    <div class="order-item">
+      <div class="item-emoji">🥤</div>
+      <div class="item-name">Mango Lassi</div>
+      <div class="item-qty">×1</div>
+      <div class="item-price">₹79</div>
+    </div>
+    <div style="margin-top:1rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; font-size:1.1rem; font-weight:800;">
+      <span>Total Paid</span><span style="color:#FFD23F">₹928 ✓</span>
+    </div>
+  </div>
+
+  <!-- Rate Rider -->
+  <div class="rate-card">
+    <div class="rate-title">⭐ Rate Your Rider</div>
+    <p style="color:rgba(255,255,255,0.6); font-size:0.9rem; margin-bottom:1rem;">How was your delivery experience?</p>
+    <div class="stars">
+      <span class="star active" onclick="rateStar(1)">⭐</span>
+      <span class="star active" onclick="rateStar(2)">⭐</span>
+      <span class="star active" onclick="rateStar(3)">⭐</span>
+      <span class="star active" onclick="rateStar(4)">⭐</span>
+      <span class="star" onclick="rateStar(5)">⭐</span>
+    </div>
+    <button class="rate-btn" onclick="submitRating()">Submit Rating 🎉</button>
+  </div>
+
+</div>
+
+<div class="toast" id="toast" style="position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(6,214,160,0.9);backdrop-filter:blur(10px);border-radius:50px;padding:0.8rem 2rem;font-weight:800;font-size:0.95rem;z-index:300;transition:transform 0.4s;pointer-events:none;white-space:nowrap;"></div>
+
+<script>
+function rateStar(n) {
+  document.querySelectorAll('.star').forEach((s,i) => {
+    s.classList.toggle('active', i < n);
+  });
+}
+function submitRating() {
+  showToast('🎉 Thanks for rating! Ramesh got 4⭐');
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  setTimeout(() => { t.style.transform = 'translateX(-50%) translateY(100px)'; }, 3000);
+}
+// Countdown ETA
+let eta = 12;
+setInterval(() => {
+  if (eta > 1) eta--;
+  document.getElementById('eta').textContent = eta + ' min';
+}, 30000);
+</script>
+</body>
+</html>
