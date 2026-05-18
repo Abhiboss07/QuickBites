@@ -1,0 +1,1709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickBites 🍔 - My Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #FF6B35;
+      --secondary: #FFD23F;
+      --accent: #06D6A0;
+      --purple: #9B5DE5;
+      --pink: #F72585;
+      --dark: #1a1a2e;
+      --glass: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+      color: white;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      padding-bottom: 80px;
+    }
+
+    /* Ambient Background Blobs */
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: -2;
+      animation: blobFloat 12s ease-in-out infinite alternate;
+    }
+
+    .blob-1 {
+      width: 300px;
+      height: 300px;
+      background: rgba(255, 107, 53, 0.15);
+      top: 10%;
+      left: -100px;
+    }
+
+    .blob-2 {
+      width: 350px;
+      height: 350px;
+      background: rgba(155, 93, 229, 0.12);
+      bottom: 15%;
+      right: -100px;
+      animation-delay: -4s;
+    }
+
+    .blob-3 {
+      width: 250px;
+      height: 250px;
+      background: rgba(6, 214, 160, 0.1);
+      top: 50%;
+      left: 30%;
+      animation-delay: -8s;
+    }
+
+    @keyframes blobFloat {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-40px) scale(1.15); }
+    }
+
+    /* Floating Food Emojis Background */
+    .floating-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .floating-emoji {
+      position: absolute;
+      bottom: -50px;
+      font-size: 24px;
+      opacity: 0.15;
+      animation: floatUp 15s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        left: var(--start-x);
+        opacity: 0;
+      }
+      10% { opacity: 0.25; }
+      90% { opacity: 0.25; }
+      100% {
+        transform: translateY(-110vh) rotate(360deg);
+        left: var(--end-x);
+        opacity: 0;
+      }
+    }
+
+    /* Sticky Glassmorphism Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(26, 26, 46, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .back-btn {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: white;
+      border-radius: 12px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 12px rgba(255,255,255,0.1);
+    }
+
+    .header-left h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 22px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Cart Button in Header */
+    .cart-btn {
+      background: linear-gradient(135deg, var(--primary), var(--pink));
+      border: none;
+      border-radius: 14px;
+      padding: 8px 16px;
+      color: white;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .cart-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(247, 37, 133, 0.4);
+    }
+
+    .cart-badge {
+      background: var(--secondary);
+      color: var(--dark);
+      padding: 1px 6px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    /* 1. PROFILE HEADER CARD */
+    .profile-card {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 25px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 25px;
+    }
+
+    /* Large Avatar Selector Area */
+    .avatar-wrapper {
+      position: relative;
+      width: 110px;
+      height: 110px;
+      margin: 0 auto 15px auto;
+    }
+
+    .avatar-circle {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 55px;
+      border: 4px solid var(--glass-border);
+      box-shadow: 0 10px 25px rgba(155, 93, 229, 0.4);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .avatar-circle:hover {
+      transform: scale(1.08) rotate(5deg);
+      border-color: var(--secondary);
+    }
+
+    .avatar-badge {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: var(--secondary);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      border: 2px solid var(--dark);
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: all 0.2s ease;
+    }
+
+    .avatar-badge:hover {
+      transform: scale(1.15);
+    }
+
+    /* Avatar Selection Overlay / Dropdown */
+    .avatar-picker {
+      display: none;
+      background: rgba(26, 26, 46, 0.95);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 12px;
+      position: absolute;
+      top: 125px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      width: 260px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      0% { transform: translateX(-50%) scale(0.8); opacity: 0; }
+      100% { transform: translateX(-50%) scale(1); opacity: 1; }
+    }
+
+    .avatar-picker-title {
+      font-size: 13px;
+      color: var(--secondary);
+      margin-bottom: 8px;
+      font-family: 'Fredoka One', cursive;
+    }
+
+    .avatar-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .avatar-option {
+      font-size: 32px;
+      padding: 8px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid transparent;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .avatar-option:hover {
+      background: var(--glass);
+      border-color: var(--secondary);
+      transform: scale(1.1) rotate(-3deg);
+    }
+
+    .profile-name {
+      font-family: 'Fredoka One', cursive;
+      font-size: 26px;
+      color: white;
+      margin-bottom: 5px;
+    }
+
+    .profile-meta {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .profile-meta span {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 12px;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* Profile stats row */
+    .profile-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 20px;
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 16px;
+      padding: 12px 8px;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.2s ease;
+    }
+
+    .stat-box:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--glass-border);
+    }
+
+    .stat-val {
+      font-family: 'Fredoka One', cursive;
+      font-size: 20px;
+      color: var(--secondary);
+      margin-bottom: 4px;
+    }
+
+    .stat-val.spent {
+      color: var(--accent);
+    }
+
+    .stat-val.rating {
+      color: var(--pink);
+    }
+
+    .stat-lbl {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* 2. TABS CONTAINER */
+    .tabs-bar {
+      display: flex;
+      background: rgba(26, 26, 46, 0.5);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 6px;
+      margin-bottom: 25px;
+      gap: 5px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tabs-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      padding: 12px 10px;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    .tab-btn:hover {
+      color: white;
+      background: rgba(255,255,255,0.05);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--dark);
+      font-weight: 800;
+      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+    }
+
+    /* TAB CONTENTS (Slide/Fade Transitions) */
+    .tab-content {
+      display: none;
+      animation: tabTransition 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes tabTransition {
+      0% {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 3. MY ORDERS TAB */
+    .filter-chips {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 2px 0;
+    }
+
+    .filter-chips::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-chip {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: white;
+      padding: 6px 16px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .filter-chip:hover {
+      background: rgba(255,255,255,0.15);
+      transform: translateY(-1px);
+    }
+
+    .filter-chip.active {
+      background: var(--purple);
+      border-color: var(--purple);
+      box-shadow: 0 4px 12px rgba(155, 93, 225, 0.4);
+    }
+
+    .order-card {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .order-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .order-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .order-rest-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .rest-emoji-icon {
+      font-size: 28px;
+      background: rgba(255,255,255,0.06);
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .rest-name-n-date .rest-name-txt {
+      font-family: 'Fredoka One', cursive;
+      font-size: 16px;
+      color: white;
+    }
+
+    .rest-name-n-date .order-date-txt {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 2px;
+    }
+
+    /* Dynamic Status Chips */
+    .status-chip {
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .status-chip.active {
+      background: rgba(255, 210, 63, 0.2);
+      color: var(--secondary);
+      border: 1px solid rgba(255, 210, 63, 0.4);
+    }
+
+    .status-chip.delivered {
+      background: rgba(6, 214, 160, 0.2);
+      color: var(--accent);
+      border: 1px solid rgba(6, 214, 160, 0.4);
+    }
+
+    .status-chip.cancelled {
+      background: rgba(247, 37, 133, 0.2);
+      color: var(--pink);
+      border: 1px solid rgba(247, 37, 133, 0.4);
+    }
+
+    .status-pulse {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--secondary);
+      animation: pulseBlink 1.2s infinite;
+    }
+
+    @keyframes pulseBlink {
+      0% { transform: scale(0.8); opacity: 0.4; }
+      50% { transform: scale(1.3); opacity: 1; }
+      100% { transform: scale(0.8); opacity: 0.4; }
+    }
+
+    .order-details-summary {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 12px;
+      line-height: 1.4;
+      background: rgba(0,0,0,0.15);
+      padding: 10px 14px;
+      border-radius: 12px;
+    }
+
+    .order-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 12px;
+    }
+
+    .order-total-price {
+      font-size: 15px;
+      color: var(--secondary);
+      font-family: 'Fredoka One', cursive;
+    }
+
+    .order-total-price span {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      font-family: 'Nunito', sans-serif;
+      margin-right: 4px;
+    }
+
+    .order-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .action-btn {
+      border: none;
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .action-btn.reorder {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--dark);
+    }
+
+    .action-btn.reorder:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 107, 53, 0.35);
+    }
+
+    .action-btn.rate {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: white;
+    }
+
+    .action-btn.rate:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.15);
+    }
+
+    /* Live Progress Bar for Active Order */
+    .active-progress-wrapper {
+      margin-top: 12px;
+      padding: 12px 0 2px 0;
+    }
+
+    .progress-status-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--secondary);
+      margin-bottom: 6px;
+    }
+
+    .progress-bar-bg {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+      width: 65%;
+      border-radius: 50px;
+      position: relative;
+      animation: progressGlow 2s infinite alternate;
+    }
+
+    @keyframes progressGlow {
+      0% { box-shadow: 0 0 4px rgba(255, 107, 53, 0.6); }
+      100% { box-shadow: 0 0 12px rgba(6, 214, 160, 0.8); }
+    }
+
+    /* 4. SAVED ADDRESSES TAB */
+    .address-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .address-card {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 18px;
+      position: relative;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 140px;
+    }
+
+    .address-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .address-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .address-label {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      padding: 3px 10px;
+      border-radius: 50px;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .address-label.home { border-color: var(--primary); color: var(--primary); }
+    .address-label.work { border-color: var(--purple); color: var(--purple); }
+    .address-label.other { border-color: var(--accent); color: var(--accent); }
+
+    .address-text {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .address-actions {
+      display: flex;
+      gap: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 10px;
+    }
+
+    .address-actions button {
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.6);
+      font-size: 12px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .address-actions button:hover {
+      color: white;
+    }
+
+    .add-address-trigger-btn {
+      background: linear-gradient(135deg, var(--accent), #0077B6);
+      border: none;
+      border-radius: 16px;
+      padding: 14px 20px;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 15px rgba(6, 214, 160, 0.3);
+    }
+
+    .add-address-trigger-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(6, 214, 160, 0.5);
+    }
+
+    /* Address Form Container (Slide down) */
+    .address-form-card {
+      display: none;
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 20px;
+      margin-top: 15px;
+      animation: slideDown 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+    }
+
+    @keyframes slideDown {
+      0% { transform: translateY(-10px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .form-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 16px;
+      color: var(--secondary);
+      margin-bottom: 12px;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .form-control {
+      width: 100%;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      color: white;
+      font-size: 13px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+      background: rgba(0,0,0,0.4);
+    }
+
+    .type-options {
+      display: flex;
+      gap: 10px;
+    }
+
+    .type-btn {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      color: white;
+      padding: 8px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .type-btn.active {
+      background: var(--accent);
+      color: var(--dark);
+      border-color: var(--accent);
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .form-actions button {
+      flex: 1;
+      padding: 10px;
+      border-radius: 12px;
+      font-size: 13px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-actions .submit-btn {
+      background: var(--accent);
+      color: var(--dark);
+    }
+
+    .form-actions .cancel-btn {
+      background: var(--glass);
+      color: white;
+      border: 1px solid var(--glass-border);
+    }
+
+    /* 5. PAYMENT METHODS TAB */
+    .payment-section-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 16px;
+      color: var(--secondary);
+      margin: 15px 0 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .wallet-card {
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 8px 20px rgba(155, 93, 229, 0.35);
+      margin-bottom: 20px;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    .wallet-details .wallet-lbl {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .wallet-details .wallet-amt {
+      font-family: 'Fredoka One', cursive;
+      font-size: 32px;
+      color: white;
+      margin-top: 4px;
+    }
+
+    .add-money-btn {
+      background: var(--secondary);
+      border: none;
+      color: var(--dark);
+      padding: 10px 18px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s ease;
+    }
+
+    .add-money-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 210, 63, 0.4);
+    }
+
+    .saved-payment-card {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 15px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+
+    .saved-payment-card:hover {
+      border-color: rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.12);
+    }
+
+    .pay-card-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card-icon-styled {
+      font-size: 24px;
+      background: rgba(255,255,255,0.06);
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-details .card-num {
+      font-size: 14px;
+      color: white;
+    }
+
+    .card-details .card-exp {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      margin-top: 2px;
+    }
+
+    /* 6. SETTINGS TAB */
+    .settings-list {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 10px 20px;
+    }
+
+    .setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .setting-item:last-child {
+      border-bottom: none;
+    }
+
+    .setting-info .setting-title {
+      font-size: 14px;
+      color: white;
+      margin-bottom: 3px;
+    }
+
+    .setting-info .setting-desc {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Slide Toggle styling */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 26px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: .3s;
+      border-radius: 34px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    input:checked + .toggle-slider {
+      background-color: var(--accent);
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(24px);
+    }
+
+    /* Custom Toast Notification */
+    #toast-msg {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(6, 214, 160, 0.95);
+      border: 1.5px solid var(--secondary);
+      border-radius: 50px;
+      padding: 10px 24px;
+      color: var(--dark);
+      font-size: 13px;
+      font-weight: 800;
+      box-shadow: 0 8px 25px rgba(6, 214, 160, 0.4);
+      z-index: 200;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    #toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Bottom Navigation Bar (like homepage) */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(26, 26, 46, 0.9);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--glass-border);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 8px 0;
+      z-index: 90;
+    }
+
+    .nav-tab {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      font-size: 10px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .nav-tab:hover {
+      color: white;
+    }
+
+    .nav-tab.active {
+      color: var(--primary);
+    }
+
+    .nav-tab-icon {
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Blobs -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <!-- Ambient Emojis -->
+  <div class="floating-container" id="floating-container"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-left">
+      <a href="index.html" class="back-btn">←</a>
+      <h1>QuickBites</h1>
+    </div>
+    <div class="header-right">
+      <button class="cart-btn" onclick="showToast('🛒 Redirecting to Cart...')">
+        <span>🛒</span> Cart <span class="cart-badge">3</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Container -->
+  <div class="container">
+
+    <!-- 1. PROFILE HEADER CARD -->
+    <div class="profile-card">
+      <div class="avatar-wrapper">
+        <div class="avatar-circle" id="user-avatar" onclick="toggleAvatarPicker()">🦊</div>
+        <div class="avatar-badge" onclick="toggleAvatarPicker()">✏️</div>
+        
+        <!-- Avatar picker selector -->
+        <div class="avatar-picker" id="avatar-picker">
+          <div class="avatar-picker-title">Select Avatar Emoji</div>
+          <div class="avatar-grid">
+            <span class="avatar-option" onclick="changeAvatar('🦊')">🦊</span>
+            <span class="avatar-option" onclick="changeAvatar('🐼')">🐼</span>
+            <span class="avatar-option" onclick="changeAvatar('🦁')">🦁</span>
+            <span class="avatar-option" onclick="changeAvatar('🐨')">🐨</span>
+            <span class="avatar-option" onclick="changeAvatar('🐱')">🐱</span>
+            <span class="avatar-option" onclick="changeAvatar('🐸')">🐸</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-name" id="user-name">Abhinav Boss</div>
+      <div class="profile-meta">
+        <span>📞 +91 98765 43210</span>
+        <span>🎂 Joined May 2024</span>
+      </div>
+
+      <!-- Stats row -->
+      <div class="profile-stats">
+        <div class="stat-box">
+          <div class="stat-val">34</div>
+          <div class="stat-lbl">Total Orders</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val spent">₹8,490</div>
+          <div class="stat-lbl">Total Spent</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val rating">4.8 ⭐</div>
+          <div class="stat-lbl">Avg Rating</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. TABS BAR -->
+    <div class="tabs-bar">
+      <button class="tab-btn active" onclick="switchTab('orders', this)">My Orders</button>
+      <button class="tab-btn" onclick="switchTab('addresses', this)">Addresses</button>
+      <button class="tab-btn" onclick="switchTab('payment', this)">Payments</button>
+      <button class="tab-btn" onclick="switchTab('settings', this)">Settings</button>
+    </div>
+
+    <!-- 3. MY ORDERS TAB -->
+    <div class="tab-content active" id="tab-orders">
+      <div class="filter-chips">
+        <span class="filter-chip active" onclick="filterOrders('all', this)">All</span>
+        <span class="filter-chip" onclick="filterOrders('active', this)">Active</span>
+        <span class="filter-chip" onclick="filterOrders('past', this)">Past</span>
+        <span class="filter-chip" onclick="filterOrders('cancelled', this)">Cancelled</span>
+      </div>
+
+      <div id="orders-list-container">
+        <!-- Active Order with Progress Bar -->
+        <div class="order-card" data-category="active">
+          <div class="order-card-header">
+            <div class="order-rest-info">
+              <div class="rest-emoji-icon">🍕</div>
+              <div class="rest-name-n-date">
+                <div class="rest-name-txt">Pizza Palace</div>
+                <div class="order-date-txt">Today, 01:10 PM</div>
+              </div>
+            </div>
+            <div class="status-chip active">
+              <span class="status-pulse"></span>
+              On the way
+            </div>
+          </div>
+          <div class="order-details-summary">
+            1x Margherita Pizza, 1x Pasta Alfredo, 1x Garlic Bread
+          </div>
+          <div class="order-card-footer">
+            <div class="order-total-price">
+              <span>Total:</span>₹647
+            </div>
+            <div class="order-actions">
+              <a href="order-tracking.html" class="action-btn reorder" style="text-decoration:none">📍 Track</a>
+            </div>
+          </div>
+          
+          <!-- Live progress bar -->
+          <div class="active-progress-wrapper">
+            <div class="progress-status-text">
+              <span>🛵 Ramesh Kumar is heading to you</span>
+              <span>12 Mins ETA</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Past Order -->
+        <div class="order-card" data-category="past">
+          <div class="order-card-header">
+            <div class="order-rest-info">
+              <div class="rest-emoji-icon">🍔</div>
+              <div class="rest-name-n-date">
+                <div class="rest-name-txt">Burger Blast Station</div>
+                <div class="order-date-txt">Yesterday, 08:32 PM</div>
+              </div>
+            </div>
+            <div class="status-chip delivered">
+              Delivered
+            </div>
+          </div>
+          <div class="order-details-summary">
+            2x Double Cheese Burgers, 1x Loaded Fries, 1x Mango Lassi
+          </div>
+          <div class="order-card-footer">
+            <div class="order-total-price">
+              <span>Total:</span>₹479
+            </div>
+            <div class="order-actions">
+              <button class="action-btn reorder" onclick="showToast('🍕 Reordering items...')">🔁 Reorder</button>
+              <button class="action-btn rate" onclick="showToast('⭐ Opening Review Modal...')">⭐ Rate</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cancelled Order -->
+        <div class="order-card" data-category="cancelled">
+          <div class="order-card-header">
+            <div class="order-rest-info">
+              <div class="rest-emoji-icon">🍜</div>
+              <div class="rest-name-n-date">
+                <div class="rest-name-txt">Noodle Wave House</div>
+                <div class="order-date-txt">15 May 2026, 02:15 PM</div>
+              </div>
+            </div>
+            <div class="status-chip cancelled">
+              Cancelled
+            </div>
+          </div>
+          <div class="order-details-summary">
+            1x Schezwan Fried Noodles, 1x Veg Spring Roll
+          </div>
+          <div class="order-card-footer">
+            <div class="order-total-price">
+              <span>Total:</span>₹278
+            </div>
+            <div class="order-actions">
+              <button class="action-btn reorder" onclick="showToast('🍝 Reordering noodles...')">🔁 Reorder</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. SAVED ADDRESSES TAB -->
+    <div class="tab-content" id="tab-addresses">
+      <div class="address-grid" id="address-grid">
+        <!-- Home -->
+        <div class="address-card">
+          <div>
+            <div class="address-header">
+              <span class="address-label home">🏠 Home</span>
+            </div>
+            <div class="address-text">
+              Flat 402, Green Glen Layout, Bellandur, Bengaluru - 560103
+            </div>
+          </div>
+          <div class="address-actions">
+            <button onclick="showToast('✏️ Edit Address clicked!')">Edit</button>
+            <button onclick="deleteAddress(this)">Delete</button>
+          </div>
+        </div>
+
+        <!-- Work -->
+        <div class="address-card">
+          <div>
+            <div class="address-header">
+              <span class="address-label work">🏢 Work</span>
+            </div>
+            <div class="address-text">
+              Building 8A, Ecopolis Tech Park, Sector 5, Outer Ring Rd, Bengaluru
+            </div>
+          </div>
+          <div class="address-actions">
+            <button onclick="showToast('✏️ Edit Address clicked!')">Edit</button>
+            <button onclick="deleteAddress(this)">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add address block -->
+      <button class="add-address-trigger-btn" onclick="toggleAddressForm(true)">
+        ➕ Add New Address
+      </button>
+
+      <!-- Animated Form -->
+      <div class="address-form-card" id="address-form-card">
+        <div class="form-title">📍 Add New Address</div>
+        
+        <div class="form-group">
+          <label>Address Label</label>
+          <div class="type-options">
+            <button class="type-btn active" onclick="setAddressType('Home', this)">🏠 Home</button>
+            <button class="type-btn" onclick="setAddressType('Work', this)">🏢 Work</button>
+            <button class="type-btn" onclick="setAddressType('Other', this)">📍 Other</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Full Address Details</label>
+          <textarea class="form-control" id="form-address-text" rows="3" placeholder="Enter flat no, street, layout name..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button class="cancel-btn" onclick="toggleAddressForm(false)">Cancel</button>
+          <button class="submit-btn" onclick="saveNewAddress()">Save Address</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. PAYMENT METHODS TAB -->
+    <div class="tab-content" id="tab-payment">
+      <!-- Wallet -->
+      <div class="payment-section-title">👛 QuickBites Wallet</div>
+      <div class="wallet-card">
+        <div class="wallet-details">
+          <div class="wallet-lbl">Available Balance</div>
+          <div class="wallet-amt" id="wallet-balance">₹425.00</div>
+        </div>
+        <button class="add-money-btn" onclick="addMoney()">⚡ Add Money</button>
+      </div>
+
+      <!-- Saved Cards -->
+      <div class="payment-section-title">💳 Saved Cards</div>
+      
+      <div class="saved-payment-card">
+        <div class="pay-card-left">
+          <div class="card-icon-styled" style="color:#FFD23F">💳</div>
+          <div class="card-details">
+            <div class="card-num">HDFC Bank Debit card (**** 4242)</div>
+            <div class="card-exp">Expires 08/29</div>
+          </div>
+        </div>
+        <button style="background:transparent;border:none;color:rgba(255,255,255,0.4);cursor:pointer;font-size:12px;" onclick="deletePayment(this)">Delete</button>
+      </div>
+
+      <div class="saved-payment-card">
+        <div class="pay-card-left">
+          <div class="card-icon-styled" style="color:#06D6A0">💳</div>
+          <div class="card-details">
+            <div class="card-num">ICICI Platinum Credit card (**** 8899)</div>
+            <div class="card-exp">Expires 11/31</div>
+          </div>
+        </div>
+        <button style="background:transparent;border:none;color:rgba(255,255,255,0.4);cursor:pointer;font-size:12px;" onclick="deletePayment(this)">Delete</button>
+      </div>
+
+      <!-- UPI Section -->
+      <div class="payment-section-title">📱 Saved UPI IDs</div>
+      
+      <div class="saved-payment-card">
+        <div class="pay-card-left">
+          <div class="card-icon-styled" style="color:#9B5DE5">⚡</div>
+          <div class="card-details">
+            <div class="card-num">abhiboss@okaxis</div>
+            <div class="card-exp">Default UPI payment option</div>
+          </div>
+        </div>
+        <button style="background:transparent;border:none;color:rgba(255,255,255,0.4);cursor:pointer;font-size:12px;" onclick="deletePayment(this)">Delete</button>
+      </div>
+    </div>
+
+    <!-- 6. SETTINGS TAB -->
+    <div class="tab-content" id="tab-settings">
+      <div class="settings-list">
+        
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-title">Push Notifications</div>
+            <div class="setting-desc">Receive real-time order tracking & offers</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" checked onchange="showToast('🔔 Notifications updated!')">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-title">Location Permissions</div>
+            <div class="setting-desc">Keep active for faster delivery addresses</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" checked onchange="showToast('📍 Location settings saved!')">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-title">Dynamic Dark Theme</div>
+            <div class="setting-desc">Glassmorphic neon elements color scheme</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" checked onchange="showToast('🎨 Dynamic theme loaded!')">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-title">Order Delivery Alerts</div>
+            <div class="setting-desc">Get SMS updates directly from the rider</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" onchange="showToast('💬 SMS updates enabled!')">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <a href="index.html" class="nav-tab">
+      <span class="nav-tab-icon">🏠</span>
+      <span>Home</span>
+    </a>
+    <a href="#" class="nav-tab" onclick="showToast('🎁 No active offers right now!')">
+      <span class="nav-tab-icon">🏷️</span>
+      <span>Offers</span>
+    </a>
+    <a href="order-tracking.html" class="nav-tab">
+      <span class="nav-tab-icon">📦</span>
+      <span>Orders</span>
+    </a>
+    <a href="profile.html" class="nav-tab active">
+      <span class="nav-tab-icon">👤</span>
+      <span>Profile</span>
+    </a>
+  </div>
+
+  <!-- Toast message -->
+  <div id="toast-msg">Toast!</div>
+
+  <script>
+    // Ambient Food Emojis Generator
+    function createAmbientEmojis() {
+      const container = document.getElementById('floating-container');
+      const emojis = ['🍕', '🍔', '🍟', '🍜', '🍩', '🥑', '🌮', '🧁', '🍿'];
+      const numEmojis = 15;
+
+      for (let i = 0; i < numEmojis; i++) {
+        const span = document.createElement('span');
+        span.className = 'floating-emoji';
+        span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        
+        // Random horizontal start/end positions and animations
+        const startX = Math.random() * 100 + 'vw';
+        const endX = (Math.random() * 100 - 10) + 'vw';
+        const delay = Math.random() * 15 + 's';
+        const duration = (Math.random() * 12 + 10) + 's';
+        
+        span.style.setProperty('--start-x', startX);
+        span.style.setProperty('--end-x', endX);
+        span.style.animationDelay = delay;
+        span.style.animationDuration = duration;
+        
+        container.appendChild(span);
+      }
+    }
+
+    // Toggle Avatar Picker modal
+    function toggleAvatarPicker() {
+      const picker = document.getElementById('avatar-picker');
+      const currentDisplay = picker.style.display;
+      picker.style.display = (currentDisplay === 'block') ? 'none' : 'block';
+    }
+
+    // Select and Update Avatar Emoji
+    function changeAvatar(emoji) {
+      document.getElementById('user-avatar').textContent = emoji;
+      document.getElementById('avatar-picker').style.display = 'none';
+      showToast('🦊 Profile Avatar updated to ' + emoji + '!');
+      
+      // Avatar bump animation
+      const av = document.getElementById('user-avatar');
+      av.style.transform = 'scale(0.8) rotate(-15deg)';
+      setTimeout(() => {
+        av.style.transform = 'scale(1) rotate(0deg)';
+      }, 250);
+    }
+
+    // Dynamic Switch Tab Flow
+    function switchTab(tabId, el) {
+      // Manage Active States in Tabs Bar
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      el.classList.add('active');
+
+      // Manage Active Contents
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    // Filter Orders Card lists
+    function filterOrders(category, chip) {
+      document.querySelectorAll('.filter-chip').forEach(ch => ch.classList.remove('active'));
+      chip.classList.add('active');
+
+      const cards = document.querySelectorAll('#orders-list-container .order-card');
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        if (category === 'all' || cat === category) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Address Type state selector
+    let selectedAddressType = 'Home';
+    function setAddressType(type, btn) {
+      document.querySelectorAll('.type-options .type-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedAddressType = type;
+    }
+
+    // Toggle address creation form
+    function toggleAddressForm(visible) {
+      const form = document.getElementById('address-form-card');
+      form.style.display = visible ? 'block' : 'none';
+      if (!visible) {
+        document.getElementById('form-address-text').value = '';
+      }
+    }
+
+    // Save and append new address
+    function saveNewAddress() {
+      const details = document.getElementById('form-address-text').value.trim();
+      if (!details) {
+        showToast('⚠️ Please enter address details!');
+        return;
+      }
+
+      // Create address card element
+      const grid = document.getElementById('address-grid');
+      const card = document.createElement('div');
+      card.className = 'address-card';
+      
+      let typeEmoji = '🏠';
+      let labelClass = 'home';
+      if (selectedAddressType === 'Work') {
+        typeEmoji = '🏢';
+        labelClass = 'work';
+      } else if (selectedAddressType === 'Other') {
+        typeEmoji = '📍';
+        labelClass = 'other';
+      }
+
+      card.innerHTML = `
+        <div>
+          <div class="address-header">
+            <span class="address-label ${labelClass}">${typeEmoji} ${selectedAddressType}</span>
+          </div>
+          <div class="address-text">${details}</div>
+        </div>
+        <div class="address-actions">
+          <button onclick="showToast('✏️ Edit Address clicked!')">Edit</button>
+          <button onclick="deleteAddress(this)">Delete</button>
+        </div>
+      `;
+
+      grid.appendChild(card);
+      toggleAddressForm(false);
+      showToast('✅ Saved address successfully!');
+    }
+
+    // Delete Address with animations
+    function deleteAddress(btn) {
+      const card = btn.closest('.address-card');
+      card.style.transform = 'scale(0.8)';
+      card.style.opacity = '0';
+      setTimeout(() => {
+        card.remove();
+        showToast('🗑️ Address deleted!');
+      }, 250);
+    }
+
+    // Delete Payment entry
+    function deletePayment(btn) {
+      const card = btn.closest('.saved-payment-card');
+      card.style.transform = 'scale(0.9)';
+      card.style.opacity = '0';
+      setTimeout(() => {
+        card.remove();
+        showToast('🗑️ Payment method removed!');
+      }, 250);
+    }
+
+    // Add wallet money interaction
+    let currentBalance = 425.00;
+    function addMoney() {
+      const amountStr = prompt('Enter amount to add to QuickBites Wallet (₹):', '500');
+      if (amountStr === null) return;
+      const amount = parseFloat(amountStr);
+      if (isNaN(amount) || amount <= 0) {
+        showToast('⚠️ Please enter a valid number!');
+        return;
+      }
+
+      currentBalance += amount;
+      document.getElementById('wallet-balance').textContent = '₹' + currentBalance.toFixed(2);
+      showToast('🎉 Added ₹' + amount.toFixed(2) + ' to wallet!');
+    }
+
+    // Custom cartoon toast notifications helper
+    let toastTimeout;
+    function showToast(msg) {
+      const toast = document.getElementById('toast-msg');
+      toast.textContent = msg;
+      toast.classList.add('show');
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // On Load Initializations
+    window.addEventListener('DOMContentLoaded', () => {
+      createAmbientEmojis();
+    });
+  </script>
+</body>
+</html>
