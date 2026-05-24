@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuickBites 🍔 - Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --primary:#FF6B35; --secondary:#FFD23F; --accent:#06D6A0; --purple:#9B5DE5; --pink:#F72585; --dark:#1a1a2e; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Nunito',sans-serif; background:linear-gradient(135deg,#0d0d1a 0%,#1a1a2e 50%,#0f1f3d 100%); min-height:100vh; color:white; display:flex; overflow-x:hidden; }
+
+  /* Blobs */
+  .bg-blob { position:fixed; border-radius:50%; filter:blur(100px); z-index:0; pointer-events:none; }
+  .blob1 { width:500px; height:500px; background:rgba(255,107,53,0.12); top:-200px; left:200px; }
+  .blob2 { width:400px; height:400px; background:rgba(155,93,229,0.12); bottom:0; right:0; }
+  .blob3 { width:300px; height:300px; background:rgba(6,214,160,0.1); top:50%; left:50%; }
+
+  /* Sidebar */
+  .sidebar {
+    width:260px; min-height:100vh; flex-shrink:0; position:fixed; top:0; left:0; bottom:0;
+    background:rgba(13,13,26,0.95); backdrop-filter:blur(30px);
+    border-right:1px solid rgba(255,255,255,0.08); z-index:50;
+    display:flex; flex-direction:column; padding:1.5rem 1rem;
+    transition:transform 0.3s;
+  }
+  .sidebar-logo { font-family:'Fredoka One',cursive; font-size:1.6rem; text-align:center; padding:0.5rem 0 1.5rem; border-bottom:1px solid rgba(255,255,255,0.08); margin-bottom:1.5rem; background:linear-gradient(135deg,#FF6B35,#FFD23F); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .sidebar-logo span { -webkit-text-fill-color:initial; }
+  .nav-section { font-size:0.7rem; font-weight:800; letter-spacing:2px; color:rgba(255,255,255,0.3); text-transform:uppercase; padding:0.5rem 0.8rem; margin-bottom:0.3rem; }
+  .nav-item { display:flex; align-items:center; gap:12px; padding:0.8rem 1rem; border-radius:14px; cursor:pointer; transition:all 0.25s; margin-bottom:4px; font-weight:700; font-size:0.95rem; color:rgba(255,255,255,0.6); }
+  .nav-item:hover { background:rgba(255,255,255,0.07); color:white; transform:translateX(4px); }
+  .nav-item.active { background:linear-gradient(135deg,rgba(255,107,53,0.25),rgba(255,140,66,0.15)); color:white; border:1px solid rgba(255,107,53,0.3); box-shadow:0 4px 20px rgba(255,107,53,0.15); }
+  .nav-icon { font-size:1.2rem; width:24px; text-align:center; }
+  .nav-badge { margin-left:auto; background:linear-gradient(135deg,#FF6B35,#FF4500); border-radius:50px; padding:2px 8px; font-size:0.7rem; font-weight:800; }
+  .sidebar-footer { margin-top:auto; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.08); }
+  .admin-profile { display:flex; align-items:center; gap:10px; padding:0.8rem; background:rgba(255,255,255,0.05); border-radius:14px; }
+  .admin-avatar { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,#FF6B35,#9B5DE5); display:flex; align-items:center; justify-content:center; font-size:1.2rem; }
+  .admin-info .name { font-weight:800; font-size:0.9rem; }
+  .admin-info .role { font-size:0.75rem; color:rgba(255,255,255,0.5); }
+
+  /* Main Content */
+  .main { margin-left:260px; flex:1; padding:2rem; position:relative; z-index:1; }
+  .page { display:none; }
+  .page.active { display:block; }
+
+  /* Top Header */
+  .top-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem; }
+  .page-title { font-family:'Fredoka One',cursive; font-size:2rem; }
+  .header-actions { display:flex; align-items:center; gap:1rem; }
+  .header-btn { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:12px; padding:0.6rem 1.2rem; color:white; cursor:pointer; font-family:'Nunito',sans-serif; font-weight:700; font-size:0.9rem; transition:all 0.2s; display:flex; align-items:center; gap:6px; }
+  .header-btn:hover { background:rgba(255,255,255,0.15); }
+  .header-btn.primary { background:linear-gradient(135deg,#FF6B35,#FF4500); border:none; box-shadow:0 4px 20px rgba(255,107,53,0.4); }
+  .header-btn.primary:hover { transform:translateY(-2px); box-shadow:0 6px 28px rgba(255,107,53,0.6); }
+
+  /* Stats Grid */
+  .stats-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1.2rem; margin-bottom:2rem; }
+  .stat-card {
+    background:rgba(255,255,255,0.07); backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.12); border-radius:20px;
+    padding:1.5rem; transition:all 0.3s; position:relative; overflow:hidden;
+  }
+  .stat-card:hover { transform:translateY(-4px); box-shadow:0 20px 50px rgba(0,0,0,0.3); }
+  .stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--card-color,#FF6B35); border-radius:20px 20px 0 0; }
+  .stat-icon { font-size:2.5rem; margin-bottom:0.8rem; }
+  .stat-value { font-family:'Fredoka One',cursive; font-size:2rem; line-height:1; margin-bottom:0.3rem; }
+  .stat-label { color:rgba(255,255,255,0.6); font-size:0.85rem; font-weight:600; }
+  .stat-trend { margin-top:0.8rem; font-size:0.8rem; font-weight:700; display:flex; align-items:center; gap:4px; }
+  .trend-up { color:#06D6A0; }
+  .trend-down { color:#FF6B35; }
+
+  /* Glass card */
+  .glass-card { background:rgba(255,255,255,0.07); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,0.12); border-radius:20px; padding:1.5rem; margin-bottom:1.5rem; }
+  .card-title { font-family:'Fredoka One',cursive; font-size:1.3rem; margin-bottom:1.2rem; display:flex; align-items:center; gap:8px; justify-content:space-between; }
+  .card-title-left { display:flex; align-items:center; gap:8px; }
+
+  /* Orders Table */
+  .orders-table { width:100%; border-collapse:collapse; }
+  .orders-table th { padding:0.8rem 1rem; text-align:left; font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.4); border-bottom:1px solid rgba(255,255,255,0.08); }
+  .orders-table td { padding:0.9rem 1rem; border-bottom:1px solid rgba(255,255,255,0.05); font-size:0.9rem; }
+  .orders-table tr:hover td { background:rgba(255,255,255,0.04); }
+  .order-id-cell { font-weight:800; color:#FFD23F; font-family:'Fredoka One',cursive; }
+  .restaurant-cell { display:flex; align-items:center; gap:8px; }
+  .restaurant-emoji { font-size:1.3rem; }
+  .status-chip { display:inline-flex; align-items:center; gap:5px; border-radius:50px; padding:4px 12px; font-size:0.75rem; font-weight:800; }
+  .status-dot { width:6px; height:6px; border-radius:50%; }
+  .status-pending { background:rgba(255,210,63,0.2); color:#FFD23F; border:1px solid rgba(255,210,63,0.4); }
+  .status-pending .status-dot { background:#FFD23F; animation:blink 1s ease-in-out infinite; }
+  .status-preparing { background:rgba(255,107,53,0.2); color:#FF6B35; border:1px solid rgba(255,107,53,0.4); }
+  .status-preparing .status-dot { background:#FF6B35; }
+  .status-onway { background:rgba(155,93,229,0.2); color:#9B5DE5; border:1px solid rgba(155,93,229,0.4); }
+  .status-onway .status-dot { background:#9B5DE5; }
+  .status-delivered { background:rgba(6,214,160,0.2); color:#06D6A0; border:1px solid rgba(6,214,160,0.4); }
+  .status-delivered .status-dot { background:#06D6A0; }
+  .status-cancelled { background:rgba(247,37,133,0.2); color:#F72585; border:1px solid rgba(247,37,133,0.4); }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .action-btn { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:8px; padding:0.3rem 0.8rem; color:white; cursor:pointer; font-size:0.8rem; font-weight:700; transition:all 0.2s; }
+  .action-btn:hover { background:rgba(255,107,53,0.3); border-color:rgba(255,107,53,0.5); }
+
+  /* Revenue Chart (CSS bar chart) */
+  .chart-area { display:flex; align-items:flex-end; gap:8px; height:160px; padding:0 0.5rem; }
+  .bar-group { flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .bar { width:100%; border-radius:8px 8px 0 0; min-height:4px; transition:height 0.8s cubic-bezier(0.4,0,0.2,1); cursor:pointer; position:relative; }
+  .bar:hover { filter:brightness(1.2); }
+  .bar::after { content:attr(data-val); position:absolute; top:-22px; left:50%; transform:translateX(-50%); font-size:0.7rem; font-weight:800; white-space:nowrap; opacity:0; transition:opacity 0.2s; }
+  .bar:hover::after { opacity:1; }
+  .bar-label { font-size:0.7rem; font-weight:700; color:rgba(255,255,255,0.5); }
+
+  /* Restaurants Grid */
+  .restaurants-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.2rem; }
+  .restaurant-card { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:20px; padding:1.2rem; transition:all 0.3s; cursor:pointer; }
+  .restaurant-card:hover { transform:translateY(-4px); border-color:rgba(255,107,53,0.4); box-shadow:0 12px 40px rgba(0,0,0,0.3); }
+  .rest-header { display:flex; align-items:center; gap:12px; margin-bottom:1rem; }
+  .rest-emoji { font-size:2.5rem; }
+  .rest-info .name { font-weight:800; font-size:1rem; }
+  .rest-info .cuisine { color:rgba(255,255,255,0.5); font-size:0.8rem; }
+  .rest-stats { display:flex; gap:1rem; }
+  .rest-stat { flex:1; background:rgba(255,255,255,0.05); border-radius:10px; padding:0.6rem; text-align:center; }
+  .rest-stat-val { font-weight:800; font-size:1rem; color:#FFD23F; }
+  .rest-stat-lbl { font-size:0.7rem; color:rgba(255,255,255,0.5); }
+  .rest-toggle { width:44px; height:24px; background:rgba(255,255,255,0.1); border-radius:50px; position:relative; cursor:pointer; transition:background 0.3s; border:none; margin-left:auto; }
+  .rest-toggle.on { background:linear-gradient(135deg,#06D6A0,#0077B6); }
+  .rest-toggle::after { content:''; position:absolute; width:18px; height:18px; background:white; border-radius:50%; top:3px; left:3px; transition:transform 0.3s; box-shadow:0 2px 8px rgba(0,0,0,0.3); }
+  .rest-toggle.on::after { transform:translateX(20px); }
+
+  /* Riders List */
+  .riders-list { display:flex; flex-direction:column; gap:1rem; }
+  .rider-card { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:1rem 1.2rem; display:flex; align-items:center; gap:1rem; transition:all 0.2s; }
+  .rider-card:hover { background:rgba(255,255,255,0.1); }
+  .rider-avatar-big { width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.8rem; background:rgba(255,255,255,0.08); border:2px solid rgba(255,255,255,0.15); }
+  .rider-details .rider-name { font-weight:800; font-size:0.95rem; }
+  .rider-details .rider-vehicle { color:rgba(255,255,255,0.5); font-size:0.8rem; }
+  .rider-meta { margin-left:auto; display:flex; align-items:center; gap:0.8rem; }
+  .rider-deliveries { text-align:right; }
+  .rider-deliveries .count { font-weight:800; font-size:1rem; color:#FFD23F; }
+  .rider-deliveries .label { font-size:0.7rem; color:rgba(255,255,255,0.5); }
+  .online-badge { background:rgba(6,214,160,0.2); border:1px solid rgba(6,214,160,0.4); border-radius:50px; padding:3px 10px; font-size:0.75rem; font-weight:700; color:#06D6A0; display:flex; align-items:center; gap:4px; }
+  .offline-badge { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); border-radius:50px; padding:3px 10px; font-size:0.75rem; font-weight:700; color:rgba(255,255,255,0.5); }
+
+  /* Donut Chart (CSS) */
+  .donut-container { display:flex; align-items:center; gap:2rem; }
+  .donut { width:120px; height:120px; border-radius:50%; background:conic-gradient(#FF6B35 0deg 162deg, #9B5DE5 162deg 234deg, #06D6A0 234deg 288deg, rgba(255,255,255,0.1) 288deg 360deg); display:flex; align-items:center; justify-content:center; position:relative; flex-shrink:0; }
+  .donut::after { content:''; position:absolute; width:70px; height:70px; background:#1a1a2e; border-radius:50%; }
+  .donut-center { position:absolute; z-index:1; text-align:center; }
+  .donut-center .val { font-family:'Fredoka One',cursive; font-size:1.3rem; }
+  .donut-center .lbl { font-size:0.65rem; color:rgba(255,255,255,0.5); }
+  .donut-legend { display:flex; flex-direction:column; gap:0.6rem; }
+  .legend-item { display:flex; align-items:center; gap:8px; font-size:0.85rem; }
+  .legend-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+
+  /* Two col grid */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+  @media(max-width:900px) { .two-col { grid-template-columns:1fr; } }
+
+  /* Toast */
+  .toast { position:fixed; bottom:2rem; right:2rem; background:rgba(6,214,160,0.9); backdrop-filter:blur(10px); border-radius:16px; padding:0.8rem 1.5rem; font-weight:800; font-size:0.95rem; z-index:300; transform:translateY(100px); opacity:0; transition:all 0.4s; pointer-events:none; }
+  .toast.show { transform:translateY(0); opacity:1; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width:5px; }
+  ::-webkit-scrollbar-track { background:rgba(255,255,255,0.03); }
+  ::-webkit-scrollbar-thumb { background:rgba(255,107,53,0.4); border-radius:10px; }
+</style>
+</head>
+<body>
+<div class="bg-blob blob1"></div>
+<div class="bg-blob blob2"></div>
+<div class="bg-blob blob3"></div>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-logo"><span>🍔</span> QuickBites<br><span style="-webkit-text-fill-color:rgba(255,255,255,0.4);font-size:0.7rem;font-family:'Nunito',sans-serif;font-weight:600">ADMIN PANEL</span></div>
+
+  <div class="nav-section">Main</div>
+  <div class="nav-item active" onclick="showPage('dashboard',this)"><span class="nav-icon">📊</span> Dashboard</div>
+  <div class="nav-item" onclick="showPage('orders',this)"><span class="nav-icon">📦</span> Orders <span class="nav-badge">12</span></div>
+  <div class="nav-item" onclick="showPage('restaurants',this)"><span class="nav-icon">🏪</span> Restaurants</div>
+  <div class="nav-item" onclick="showPage('riders',this)"><span class="nav-icon">🛵</span> Riders</div>
+
+  <div class="nav-section" style="margin-top:1rem">Management</div>
+  <div class="nav-item" onclick="showPage('customers',this)"><span class="nav-icon">👥</span> Customers</div>
+  <div class="nav-item" onclick="showPage('analytics',this)"><span class="nav-icon">📈</span> Analytics</div>
+  <div class="nav-item" onclick="showPage('promo',this)"><span class="nav-icon">🎁</span> Promo Codes</div>
+  <div class="nav-item" onclick="showPage('settings',this)"><span class="nav-icon">⚙️</span> Settings</div>
+
+  <div class="sidebar-footer">
+    <div class="admin-profile">
+      <div class="admin-avatar">👑</div>
+      <div class="admin-info">
+        <div class="name">Super Admin</div>
+        <div class="role">admin@quickbites.in</div>
+      </div>
+    </div>
+    <div style="margin-top:0.8rem; text-align:center;">
+      <a href="../customer/index.html" style="color:rgba(255,255,255,0.4);font-size:0.8rem;text-decoration:none;font-weight:600">← Customer View</a>
+    </div>
+  </div>
+</aside>
+
+<!-- Main -->
+<main class="main">
+
+  <!-- DASHBOARD PAGE -->
+  <div class="page active" id="page-dashboard">
+    <div class="top-header">
+      <div class="page-title">📊 Dashboard</div>
+      <div class="header-actions">
+        <button class="header-btn">📅 Today: May 22, 2026</button>
+        <button class="header-btn primary" onclick="showToast('📊 Report exported!')">⬇ Export Report</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card" style="--card-color:#FF6B35">
+        <div class="stat-icon">📦</div>
+        <div class="stat-value">1,284</div>
+        <div class="stat-label">Total Orders Today</div>
+        <div class="stat-trend trend-up">↑ 18% vs yesterday</div>
+      </div>
+      <div class="stat-card" style="--card-color:#FFD23F">
+        <div class="stat-icon">💰</div>
+        <div class="stat-value">₹2.4L</div>
+        <div class="stat-label">Revenue Today</div>
+        <div class="stat-trend trend-up">↑ 12.5% vs yesterday</div>
+      </div>
+      <div class="stat-card" style="--card-color:#06D6A0">
+        <div class="stat-icon">🛵</div>
+        <div class="stat-value">47</div>
+        <div class="stat-label">Active Riders</div>
+        <div class="stat-trend trend-up">↑ 5 more online</div>
+      </div>
+      <div class="stat-card" style="--card-color:#9B5DE5">
+        <div class="stat-icon">🏪</div>
+        <div class="stat-value">312</div>
+        <div class="stat-label">Active Restaurants</div>
+        <div class="stat-trend trend-up">↑ 8 new this week</div>
+      </div>
+      <div class="stat-card" style="--card-color:#F72585">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-value">4.8</div>
+        <div class="stat-label">Avg Rating Today</div>
+        <div class="stat-trend trend-up">↑ 0.2 vs last week</div>
+      </div>
+      <div class="stat-card" style="--card-color:#06D6A0">
+        <div class="stat-icon">⏱</div>
+        <div class="stat-value">24min</div>
+        <div class="stat-label">Avg Delivery Time</div>
+        <div class="stat-trend trend-up">↓ 3min faster</div>
+      </div>
+    </div>
+
+    <!-- Revenue Chart + Donut -->
+    <div class="two-col">
+      <div class="glass-card">
+        <div class="card-title"><div class="card-title-left">📈 Weekly Revenue</div><span style="font-size:0.8rem;color:rgba(255,255,255,0.4);font-family:'Nunito',sans-serif;font-weight:600">₹ in thousands</span></div>
+        <div class="chart-area" id="revenue-chart"></div>
+        <div style="display:flex;justify-content:space-around;margin-top:0.5rem;">
+          <span style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-weight:700">Mon</span>
+          <span style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-weight:700">Tue</span>
+          <span style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-weight:700">Wed</span>
+          <span style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-weight:700">Thu</span>
+          <span style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-weight:700">Fri</span>
+          <span style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-weight:700">Sat</span>
+          <span style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-weight:700">Sun</span>
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <div class="card-title"><div class="card-title-left">🍕 Order Categories</div></div>
+        <div class="donut-container">
+          <div class="donut"><div class="donut-center"><div class="val">1284</div><div class="lbl">orders</div></div></div>
+          <div class="donut-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#FF6B35"></div><span>Pizza & Pasta<br><strong>45%</strong></span></div>
+            <div class="legend-item"><div class="legend-dot" style="background:#9B5DE5"></div><span>Biryani & Curries<br><strong>20%</strong></span></div>
+            <div class="legend-item"><div class="legend-dot" style="background:#06D6A0"></div><span>Burgers & Fast Food<br><strong>15%</strong></span></div>
+            <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.2)"></div><span>Others<br><strong>20%</strong></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Orders -->
+    <div class="glass-card">
+      <div class="card-title">
+        <div class="card-title-left">📋 Recent Orders</div>
+        <button class="header-btn" onclick="showPage('orders',document.querySelector('[onclick*=orders]'))">View All →</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="orders-table">
+          <thead><tr>
+            <th>Order ID</th><th>Customer</th><th>Restaurant</th><th>Amount</th><th>Status</th><th>Time</th><th>Action</th>
+          </tr></thead>
+          <tbody>
+            <tr><td class="order-id-cell">#QB52849</td><td>Priya S.</td><td><div class="restaurant-cell"><span class="restaurant-emoji">🍕</span> Pizza Palace</div></td><td>₹598</td><td><span class="status-chip status-pending"><span class="status-dot"></span>Pending</span></td><td>2 min ago</td><td><button class="action-btn" onclick="showToast('✅ Order accepted!')">Accept</button></td></tr>
+            <tr><td class="order-id-cell">#QB52848</td><td>Rahul M.</td><td><div class="restaurant-cell"><span class="restaurant-emoji">🍔</span> Burger Blast</div></td><td>₹349</td><td><span class="status-chip status-preparing"><span class="status-dot"></span>Preparing</span></td><td>8 min ago</td><td><button class="action-btn" onclick="showToast('🛵 Rider assigned!')">Assign Rider</button></td></tr>
+            <tr><td class="order-id-cell">#QB52847</td><td>Anita K.</td><td><div class="restaurant-cell"><span class="restaurant-emoji">🍜</span> Noodle Wave</div></td><td>₹928</td><td><span class="status-chip status-onway"><span class="status-dot"></span>On the way</span></td><td>15 min ago</td><td><button class="action-btn">Track</button></td></tr>
+            <tr><td class="order-id-cell">#QB52846</td><td>Vikram T.</td><td><div class="restaurant-cell"><span class="restaurant-emoji">🍲</span> Biryani King</div></td><td>₹756</td><td><span class="status-chip status-delivered"><span class="status-dot"></span>Delivered</span></td><td>32 min ago</td><td><button class="action-btn">View</button></td></tr>
+            <tr><td class="order-id-cell">#QB52845</td><td>Sneha R.</td><td><div class="restaurant-cell"><span class="restaurant-emoji">🍰</span> Dessert Dream</div></td><td>₹189</td><td><span class="status-chip status-cancelled"><span class="status-dot"></span>Cancelled</span></td><td>45 min ago</td><td><button class="action-btn">Refund</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORDERS PAGE -->
+  <div class="page" id="page-orders">
+    <div class="top-header">
+      <div class="page-title">📦 All Orders</div>
+      <div class="header-actions">
+        <button class="header-btn">🔍 Filter</button>
+        <button class="header-btn primary" onclick="showToast('📊 Orders exported!')">⬇ Export</button>
+      </div>
+    </div>
+    <!-- Filter tabs -->
+    <div style="display:flex;gap:0.8rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+      <button class="header-btn primary">All (1,284)</button>
+      <button class="header-btn">⏳ Pending (12)</button>
+      <button class="header-btn">👨‍🍳 Preparing (28)</button>
+      <button class="header-btn">🛵 On Way (47)</button>
+      <button class="header-btn">✅ Delivered (1,189)</button>
+      <button class="header-btn">❌ Cancelled (8)</button>
+    </div>
+    <div class="glass-card">
+      <div style="overflow-x:auto">
+        <table class="orders-table">
+          <thead><tr><th>Order ID</th><th>Customer</th><th>Restaurant</th><th>Items</th><th>Amount</th><th>Rider</th><th>Status</th><th>Time</th><th>Actions</th></tr></thead>
+          <tbody id="orders-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESTAURANTS PAGE -->
+  <div class="page" id="page-restaurants">
+    <div class="top-header">
+      <div class="page-title">🏪 Restaurants</div>
+      <div class="header-actions">
+        <button class="header-btn">🔍 Search</button>
+        <button class="header-btn primary" onclick="showToast('➕ Add restaurant form opened!')">➕ Add Restaurant</button>
+      </div>
+    </div>
+    <div class="restaurants-grid" id="restaurants-grid"></div>
+  </div>
+
+  <!-- RIDERS PAGE -->
+  <div class="page" id="page-riders">
+    <div class="top-header">
+      <div class="page-title">🛵 Riders</div>
+      <div class="header-actions">
+        <button class="header-btn primary" onclick="showToast('➕ Add rider form opened!')">➕ Add Rider</button>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="glass-card">
+        <div class="card-title"><div class="card-title-left">🟢 Online Riders (47)</div></div>
+        <div class="riders-list" id="online-riders"></div>
+      </div>
+      <div class="glass-card">
+        <div class="card-title"><div class="card-title-left">⚪ Offline Riders (23)</div></div>
+        <div class="riders-list" id="offline-riders"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMERS PAGE -->
+  <div class="page" id="page-customers">
+    <div class="top-header"><div class="page-title">👥 Customers</div></div>
+    <div class="glass-card">
+      <div class="card-title"><div class="card-title-left">👑 Top Customers</div></div>
+      <table class="orders-table">
+        <thead><tr><th>#</th><th>Name</th><th>Phone</th><th>Total Orders</th><th>Total Spent</th><th>Joined</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>🥇</td><td>Priya Sharma</td><td>+91 98765 43210</td><td>127</td><td>₹48,290</td><td>Jan 2024</td><td><span class="status-chip status-delivered">VIP 👑</span></td></tr>
+          <tr><td>🥈</td><td>Rahul Mehta</td><td>+91 87654 32109</td><td>98</td><td>₹36,100</td><td>Mar 2024</td><td><span class="status-chip status-onway">Gold ⭐</span></td></tr>
+          <tr><td>🥉</td><td>Anita Kapoor</td><td>+91 76543 21098</td><td>74</td><td>₹28,450</td><td>Jun 2024</td><td><span class="status-chip status-onway">Gold ⭐</span></td></tr>
+          <tr><td>4</td><td>Vikram Tiwari</td><td>+91 65432 10987</td><td>52</td><td>₹19,800</td><td>Aug 2024</td><td><span class="status-chip status-preparing">Silver</span></td></tr>
+          <tr><td>5</td><td>Sneha Reddy</td><td>+91 54321 09876</td><td>41</td><td>₹15,200</td><td>Sep 2024</td><td><span class="status-chip status-preparing">Silver</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ANALYTICS PAGE -->
+  <div class="page" id="page-analytics">
+    <div class="top-header"><div class="page-title">📈 Analytics</div></div>
+    <div class="stats-grid">
+      <div class="stat-card" style="--card-color:#FF6B35"><div class="stat-icon">📦</div><div class="stat-value">38,290</div><div class="stat-label">Orders This Month</div><div class="stat-trend trend-up">↑ 22% vs last month</div></div>
+      <div class="stat-card" style="--card-color:#FFD23F"><div class="stat-icon">💰</div><div class="stat-value">₹72L</div><div class="stat-label">Monthly Revenue</div><div class="stat-trend trend-up">↑ 31% vs last month</div></div>
+      <div class="stat-card" style="--card-color:#06D6A0"><div class="stat-icon">🔄</div><div class="stat-value">68%</div><div class="stat-label">Repeat Customer Rate</div><div class="stat-trend trend-up">↑ 5% improvement</div></div>
+      <div class="stat-card" style="--card-color:#9B5DE5"><div class="stat-icon">📱</div><div class="stat-value">12,480</div><div class="stat-label">New Users This Month</div><div class="stat-trend trend-up">↑ 18% growth</div></div>
+    </div>
+    <div class="glass-card">
+      <div class="card-title"><div class="card-title-left">📊 Monthly Revenue Trend (2026)</div></div>
+      <div class="chart-area" id="monthly-chart"></div>
+      <div style="display:flex;justify-content:space-around;margin-top:0.5rem;">
+        <span style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-weight:700">Jan</span>
+        <span style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-weight:700">Feb</span>
+        <span style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-weight:700">Mar</span>
+        <span style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-weight:700">Apr</span>
+        <span style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-weight:700">May</span>
+        <span style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-weight:700">Jun</span>
+        <span style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-weight:700">Jul</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROMO PAGE -->
+  <div class="page" id="page-promo">
+    <div class="top-header">
+      <div class="page-title">🎁 Promo Codes</div>
+      <div class="header-actions"><button class="header-btn primary" onclick="showToast('➕ New promo code created!')">➕ Create Code</button></div>
+    </div>
+    <div class="glass-card">
+      <table class="orders-table">
+        <thead><tr><th>Code</th><th>Discount</th><th>Min Order</th><th>Used</th><th>Expires</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:#FFD23F;font-family:'Fredoka One',cursive">YUMMY50</strong></td><td>50% OFF (max ₹100)</td><td>₹299</td><td>2,847 / 5000</td><td>31 May 2026</td><td><span class="status-chip status-delivered">Active</span></td><td><button class="action-btn">Edit</button></td></tr>
+          <tr><td><strong style="color:#FFD23F;font-family:'Fredoka One',cursive">NEWUSER</strong></td><td>₹100 flat OFF</td><td>₹199</td><td>1,200 / ∞</td><td>Never</td><td><span class="status-chip status-delivered">Active</span></td><td><button class="action-btn">Edit</button></td></tr>
+          <tr><td><strong style="color:#FFD23F;font-family:'Fredoka One',cursive">FREEDELIVERY</strong></td><td>Free Delivery</td><td>₹149</td><td>5,000 / 5000</td><td>20 May 2026</td><td><span class="status-chip status-cancelled">Expired</span></td><td><button class="action-btn">Renew</button></td></tr>
+          <tr><td><strong style="color:#FFD23F;font-family:'Fredoka One',cursive">PIZZA30</strong></td><td>30% on Pizza only</td><td>₹399</td><td>892 / 2000</td><td>30 Jun 2026</td><td><span class="status-chip status-delivered">Active</span></td><td><button class="action-btn">Edit</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SETTINGS PAGE -->
+  <div class="page" id="page-settings">
+    <div class="top-header"><div class="page-title">⚙️ Settings</div></div>
+    <div class="two-col">
+      <div class="glass-card">
+        <div class="card-title"><div class="card-title-left">🏪 Platform Settings</div></div>
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8rem;background:rgba(255,255,255,0.05);border-radius:12px;">
+            <div><div style="font-weight:700">Accept New Orders</div><div style="font-size:0.8rem;color:rgba(255,255,255,0.5)">Platform-wide order acceptance</div></div>
+            <button class="rest-toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8rem;background:rgba(255,255,255,0.05);border-radius:12px;">
+            <div><div style="font-weight:700">Maintenance Mode</div><div style="font-size:0.8rem;color:rgba(255,255,255,0.5)">Show maintenance page to users</div></div>
+            <button class="rest-toggle" onclick="this.classList.toggle('on')"></button>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8rem;background:rgba(255,255,255,0.05);border-radius:12px;">
+            <div><div style="font-weight:700">Push Notifications</div><div style="font-size:0.8rem;color:rgba(255,255,255,0.5)">Send order updates to customers</div></div>
+            <button class="rest-toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.8rem;background:rgba(255,255,255,0.05);border-radius:12px;">
+            <div><div style="font-weight:700">Auto-assign Riders</div><div style="font-size:0.8rem;color:rgba(255,255,255,0.5)">Automatically assign nearest rider</div></div>
+            <button class="rest-toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+        </div>
+      </div>
+      <div class="glass-card">
+        <div class="card-title"><div class="card-title-left">💰 Commission Settings</div></div>
+        <div style="display:flex;flex-direction:column;gap:0.8rem;">
+          <div style="padding:0.8rem;background:rgba(255,255,255,0.05);border-radius:12px;">
+            <div style="font-weight:700;margin-bottom:0.5rem">Restaurant Commission: 15%</div>
+            <input type="range" min="5" max="30" value="15" style="width:100%">
+          </div>
+          <div style="padding:0.8rem;background:rgba(255,255,255,0.05);border-radius:12px;">
+            <div style="font-weight:700;margin-bottom:0.5rem">Delivery Fee: ₹30</div>
+            <input type="range" min="0" max="100" value="30" style="width:100%">
+          </div>
+          <div style="padding:0.8rem;background:rgba(255,255,255,0.05);border-radius:12px;">
+            <div style="font-weight:700;margin-bottom:0.5rem">Platform Fee: 5%</div>
+            <input type="range" min="1" max="15" value="5" style="width:100%">
+          </div>
+          <button class="header-btn primary" style="margin-top:0.5rem" onclick="showToast('✅ Settings saved!')">💾 Save Settings</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// Page navigation
+function showPage(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if(el) el.classList.add('active');
+  initPage(id);
+}
+
+function initPage(id) {
+  if(id === 'dashboard') buildChart('revenue-chart', [82,95,71,108,125,140,118], '#FF6B35', '#9B5DE5');
+  if(id === 'orders') buildOrdersTable();
+  if(id === 'restaurants') buildRestaurantsGrid();
+  if(id === 'riders') buildRiders();
+  if(id === 'analytics') buildChart('monthly-chart', [48,55,62,58,72,0,0], '#06D6A0', '#0077B6');
+}
+
+function buildChart(elId, data, c1, c2) {
+  const el = document.getElementById(elId);
+  if(!el) return;
+  const max = Math.max(...data);
+  el.innerHTML = data.map((v,i) => `
+    <div class="bar-group">
+      <div class="bar" data-val="₹${v}K" style="height:${(v/max)*140}px;background:linear-gradient(to top,${c1},${c2})"></div>
+    </div>`).join('');
+}
+
+function buildOrdersTable() {
+  const orders = [
+    {id:'#QB52849',cust:'Priya S.',rest:'🍕 Pizza Palace',items:'2 items',amt:'₹598',rider:'Ramesh K.',status:'pending',time:'2 min'},
+    {id:'#QB52848',cust:'Rahul M.',rest:'🍔 Burger Blast',items:'3 items',amt:'₹349',rider:'Suresh P.',status:'preparing',time:'8 min'},
+    {id:'#QB52847',cust:'Anita K.',rest:'🍜 Noodle Wave',items:'4 items',amt:'₹928',rider:'Vijay R.',status:'onway',time:'15 min'},
+    {id:'#QB52846',cust:'Vikram T.',rest:'🍲 Biryani King',items:'2 items',amt:'₹756',rider:'Mohan L.',status:'delivered',time:'32 min'},
+    {id:'#QB52845',cust:'Sneha R.',rest:'🍰 Dessert Dream',items:'1 item',amt:'₹189',rider:'N/A',status:'cancelled',time:'45 min'},
+    {id:'#QB52844',cust:'Deepak V.',rest:'🍣 Sushi World',items:'5 items',amt:'₹1,290',rider:'Arjun S.',status:'delivered',time:'1 hr'},
+    {id:'#QB52843',cust:'Meena G.',rest:'🍕 Pizza Palace',items:'2 items',amt:'₹498',rider:'Ramesh K.',status:'delivered',time:'1.2 hr'},
+  ];
+  const statusMap = {pending:'status-pending',preparing:'status-preparing',onway:'status-onway',delivered:'status-delivered',cancelled:'status-cancelled'};
+  const labelMap = {pending:'Pending',preparing:'Preparing',onway:'On Way',delivered:'Delivered',cancelled:'Cancelled'};
+  const tbody = document.getElementById('orders-table-body');
+  tbody.innerHTML = orders.map(o => `
+    <tr>
+      <td class="order-id-cell">${o.id}</td>
+      <td>${o.cust}</td>
+      <td><div class="restaurant-cell">${o.rest}</div></td>
+      <td>${o.items}</td>
+      <td style="color:#FFD23F;font-weight:800">${o.amt}</td>
+      <td>${o.rider}</td>
+      <td><span class="status-chip ${statusMap[o.status]}"><span class="status-dot"></span>${labelMap[o.status]}</span></td>
+      <td style="color:rgba(255,255,255,0.5)">${o.time} ago</td>
+      <td><button class="action-btn" onclick="showToast('✅ Action taken!')">Manage</button></td>
+    </tr>`).join('');
+}
+
+function buildRestaurantsGrid() {
+  const rests = [
+    {emoji:'🍕',name:'Pizza Palace Cartoon',cuisine:'Pizza • Italian',rating:'4.7',orders:'284',revenue:'₹42K',online:true},
+    {emoji:'🍔',name:'Burger Blast Station',cuisine:'Burgers • Fries',rating:'4.5',orders:'198',revenue:'₹28K',online:true},
+    {emoji:'🍜',name:'Noodle Wave House',cuisine:'Noodles • Ramen',rating:'4.8',orders:'156',revenue:'₹35K',online:true},
+    {emoji:'🍲',name:'Biryani King Palace',cuisine:'Biryani • Kebabs',rating:'4.9',orders:'312',revenue:'₹68K',online:true},
+    {emoji:'🍣',name:'Sushi World Express',cuisine:'Sushi • Sashimi',rating:'4.6',orders:'89',revenue:'₹45K',online:false},
+    {emoji:'🍰',name:'Dessert Dream Castle',cuisine:'Cakes • Ice Cream',rating:'4.7',orders:'204',revenue:'₹22K',online:true},
+  ];
+  document.getElementById('restaurants-grid').innerHTML = rests.map(r => `
+    <div class="restaurant-card">
+      <div class="rest-header">
+        <div class="rest-emoji">${r.emoji}</div>
+        <div class="rest-info"><div class="name">${r.name}</div><div class="cuisine">${r.cuisine}</div></div>
+        <button class="rest-toggle ${r.online?'on':''}" onclick="this.classList.toggle('on');showToast(this.classList.contains('on')?'✅ Restaurant activated!':'⛔ Restaurant deactivated!')"></button>
+      </div>
+      <div class="rest-stats">
+        <div class="rest-stat"><div class="rest-stat-val">⭐${r.rating}</div><div class="rest-stat-lbl">Rating</div></div>
+        <div class="rest-stat"><div class="rest-stat-val">${r.orders}</div><div class="rest-stat-lbl">Orders today</div></div>
+        <div class="rest-stat"><div class="rest-stat-val">${r.revenue}</div><div class="rest-stat-lbl">Revenue</div></div>
+      </div>
+    </div>`).join('');
+}
+
+function buildRiders() {
+  const online = [
+    {emoji:'👨‍🦱',name:'Ramesh Kumar',vehicle:'🛵 Hero Splendor • MH04',deliveries:'12',rating:'4.9'},
+    {emoji:'👨‍🦲',name:'Suresh Patil',vehicle:'🛵 Bajaj Pulsar • MH02',deliveries:'9',rating:'4.7'},
+    {emoji:'👩‍🦱',name:'Preethi Das',vehicle:'🛵 Honda Activa • KA05',deliveries:'14',rating:'4.8'},
+    {emoji:'👨‍🦰',name:'Vijay Rao',vehicle:'🛵 TVS Jupiter • TN09',deliveries:'7',rating:'4.6'},
+  ];
+  const offline = [
+    {emoji:'👨',name:'Mohan Lal',vehicle:'🛵 Hero Splendor • DL04',deliveries:'5',rating:'4.5'},
+    {emoji:'👩',name:'Sunita Verma',vehicle:'🛵 Honda Activa • MH01',deliveries:'0',rating:'4.8'},
+  ];
+  const renderRider = (r, online) => `
+    <div class="rider-card">
+      <div class="rider-avatar-big">${r.emoji}</div>
+      <div class="rider-details"><div class="rider-name">${r.name}</div><div class="rider-vehicle">${r.vehicle}</div></div>
+      <div class="rider-meta">
+        <div class="rider-deliveries"><div class="count">${r.deliveries}</div><div class="label">Today</div></div>
+        <div class="${online?'online-badge':'offline-badge'}">${online?'🟢 Online':'⚪ Offline'}</div>
+      </div>
+    </div>`;
+  document.getElementById('online-riders').innerHTML = online.map(r=>renderRider(r,true)).join('');
+  document.getElementById('offline-riders').innerHTML = offline.map(r=>renderRider(r,false)).join('');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+// Init
+buildChart('revenue-chart', [82,95,71,108,125,140,118], '#FF6B35', '#9B5DE5');
+</script>
+</body>
+</html>
